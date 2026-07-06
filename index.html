@@ -97,6 +97,14 @@
   .fbactions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
   .bmbtn{background:transparent;border:1px solid var(--core);color:var(--core);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
   .bmbtn.on{background:var(--core);color:#20160a;font-weight:700}
+  .flagbtn{background:transparent;border:1px solid var(--bad);color:var(--bad);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .flagbtn.on{background:var(--bad);color:#fff;font-weight:700}
+  .flagpicker{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+  .fchip{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:16px;padding:4px 11px;font-size:12.5px;cursor:pointer}
+  .fchip:hover{border-color:var(--bad);color:var(--bad)}
+  .flagitem{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px;line-height:1.5}
+  .flagitem .rm{color:var(--bad);cursor:pointer;flex:0 0 auto;font-size:12px}
+  .flagitem .rz{color:var(--bad);font-weight:700}
   #review{position:fixed;inset:0;background:rgba(8,12,20,.92);z-index:50;overflow:auto;padding:16px}
   #review .card{max-width:820px;margin:16px auto}
   .rvbadge{font-size:12px;color:var(--core);border:1px solid var(--core);border-radius:20px;padding:2px 9px;margin-left:6px}
@@ -183,6 +191,14 @@
       <textarea id="syncBox" class="fillbox" style="display:none;margin-top:10px;min-height:80px;font-size:12px;resize:vertical" placeholder="把另一端匯出的代碼貼在這裡"></textarea>
       <div class="row" id="syncActions" style="display:none;margin-top:8px"></div>
       <div class="note" id="syncMsg" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card" id="flagsCard" style="display:none">
+      <h3 style="margin:0 0 6px">🚩 我回報的問題（<span id="flagCount"></span>）</h3>
+      <p class="note" style="margin:0 0 8px">這些是你標記有問題的題（太簡單／答案太明顯等）。可移除，或「匯出清單」傳給我統一修。</p>
+      <div id="flagList"></div>
+      <div class="row" style="margin-top:8px"><button class="btn mini" id="flagExportBtn">📋 匯出回報清單</button></div>
+      <textarea id="flagExportBox" class="fillbox" style="display:none;margin-top:8px;min-height:80px;font-size:12px"></textarea>
     </div>
 
     <div class="card" id="chapterPick" style="display:none">
@@ -309,6 +325,11 @@ function toggleBookmark(id){ let b=getBookmarks(); b.includes(id)?b=b.filter(x=>
 function getNote(id){ return (LS.get("notes",{}))[id]||""; }
 function saveNote(id,txt){ const n=LS.get("notes",{}); if(txt) n[id]=txt; else delete n[id]; LS.set("notes",n); }
 function esc(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+/* 回報題目問題 */
+function getFlags(){ return LS.get("flags", {}); }
+function isFlagged(id){ return !!getFlags()[id]; }
+function setFlag(id,reason,note){ const f=getFlags(); f[id]={reason,note:note||""}; LS.set("flags",f); }
+function removeFlag(id){ const f=getFlags(); delete f[id]; LS.set("flags",f); }
 
 $("#subtitle").textContent = `${D.meta.title}　範圍：${D.meta.scope}　共 ${QS.length} 題　（考試：${D.meta.exam.minutes} 分 / ${D.meta.exam.type} / ${D.meta.exam.attempts} 次取高分）`;
 
@@ -423,6 +444,21 @@ function renderHome(){
   // 設定：作答前自我解釋（後設認知，練習模式）
   $("#settings").innerHTML=`<span class="toggle ${selfExplainOn()?'on':''}" id="seToggle"><span class="sw"></span>作答前自我解釋（練習模式）— 逼你想清楚「為什麼」，最能加深理解</span>`;
   $("#seToggle").onclick=()=>{ LS.set("selfExplain", !selfExplainOn()); renderHome(); };
+  // 🚩 我回報的問題
+  const flags=getFlags(), fids=Object.keys(flags), fcard=$("#flagsCard");
+  if(fids.length){
+    fcard.style.display="block"; $("#flagCount").textContent=fids.length;
+    $("#flagList").innerHTML=fids.map(id=>{
+      const q=QBYID[id], txt=q?(q.q||q.card||"（參數化題）"):"（未知）";
+      return `<div class="flagitem"><span><b>${id}</b> <span class="rz">[${esc(flags[id].reason)}]</span> ${esc(txt.slice(0,34))}…${flags[id].note?`<br><span class="note">${esc(flags[id].note)}</span>`:""}</span><span class="rm" data-id="${id}">移除</span></div>`;
+    }).join("");
+    $("#flagList").querySelectorAll(".rm").forEach(el=>el.onclick=()=>{ removeFlag(el.dataset.id); renderHome(); });
+    $("#flagExportBtn").onclick=()=>{
+      const str="題目回報清單：\n"+fids.map(id=>{const q=QBYID[id],txt=q?(q.q||q.card||"參數化題"):"";return `${id} [${flags[id].reason}]${flags[id].note?"（"+flags[id].note+"）":""} ${txt}`;}).join("\n");
+      const box=$("#flagExportBox"); box.style.display="block"; box.value=str; box.select();
+      try{ if(navigator.clipboard) navigator.clipboard.writeText(str); }catch(e){}
+    };
+  } else fcard.style.display="none";
 }
 function daysLeft(){
   try{const end=new Date("2026-07-09T23:59:59");const now=new Date();
@@ -611,7 +647,7 @@ function reveal(){
   const fb=$("#fb");
   fb.className="fb show "+(res?"ok":"bad");
   fb.innerHTML=feedbackHTML(q,res,note);
-  wireBookmark("#fb", q.id);
+  wireFbActions("#fb", q.id);
   $("#nextBtn").textContent=(state.i+1>=state.list.length)?"看結果":"下一題";
   updatePrevBtn();
   fb.scrollIntoView({behavior:"smooth",block:"nearest"});
@@ -623,11 +659,31 @@ function feedbackHTML(q,res,note){
     (note?`<div class="mynote">📝 你的想法：${esc(note)}</div>`:"")+
     `<div class="src">📄 來源：${q.src}</div>`+
     (q.learn?`<div class="learn">📺 延伸學習（影片替代）：<a href="${q.learn.url}" target="_blank" rel="noopener">${q.learn.label}</a></div>`:"")+
-    `<div class="fbactions"><button class="bmbtn ${isBookmarked(q.id)?'on':''}">${isBookmarked(q.id)?'🔖 已收藏':'🔖 收藏此題'}</button></div>`;
+    `<div class="fbactions">`+
+      `<button class="bmbtn ${isBookmarked(q.id)?'on':''}">${isBookmarked(q.id)?'🔖 已收藏':'🔖 收藏此題'}</button>`+
+      `<button class="flagbtn ${isFlagged(q.id)?'on':''}">${isFlagged(q.id)?'🚩 已回報':'🚩 回報問題'}</button>`+
+    `</div>`+
+    `<div class="flagpicker" style="display:none">`+
+      FLAG_REASONS.map(r=>`<span class="fchip" data-r="${r}">${r}</span>`).join("")+
+    `</div>`;
 }
-function wireBookmark(containerSel,id){
-  const b=$(containerSel+" .bmbtn"); if(!b) return;
-  b.onclick=()=>{ toggleBookmark(id); const on=isBookmarked(id); b.classList.toggle('on',on); b.textContent=on?'🔖 已收藏':'🔖 收藏此題'; };
+const FLAG_REASONS=["太簡單","答案太明顯","選項有問題","題目/答案有誤","重複／太類似","其他"];
+function wireFbActions(containerSel,id){
+  const root=$(containerSel); if(!root) return;
+  const bm=root.querySelector(".bmbtn");
+  if(bm) bm.onclick=()=>{ toggleBookmark(id); const on=isBookmarked(id); bm.classList.toggle('on',on); bm.textContent=on?'🔖 已收藏':'🔖 收藏此題'; };
+  const fb=root.querySelector(".flagbtn"), picker=root.querySelector(".flagpicker");
+  if(fb) fb.onclick=()=>{
+    if(isFlagged(id)){ removeFlag(id); fb.classList.remove('on'); fb.textContent='🚩 回報問題'; if(picker)picker.style.display="none"; return; }
+    if(picker) picker.style.display = picker.style.display==="none"?"flex":"none";
+  };
+  if(picker) picker.querySelectorAll(".fchip").forEach(c=>c.onclick=()=>{
+    let reason=c.dataset.r, note="";
+    if(reason==="其他"){ note=prompt("補充說明（選填，例如哪裡有問題）：")||""; }
+    setFlag(id, reason, note);
+    picker.style.display="none";
+    if(fb){ fb.classList.add('on'); fb.textContent='🚩 已回報'; }
+  });
 }
 function updatePrevBtn(){ $("#prevBtn").style.display=(state.opt.instant && state.history.length>=2)?"inline-block":"none"; }
 /* 回顧上一題（唯讀覆蓋層） */
@@ -658,7 +714,7 @@ function renderSnapshot(idx){
   }
   $("#rvFb").className="fb show "+(s.res?"ok":"bad");
   $("#rvFb").innerHTML=feedbackHTML(q,s.res,s.note);
-  wireBookmark("#rvFb", q.id);
+  wireFbActions("#rvFb", q.id);
   $("#rvPrev").disabled=idx<=0; $("#rvNext").disabled=idx>=state.history.length-1;
 }
 function kbdHintFor(q){
@@ -698,7 +754,7 @@ $("#rvNext").onclick=()=>renderSnapshot(state.reviewIdx+1);
 /* ========== 跨裝置同步（手動匯出／合併匯入） ========== */
 function exportData(){
   const o={_app:"ultimate-review",_v:1};
-  ["srs","bookmarks","notes","bestExam","selfExplain"].forEach(k=>{ const v=LS.get(k,null); if(v!=null) o["rev_"+k]=v; });
+  ["srs","bookmarks","notes","flags","bestExam","selfExplain"].forEach(k=>{ const v=LS.get(k,null); if(v!=null) o["rev_"+k]=v; });
   return o;
 }
 function mergeImport(obj){
@@ -707,6 +763,7 @@ function mergeImport(obj){
   Object.keys(isrs).forEach(id=>{ srs[id]=Math.max(srs[id]==null?-1:srs[id], isrs[id]); }); LS.set("srs",srs);
   const bm=new Set(LS.get("bookmarks",[])); (obj.rev_bookmarks||[]).forEach(x=>bm.add(x)); LS.set("bookmarks",[...bm]);
   const notes=LS.get("notes",{}); Object.assign(notes, obj.rev_notes||{}); LS.set("notes",notes);
+  const flags=LS.get("flags",{}); Object.assign(flags, obj.rev_flags||{}); LS.set("flags",flags);
   LS.set("bestExam", Math.max(LS.get("bestExam",0), obj.rev_bestExam||0));
   if(obj.rev_selfExplain!=null) LS.set("selfExplain", obj.rev_selfExplain);
 }
