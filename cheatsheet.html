@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>期中考重點濃縮表（第一～六章）</title>
 <style>
-  :root{--ink:#1b2330;--dim:#5b6b82;--line:#d7deea;--accent:#2563eb;--core:#b45309;--bg:#f6f8fc}
+  :root{--ink:#1b2330;--dim:#5b6b82;--line:#d7deea;--accent:#2563eb;--core:#b45309;--bg:#f6f8fc;--big:#7c3aed}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Segoe UI","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.55}
-  .wrap{max-width:1100px;margin:0 auto;padding:22px}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px}
   h1{font-size:22px;margin:0 0 2px}
-  .sub{color:var(--dim);font-size:13px;margin-bottom:16px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
   .cols{column-count:2;column-gap:18px}
-  @media(max-width:800px){.cols{column-count:1}}
+  @media(max-width:820px){.cols{column-count:1}}
   @media print{body{background:#fff}.cols{column-count:2}.noprint{display:none}.card{break-inside:avoid}}
   .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 14px;
     break-inside:avoid;box-shadow:0 1px 2px rgba(20,40,80,.04)}
   .card h2{font-size:15px;margin:0 0 8px;padding-bottom:6px;border-bottom:2px solid var(--accent);color:var(--accent)}
+  .card.big h2{border-color:var(--big);color:var(--big)}
   .card h3{font-size:13.5px;margin:10px 0 4px;color:var(--ink)}
   ul{margin:4px 0;padding-left:18px}
   li{font-size:12.7px;margin:2px 0}
@@ -25,7 +26,7 @@
   .k{color:var(--core);font-weight:700}
   code{background:#eef2fb;border:1px solid #dce4f5;border-radius:4px;padding:0 4px;font-size:12px}
   table{width:100%;border-collapse:collapse;font-size:12px;margin:4px 0}
-  td,th{border:1px solid var(--line);padding:3px 6px;text-align:left}
+  td,th{border:1px solid var(--line);padding:3px 6px;text-align:left;vertical-align:top}
   th{background:#eef2fb}
   .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:8px 14px;
     border-radius:8px;font-size:13px;margin-bottom:14px}
@@ -35,118 +36,263 @@
 <body>
 <div class="wrap">
   <h1>📄 期中考重點濃縮表</h1>
-  <div class="sub">資安攻防與 AI 應用實戰班 · 第一～六章 · <span class="k">🔑=高頻考點</span>　（先讀這頁建立框架，再去 index.html 刷題）</div>
+  <div class="sub">資安攻防與 AI 應用實戰班 · 第一～六章 · <span class="k">🔑=高頻考點</span>　（先讀「大觀念」建立框架，再去 index.html 刷題）</div>
   <a class="btn noprint" href="index.html">← 回題庫作答</a>
   <span class="btn noprint" style="background:#334155;cursor:pointer" onclick="window.print()">🖨 列印 / 存 PDF</span>
-  <div class="tip noprint">用法：這頁是「地圖」，先掃一遍建立整體框架（不求背下來）→ 打開 <b>index.html</b> 用「核心速覽」自測 → 錯的進「錯題本」反覆刷。考前一晚只看這頁＋錯題。</div>
+  <div class="tip noprint">讀法：先讀「🎯 大觀念」與「🔐 加密・雜湊」兩張卡把地基打好（很多題都從這裡延伸）→ 再掃各章 → 打開 index.html 用「核心速覽／模擬考」自測 → 錯的與不熟的進「間隔複習」。</div>
 
   <div class="cols">
 
-    <div class="card">
-      <h2>第1章 網路基礎入門</h2>
-      <h3>🔑 OSI 七層（上→下）</h3>
+    <div class="card big">
+      <h2>🎯 大觀念（貫穿全部，先懂這個）</h2>
+      <h3>🔑 CIA 三大支柱</h3>
       <ul>
-        <li>7應用層 HTTP/DNS/SSH｜6表示層 加密/格式｜5會話層 建立/終止連線</li>
-        <li>4傳輸層 <b>TCP/UDP</b>｜3網路層 <b>IP/路由器</b>｜2資料鏈路層 <b>MAC/ARP/交換機</b>｜1實體層 位元流/線纜</li>
-        <li>ISO 於 1984 提出；TCP/IP 為 4-5 層實用模型</li>
+        <li><b>機密性 C</b>onfidentiality：不被未授權者看到 → 靠<b>加密</b>、存取控制</li>
+        <li><b>完整性 I</b>ntegrity：不被竄改 → 靠<b>雜湊/數位簽章</b></li>
+        <li><b>可用性 A</b>vailability：需要時可用 → 靠<b>備份、防 DDoS、負載平衡</b></li>
+        <li>看任何攻擊都問「它傷哪個 C/I/A」：竊資料=C、竄改=I、DDoS/勒索=A</li>
       </ul>
-      <h3>🔑 TCP vs UDP</h3>
-      <ul><li>TCP：連接導向、可靠、有序、有三向交握；UDP：無連接、快、無重傳</li>
-      <li>IP 特性：無連接、<b>盡力而為(Best Effort)</b>、不可靠</li></ul>
-      <h3>🔑 通訊埠</h3>
-      <table><tr><th>範圍</th><th>類別</th></tr>
-        <tr><td>0–1023</td><td>熟知埠</td></tr><tr><td>1024–49151</td><td>註冊埠</td></tr>
-        <tr><td>49152–65535</td><td>動態/私有</td></tr></table>
-      <ul><li>HTTP 80／HTTPS 443／SSH 22／DNS 53／FTP 21控制,20資料／SMTP 25</li>
-      <li>總範圍 0–65535（16 位元）</li></ul>
-      <h3>Wireshark</h3>
-      <ul><li>顯示過濾：<code>http.request.method=="GET"</code>（越精確越好）</li>
-      <li>擷取過濾(BPF)：<code>host x</code> / <code>port 80</code>（越寬鬆越好、要謹慎）</li>
-      <li>埠掃描工具：<b>Nmap</b>、Masscan</li></ul>
+      <h3>🔑 認證 vs 授權（超常混）</h3>
+      <ul>
+        <li><b>認證 Authentication</b>＝你是誰（登入）→ 失敗回 <b>401</b>，對 OWASP <b>A07</b></li>
+        <li><b>授權 Authorization</b>＝你能做什麼（權限）→ 拒絕回 <b>403</b>，對 OWASP <b>A01</b></li>
+      </ul>
+      <h3>🔑 三個防禦原則</h3>
+      <ul>
+        <li><b>最小權限</b>：只給必要權限，縮小「爆炸半徑」（Linux帳號/DB帳號/檔案權限都是）</li>
+        <li><b>縱深防禦</b>：多層互補，一層破了還有下一層（沒有銀彈）</li>
+        <li><b>零信任</b>：預設不信任，每次存取都驗證</li>
+      </ul>
+      <h3>🔑 兩組關鍵對比</h3>
+      <ul>
+        <li><b>防止發生 vs 限制後果</b>：參數化查詢/輸出編碼(防發生) ＋ 最小權限(限後果)</li>
+        <li><b>偵測 vs 防禦</b>：IDS/WAF監控(看見) → IPS/WAF主動(阻擋)</li>
+        <li><b>注入類漏洞共通根因＝「資料與程式碼沒分離」</b>（SQLi/XSS/命令注入同源）</li>
+      </ul>
+    </div>
+
+    <div class="card big">
+      <h2>🔐 加密・雜湊・密碼</h2>
+      <h3>🔑 對稱 vs 非對稱加密</h3>
+      <ul>
+        <li><b>對稱</b>（AES）：同一把金鑰、快，但要先安全交換金鑰</li>
+        <li><b>非對稱</b>（RSA）：公鑰加密/私鑰解密，解決<b>金鑰交換與身分驗證</b></li>
+        <li><b>HTTPS</b>：先用非對稱交換一把臨時金鑰，再用對稱快速傳資料</li>
+      </ul>
+      <h3>🔑 雜湊 vs 加密（易考）</h3>
+      <ul>
+        <li><b>雜湊</b>（SHA-256）：<b>單向、不可還原</b> → 驗證完整性、<b>存密碼</b></li>
+        <li><b>加密</b>：可用金鑰<b>還原</b> → 保護機密性</li>
+        <li>對應 CIA：雜湊↔完整性、加密↔機密性</li>
+      </ul>
+      <h3>🔑 密碼儲存</h3>
+      <ul>
+        <li>要用<b>慢雜湊＋加鹽</b>（bcrypt/argon2）；<b>絕不可</b>明文或 md5</li>
+        <li>系統只需「比對」不需還原 → 所以用雜湊不是加密</li>
+      </ul>
     </div>
 
     <div class="card">
-      <h2>第2章 系統基礎入門</h2>
+      <h2>第1章 網路基礎</h2>
+      <h3>🔑 OSI 七層（上→下）＋對應攻擊</h3>
+      <ul>
+        <li>7應用層 HTTP/DNS/SSH（SQLi/XSS）｜6表示層 加密/格式｜5會話層 建立/終止</li>
+        <li>4傳輸層 <b>TCP/UDP</b>（SYN洪水）｜3網路層 <b>IP/路由器</b>（IP欺騙）｜2資料鏈路層 <b>MAC/ARP/交換機</b>（ARP欺騙）｜1實體層 位元流</li>
+        <li>ISO 1984 提出；TCP/IP 為 4-5 層實用模型</li>
+      </ul>
+      <h3>🔑 TCP vs UDP / IP</h3>
+      <ul><li>TCP：連接導向、可靠、有序、三向交握；UDP：無連接、快、無重傳</li>
+      <li>IP：無連接、<b>盡力而為</b>、不可靠；IPv4 <b>32</b>位／IPv6 <b>128</b>位</li></ul>
+      <h3>🔑 IP 位址</h3>
+      <ul>
+        <li>私有(RFC1918)：<b>10/8、172.16/12、192.168/16</b></li>
+        <li>特殊：<code>127.0.0.1</code>本機｜<code>169.254</code> APIPA(DHCP失敗)｜<code>255.255.255.255</code>廣播｜<code>0.0.0.0/0</code>預設路由</li>
+      </ul>
+      <h3>🔑 子網路（會算）</h3>
+      <ul>
+        <li>網路位址 = IP <b>AND</b> 遮罩；可用主機 = <b>2^(主機位)−2</b>（扣網路+廣播）</li>
+        <li>/24=255.255.255.0；/30 點對點(2台)；廣播=該段最後一個(主機位全1)</li>
+        <li><b>NAT</b>：私→公、PAT多對一(靠埠)；<b>VLAN(L2)</b> vs <b>子網(L3)</b></li>
+      </ul>
+      <h3>🔑 通訊埠 & Wireshark</h3>
+      <ul>
+        <li>0–1023 熟知｜1024–49151 註冊｜49152–65535 動態（總 0–65535）</li>
+        <li>HTTP80／HTTPS443／SSH22／DNS53／FTP21,20／SMTP25／RDP3389</li>
+        <li>顯示過濾 <code>ip.addr==x and tcp.port==443</code>；掃埠工具 <b>Nmap</b></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>第1章 網路服務（DNS/HTTP/SSH）</h2>
+      <h3>🔑 DNS</h3>
+      <ul>
+        <li>用途：域名→IP（分散式電話簿）；<b>遞迴</b>(伺服器代查全) vs <b>迭代</b></li>
+        <li>記錄：<b>A</b>(IPv4)｜<b>AAAA</b>(IPv6)｜<b>CNAME</b>(別名)｜<b>MX</b>(郵件)｜NS｜PTR(反查)</li>
+        <li><b>DNSSEC</b>=驗證/完整性(不加密)；<b>DoH(443)/DoT(853)</b>=加密查詢</li>
+      </ul>
+      <h3>🔑 HTTP / 狀態碼</h3>
+      <ul>
+        <li>方法：GET(參數在URL)／POST(body,送表單)／PUT／DELETE；<b>無狀態</b>→Cookie/Session</li>
+        <li>2xx成功｜301永久/302臨時｜<b>401需登入</b>｜<b>403沒權限</b>｜404找不到｜500伺服器錯</li>
+      </ul>
+      <h3>🔑 HTTPS & Cookie 安全</h3>
+      <ul>
+        <li>HTTPS = HTTP + <b>TLS(443)</b>：機密性+身分驗證+完整性；憑證由 CA 簽發</li>
+        <li>Cookie：<b>Secure</b>(只走HTTPS,防竊聽)｜<b>HttpOnly</b>(防XSS竊取)｜<b>SameSite</b>(防CSRF)</li>
+      </ul>
+      <h3>FTP / SSH（明文↔加密成對）</h3>
+      <ul>
+        <li>FTP(21控制/20資料,<b>明文</b>)→ FTPS/SFTP(走SSH 22)</li>
+        <li>SSH(22,加密) vs <b>Telnet(明文)</b>；<b>公鑰認證</b>比密碼安全</li>
+      </ul>
+      <h3>🔑 Ping / ICMP / TTL</h3>
+      <ul>
+        <li>ping 靠 <b>ICMP</b>：送 Echo Request(<b>Type8</b>)、回 Echo Reply(<b>Type0</b>)；Type3不可達/Type11逾時</li>
+        <li><b>TTL 每經一路由器−1</b>，歸零丟棄；預設 Linux64/Win128/Cisco254</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>第1章 威脅・偵查・分類</h2>
+      <h3>網路類型與指標</h3>
+      <ul>
+        <li>LAN(小快)/WAN(跨區,VPN)；有線較安全、無線用<b>WPA3</b>；P2P vs 主從</li>
+        <li>指標：頻寬(最大速率)、<b>延遲</b>(時間)、吞吐量、抖動、遺失率（頻寬與延遲無關）</li>
+      </ul>
+      <h3>🔑 攻擊與防禦</h3>
+      <ul>
+        <li><b>DDoS</b>→破壞可用性(CDN/清洗)；<b>MITM</b>→HTTPS/VPN/憑證；<b>ARP欺騙</b>→一IP多MAC</li>
+        <li>資安設備：<b>IDS</b>(偵測告警) vs <b>IPS</b>(主動阻擋)；NAC、SIEM(集中日誌)</li>
+      </ul>
+      <h3>🔑 惡意程式種類</h3>
+      <ul><li><b>蠕蟲</b>(自我複製、網路自走)｜<b>病毒</b>(寄生宿主)｜<b>木馬</b>(偽裝)｜後門(潛伏通道)｜勒索(加密勒贖)</li></ul>
+      <h3>🔑 三種安全評估</h3>
+      <ul>
+        <li><b>弱點掃描</b>：自動找「已知漏洞」(Nessus/OpenVAS)、偏廣</li>
+        <li><b>滲透測試</b>：模擬真實攻擊、實際利用（黑/白/灰箱）、偏深；<b>都需授權</b></li>
+        <li>駭客入侵＝未授權；框架：Cyber Kill Chain、MITRE ATT&CK、CISSP 8領域</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>第2章 系統基礎</h2>
       <h3>🔑 Linux 權限</h3>
-      <ul><li>r=4 w=2 x=1；<code>755</code>=rwxr-xr-x；<code>644</code>=rw-r--r--</li>
-      <li>對象：擁有者u/群組g/其他o；指令 chmod/chown/chgrp/umask</li>
-      <li><b>/etc/shadow</b>=加密密碼、只有 root 可讀</li></ul>
-      <h3>🔑 特殊權限（易考提權）</h3>
-      <ul><li><b>SUID(4)</b>：以擁有者權限執行 → root+SUID 易被提權</li>
-      <li>SGID(2)：以群組權限執行；Sticky(1)：限制刪除（/tmp）</li></ul>
-      <h3>常用指令</h3>
-      <ul><li>ls/cd/pwd/cp/mv/rm；<code>rm -rf /</code> 破壞性→<code>--preserve-root</code></li>
-      <li><code>tail -f</code> 即時看日誌；grep 找可疑；ps aux 找可疑程序</li>
-      <li>whoami/id/su/sudo；管道 <code>|</code>；重定向 <code>&gt;</code>覆蓋 <code>&gt;&gt;</code>追加</li></ul>
-      <h3>Shell 安全</h3>
-      <ul><li><b>PATH 劫持</b>：竄改 PATH 使惡意程式優先執行</li>
-      <li>命令注入、勿貼不明指令、.bashrc 風險</li></ul>
+      <ul>
+        <li>r=4 w=2 x=1；<code>755</code>=rwxr-xr-x、<code>644</code>=rw-r--r--、敏感檔 600/700</li>
+        <li>對象 u/g/o；chmod/chown/chgrp/umask；<b>/etc/shadow</b>=加密密碼只root可讀</li>
+        <li><b>特殊權限</b>：<b>SUID(4)</b>以擁有者執行(root+SUID易提權)｜SGID(2)｜Sticky(1,/tmp限刪)</li>
+      </ul>
+      <h3>常用指令 / Shell 安全</h3>
+      <ul>
+        <li><code>tail -f</code>即時看日誌｜grep找可疑｜ps aux找程序｜<b>ss/netstat</b>看連線｜管道 <code>|</code></li>
+        <li><code>rm -rf /</code>破壞性→<code>--preserve-root</code>；<b>PATH劫持</b>=竄改PATH跑惡意程式</li>
+      </ul>
+      <h3>🔑 Windows 安全</h3>
+      <ul>
+        <li><b>UAC</b>(提權前確認)｜Defender｜<b>BitLocker</b>(全碟) vs <b>EFS</b>(單檔)｜TPM/安全開機</li>
+        <li>核心/使用者模式(權限隔離)；RDP要開 <b>NLA</b>；事件檢視器(攻擊者會清日誌)；Sysinternals</li>
+      </ul>
+      <h3>🔑 帳號與驗證</h3>
+      <ul>
+        <li><b>MFA 三因素</b>：知識(密碼)/擁有(裝置)/生物(指紋)；要兩種不同類</li>
+        <li><b>暴力破解</b>(單帳號狂試) vs <b>密碼噴灑</b>(一密碼試多帳號,避鎖定)；APT；SELinux/AppArmor</li>
+      </ul>
     </div>
 
     <div class="card">
-      <h2>第3章 網站開發基礎</h2>
-      <h3>HTTP</h3>
-      <ul><li>GET（參數在 URL、有長度限制）／POST（資料在 body、送表單）</li>
-      <li>狀態碼：200 成功｜301/302 轉址｜401 需授權｜403 禁止｜404 找不到｜500 伺服器錯</li>
-      <li>HTTP <b>無狀態</b> → 用 <b>Cookie/Session</b> 維持登入</li></ul>
-      <h3>前端三本柱</h3>
-      <ul><li>HTML 結構／CSS 樣式／JavaScript 互動行為</li></ul>
-      <h3>🔑 常見網站攻擊</h3>
-      <ul><li><b>XSS</b>：注入惡意 JS 在他人瀏覽器執行 → 防：輸出編碼、CSP</li>
-      <li>會話劫持：竊取 Session ID</li>
-      <li>CSRF：誘導受害者送出非本意請求</li></ul>
+      <h2>第3章 網站開發</h2>
+      <h3>HTML / CSS / JS</h3>
+      <ul>
+        <li>HTML結構(block獨佔行 vs inline並排；語意 nav/header/article)；表單 method GET/POST、label <code>for</code>↔<code>id</code></li>
+        <li>CSS：選擇器 <code>#id .class 元素</code>；<b>盒模型</b> margin(外)/padding(內)；<b>Flexbox一維</b> vs <b>Grid二維</b>；<code>@media</code>=RWD；rgba 第4值=透明度</li>
+        <li>JS：<b>let/const</b>(區塊作用域) vs var；<b>innerText</b>安全 vs <b>innerHTML</b>會解析(XSS)</li>
+      </ul>
+      <h3>🔑 XSS 三型</h3>
+      <ul>
+        <li><b>儲存型</b>(存DB,危害最廣)｜<b>反射型</b>(URL夾帶+釣魚)｜<b>DOM型</b>(前端 Source→Sink)</li>
+        <li>防禦：<b>HTML實體編碼</b>、用 textContent、<b>CSP</b>、<b>HttpOnly</b> Cookie</li>
+      </ul>
+      <h3>🔑 CSRF</h3>
+      <ul><li>借「已登入身分」偽造請求(轉帳)；防：<b>CSRF Token</b>、<b>SameSite</b>、驗 Referer</li>
+      <li>一句話：XSS=跑我的碼；CSRF=借你的身分</li></ul>
+      <h3>安全開發要點</h3>
+      <ul><li>驗證與授權、輸入過濾(<b>後端</b>做,前端可繞過)、HTTPS、安全Cookie、防 SQLi/XSS/CSRF</li></ul>
     </div>
 
     <div class="card">
-      <h2>第4章 Web 應用程式安全（OWASP）</h2>
-      <div class="tip" style="margin:0 0 8px">⚠️ 本課用 <b>2025 版排序</b>，與網路上舊的 2021 版不同！以下以講義為準。</div>
+      <h2>第4章 Web 安全（OWASP/掃描/WAF）</h2>
+      <div class="tip" style="margin:0 0 8px">⚠️ 本課 <b>2025 版排序</b>，與網路上 2021 版不同，以講義為準！</div>
       <h3>🔑 OWASP Top 10（2025）</h3>
       <table>
-        <tr><th>編號</th><th>風險</th></tr>
-        <tr><td>A01</td><td>存取控制失效 Broken Access Control</td></tr>
-        <tr><td>A02</td><td>安全配置錯誤 Security Misconfiguration</td></tr>
-        <tr><td>A03</td><td>軟體供應鏈缺失（SBOM/SCA）</td></tr>
-        <tr><td>A04</td><td>加密機制失效 Cryptographic Failures</td></tr>
-        <tr><td class="k">A05</td><td class="k">注入 Injection（SQL/OS/LDAP）</td></tr>
-        <tr><td>A06</td><td>不安全設計 Insecure Design</td></tr>
-        <tr><td>A07</td><td>認證失效 Authentication Failures</td></tr>
-        <tr><td>A08</td><td>軟體或資料完整性失效</td></tr>
-        <tr><td>A09</td><td>安全日誌與告警失效</td></tr>
-        <tr><td>A10</td><td>異常狀況處理不當（fail-closed）</td></tr>
+        <tr><td>A01</td><td>存取控制失效</td><td>A06</td><td>不安全設計</td></tr>
+        <tr><td>A02</td><td>安全配置錯誤</td><td>A07</td><td>認證失效</td></tr>
+        <tr><td>A03</td><td>軟體供應鏈</td><td>A08</td><td>軟體/資料完整性失效</td></tr>
+        <tr><td>A04</td><td>加密機制失效</td><td>A09</td><td>安全日誌/告警失效</td></tr>
+        <tr><td class="k">A05</td><td class="k">注入 Injection</td><td>A10</td><td>異常處理不當(fail-closed)</td></tr>
       </table>
-      <ul><li>OWASP＝非營利國際組織；Top10 每 3–4 年更新</li>
-      <li>注入防禦：<b>參數化查詢</b>+ORM+輸入驗證</li>
-      <li>練習平台：Juice Shop / WebGoat / Metasploitable</li>
-      <li>案例：Equifax(Struts未修補)／SolarWinds(供應鏈)／Capital One(WAF錯配+SSRF)</li></ul>
+      <ul>
+        <li>防護：A01→最小權限/強制授權｜A04→HTTPS/強演算法｜A05→參數化查詢｜A07→MFA</li>
+        <li>案例：Equifax(Struts未修補)／SolarWinds(供應鏈)／Capital One(WAF錯配+SSRF)／WannaCry(MS17-010 SMB)</li>
+      </ul>
+      <h3>🔑 漏洞掃描</h3>
+      <ul>
+        <li>工具：<b>OWASP ZAP</b>、Nikto、OpenVAS、Burp、Nessus</li>
+        <li><b>CVSS</b> 0–10（危急9-10/高7-8.9/中4-6.9/低）；<b>誤報</b>(多報假) vs <b>漏報</b>(放過真,更危險)；DevSecOps</li>
+      </ul>
+      <h3>🔑 防火牆 vs WAF</h3>
+      <ul>
+        <li>網路層防火牆(<b>L3/L4</b>,看IP/埠；封包過濾/狀態檢測/NGFW)</li>
+        <li><b>WAF(L7)</b>：反向代理、深檢HTTP、防XSS/SQLi；<b>虛擬補丁</b>擋零日；ModSecurity/NAXSI</li>
+      </ul>
     </div>
 
     <div class="card">
       <h2>第5章 資料庫基礎</h2>
-      <h3>🔑 SQL 四大操作 (CRUD)</h3>
-      <ul><li><code>SELECT ... FROM ... WHERE</code> 查詢／過濾</li>
-      <li><code>INSERT</code> 新增／<code>UPDATE</code> 修改／<code>DELETE</code> 刪列</li>
-      <li>DROP TABLE 刪表；TRUNCATE 清空</li></ul>
-      <h3>子句順序與用途</h3>
-      <ul><li>WHERE 過濾列 → GROUP BY 分組 → HAVING 過濾組 → ORDER BY 排序</li></ul>
-      <h3>鍵與關聯</h3>
-      <ul><li><b>主鍵 PK</b>：唯一、不可重複、不可 NULL、一表一個</li>
-      <li>外鍵 FK：關聯另一表主鍵</li>
-      <li><b>JOIN</b> 合併兩表；<b>UNION</b> 上下疊加（欄位數需相同→union 注入基礎）</li></ul>
+      <h3>🔑 SQL 分類 DDL/DML/DCL</h3>
+      <ul>
+        <li><b>DDL</b>定義結構(CREATE/ALTER)｜<b>DML</b>操作資料(SELECT/INSERT/UPDATE/DELETE)｜<b>DCL</b>控權限(GRANT/REVOKE)</li>
+        <li><b>RDBMS</b>(MySQL,表格關聯) vs <b>NoSQL</b>(Not Only SQL,鍵值/文件/圖形)</li>
+      </ul>
+      <h3>查詢與子句</h3>
+      <ul>
+        <li>順序：FROM→<b>WHERE</b>(過濾列)→<b>GROUP BY</b>→<b>HAVING</b>(過濾聚合)→SELECT→ORDER BY→<b>LIMIT/OFFSET</b>(分頁)</li>
+        <li>聚合 COUNT/SUM/AVG/MIN/MAX；CASE WHEN；<b>NULL</b>用 IS NULL/COALESCE(不能=NULL)</li>
+      </ul>
+      <h3>🔑 關聯</h3>
+      <ul>
+        <li><b>主鍵PK</b>：唯一、不可重複/NULL、一表一個；<b>外鍵FK</b> ON DELETE RESTRICT(禁刪)/CASCADE(連刪)</li>
+        <li><b>INNER JOIN</b>(交集) vs <b>LEFT JOIN</b>(左全+右NULL)；<b>UNION</b>(去重) vs UNION ALL(不去重)；子查詢</li>
+      </ul>
+      <h3>其他</h3>
+      <ul><li>索引加速查找(EXPLAIN)；<b>交易</b> BEGIN/COMMIT/ROLLBACK 保<b>原子性</b>(ACID的A)</li></ul>
     </div>
 
     <div class="card">
-      <h2>第6章 資料庫安全入門</h2>
+      <h2>第6章 資料庫安全</h2>
+      <h3>資料庫安全六面向</h3>
+      <ul><li>存取控制(避sa/root)、資料加密(AES/RSA+金鑰管理)、備份、網路(SSL/防火牆)、應用(參數化)、監控稽核</li></ul>
       <h3>🔑 SQL Injection 原理</h3>
-      <ul><li>未過濾輸入被當 SQL 語法。<code>' OR '1'='1</code> 使條件恆真 → 繞過登入</li>
-      <li>註解符號 <code>--+</code>（<code>--</code>+空格）截斷後段語法</li></ul>
-      <h3>🔑 sqli-labs 攻擊流程（Less-1）</h3>
-      <ul><li><code>?id=1'</code> 觸發錯誤訊息（<b>error-based</b>）</li>
-      <li><code>order by N--+</code> 逐一試，找出<b>欄位數</b>（報錯前的最大值）</li>
-      <li><code>union select 1,2,3--+</code> 用 union 取出資料</li>
-      <li>盲注：布林盲注（真假差異）／時間盲注（延遲）</li></ul>
-      <h3>🔑 防禦</h3>
-      <ul><li><b>參數化查詢 / Prepared Statement</b>（最根本）</li>
-      <li>最小權限 DB 帳號、輸入驗證、關閉詳細錯誤訊息、WAF</li></ul>
+      <ul>
+        <li>未過濾輸入被當 SQL：<code>' OR '1'='1</code>使條件恆真；<code>admin'--</code>用<b>註解</b>截斷密碼檢查</li>
+        <li>類型：錯誤型(讀錯誤訊息)、布林盲注、時間盲注</li>
+      </ul>
+      <h3>🔑 union-based 完整攻擊鏈</h3>
+      <ul>
+        <li><code>order by N--+</code> 試<b>欄位數</b> → <code>union select database(),version()</code> 探環境</li>
+        <li>查 <b>information_schema</b> 列舉表/欄 → <b>GROUP_CONCAT</b> 把多筆壓成一格撈出帳密</li>
+        <li>注入點閉合：試 <code>'</code>、<code>')</code>、<code>'))</code> 猜後端怎麼包參數</li>
+      </ul>
+      <h3>🔑 防禦（三層縱深）</h3>
+      <ul>
+        <li><b>參數化查詢/Prepared Statement</b>(語法層,主力)</li>
+        <li><b>最小權限</b>DB帳號(權限層,縮小爆炸半徑)；<b>Stored Procedure 不等於安全</b>(內部動態SQL仍可注入)</li>
+        <li>不明文存密碼、關詳細錯誤、WAF；工具 <b>sqlmap</b>(自動化驗證)</li>
+      </ul>
+      <h3>管理與機密</h3>
+      <ul>
+        <li><b>GRANT/REVOKE</b>授/收權；<b>mysqldump</b>備份(完整/差異/增量)</li>
+        <li><b>.env</b>存帳密：放文件根目錄外、擋HTTP請求、加 <b>.gitignore</b>（勿把密碼推上 GitHub）</li>
+      </ul>
     </div>
 
   </div>
