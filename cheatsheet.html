@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期中考重點濃縮表（第一～六章）</title>
+<style>
+  :root{--ink:#1b2330;--dim:#5b6b82;--line:#d7deea;--accent:#2563eb;--core:#b45309;--bg:#f6f8fc}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px}
+  h1{font-size:22px;margin:0 0 2px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:16px}
+  .cols{column-count:2;column-gap:18px}
+  @media(max-width:800px){.cols{column-count:1}}
+  @media print{body{background:#fff}.cols{column-count:2}.noprint{display:none}.card{break-inside:avoid}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 14px;
+    break-inside:avoid;box-shadow:0 1px 2px rgba(20,40,80,.04)}
+  .card h2{font-size:15px;margin:0 0 8px;padding-bottom:6px;border-bottom:2px solid var(--accent);color:var(--accent)}
+  .card h3{font-size:13.5px;margin:10px 0 4px;color:var(--ink)}
+  ul{margin:4px 0;padding-left:18px}
+  li{font-size:12.7px;margin:2px 0}
+  b{color:#111}
+  .k{color:var(--core);font-weight:700}
+  code{background:#eef2fb;border:1px solid #dce4f5;border-radius:4px;padding:0 4px;font-size:12px}
+  table{width:100%;border-collapse:collapse;font-size:12px;margin:4px 0}
+  td,th{border:1px solid var(--line);padding:3px 6px;text-align:left}
+  th{background:#eef2fb}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:8px 14px;
+    border-radius:8px;font-size:13px;margin-bottom:14px}
+  .tip{background:#fff7e6;border:1px solid #f5d58a;border-radius:8px;padding:10px 12px;font-size:12.5px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📄 期中考重點濃縮表</h1>
+  <div class="sub">資安攻防與 AI 應用實戰班 · 第一～六章 · <span class="k">🔑=高頻考點</span>　（先讀這頁建立框架，再去 index.html 刷題）</div>
+  <a class="btn noprint" href="index.html">← 回題庫作答</a>
+  <span class="btn noprint" style="background:#334155;cursor:pointer" onclick="window.print()">🖨 列印 / 存 PDF</span>
+  <div class="tip noprint">用法：這頁是「地圖」，先掃一遍建立整體框架（不求背下來）→ 打開 <b>index.html</b> 用「核心速覽」自測 → 錯的進「錯題本」反覆刷。考前一晚只看這頁＋錯題。</div>
+
+  <div class="cols">
+
+    <div class="card">
+      <h2>第1章 網路基礎入門</h2>
+      <h3>🔑 OSI 七層（上→下）</h3>
+      <ul>
+        <li>7應用層 HTTP/DNS/SSH｜6表示層 加密/格式｜5會話層 建立/終止連線</li>
+        <li>4傳輸層 <b>TCP/UDP</b>｜3網路層 <b>IP/路由器</b>｜2資料鏈路層 <b>MAC/ARP/交換機</b>｜1實體層 位元流/線纜</li>
+        <li>ISO 於 1984 提出；TCP/IP 為 4-5 層實用模型</li>
+      </ul>
+      <h3>🔑 TCP vs UDP</h3>
+      <ul><li>TCP：連接導向、可靠、有序、有三向交握；UDP：無連接、快、無重傳</li>
+      <li>IP 特性：無連接、<b>盡力而為(Best Effort)</b>、不可靠</li></ul>
+      <h3>🔑 通訊埠</h3>
+      <table><tr><th>範圍</th><th>類別</th></tr>
+        <tr><td>0–1023</td><td>熟知埠</td></tr><tr><td>1024–49151</td><td>註冊埠</td></tr>
+        <tr><td>49152–65535</td><td>動態/私有</td></tr></table>
+      <ul><li>HTTP 80／HTTPS 443／SSH 22／DNS 53／FTP 21控制,20資料／SMTP 25</li>
+      <li>總範圍 0–65535（16 位元）</li></ul>
+      <h3>Wireshark</h3>
+      <ul><li>顯示過濾：<code>http.request.method=="GET"</code>（越精確越好）</li>
+      <li>擷取過濾(BPF)：<code>host x</code> / <code>port 80</code>（越寬鬆越好、要謹慎）</li>
+      <li>埠掃描工具：<b>Nmap</b>、Masscan</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>第2章 系統基礎入門</h2>
+      <h3>🔑 Linux 權限</h3>
+      <ul><li>r=4 w=2 x=1；<code>755</code>=rwxr-xr-x；<code>644</code>=rw-r--r--</li>
+      <li>對象：擁有者u/群組g/其他o；指令 chmod/chown/chgrp/umask</li>
+      <li><b>/etc/shadow</b>=加密密碼、只有 root 可讀</li></ul>
+      <h3>🔑 特殊權限（易考提權）</h3>
+      <ul><li><b>SUID(4)</b>：以擁有者權限執行 → root+SUID 易被提權</li>
+      <li>SGID(2)：以群組權限執行；Sticky(1)：限制刪除（/tmp）</li></ul>
+      <h3>常用指令</h3>
+      <ul><li>ls/cd/pwd/cp/mv/rm；<code>rm -rf /</code> 破壞性→<code>--preserve-root</code></li>
+      <li><code>tail -f</code> 即時看日誌；grep 找可疑；ps aux 找可疑程序</li>
+      <li>whoami/id/su/sudo；管道 <code>|</code>；重定向 <code>&gt;</code>覆蓋 <code>&gt;&gt;</code>追加</li></ul>
+      <h3>Shell 安全</h3>
+      <ul><li><b>PATH 劫持</b>：竄改 PATH 使惡意程式優先執行</li>
+      <li>命令注入、勿貼不明指令、.bashrc 風險</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>第3章 網站開發基礎</h2>
+      <h3>HTTP</h3>
+      <ul><li>GET（參數在 URL、有長度限制）／POST（資料在 body、送表單）</li>
+      <li>狀態碼：200 成功｜301/302 轉址｜401 需授權｜403 禁止｜404 找不到｜500 伺服器錯</li>
+      <li>HTTP <b>無狀態</b> → 用 <b>Cookie/Session</b> 維持登入</li></ul>
+      <h3>前端三本柱</h3>
+      <ul><li>HTML 結構／CSS 樣式／JavaScript 互動行為</li></ul>
+      <h3>🔑 常見網站攻擊</h3>
+      <ul><li><b>XSS</b>：注入惡意 JS 在他人瀏覽器執行 → 防：輸出編碼、CSP</li>
+      <li>會話劫持：竊取 Session ID</li>
+      <li>CSRF：誘導受害者送出非本意請求</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>第4章 Web 應用程式安全（OWASP）</h2>
+      <div class="tip" style="margin:0 0 8px">⚠️ 本課用 <b>2025 版排序</b>，與網路上舊的 2021 版不同！以下以講義為準。</div>
+      <h3>🔑 OWASP Top 10（2025）</h3>
+      <table>
+        <tr><th>編號</th><th>風險</th></tr>
+        <tr><td>A01</td><td>存取控制失效 Broken Access Control</td></tr>
+        <tr><td>A02</td><td>安全配置錯誤 Security Misconfiguration</td></tr>
+        <tr><td>A03</td><td>軟體供應鏈缺失（SBOM/SCA）</td></tr>
+        <tr><td>A04</td><td>加密機制失效 Cryptographic Failures</td></tr>
+        <tr><td class="k">A05</td><td class="k">注入 Injection（SQL/OS/LDAP）</td></tr>
+        <tr><td>A06</td><td>不安全設計 Insecure Design</td></tr>
+        <tr><td>A07</td><td>認證失效 Authentication Failures</td></tr>
+        <tr><td>A08</td><td>軟體或資料完整性失效</td></tr>
+        <tr><td>A09</td><td>安全日誌與告警失效</td></tr>
+        <tr><td>A10</td><td>異常狀況處理不當（fail-closed）</td></tr>
+      </table>
+      <ul><li>OWASP＝非營利國際組織；Top10 每 3–4 年更新</li>
+      <li>注入防禦：<b>參數化查詢</b>+ORM+輸入驗證</li>
+      <li>練習平台：Juice Shop / WebGoat / Metasploitable</li>
+      <li>案例：Equifax(Struts未修補)／SolarWinds(供應鏈)／Capital One(WAF錯配+SSRF)</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>第5章 資料庫基礎</h2>
+      <h3>🔑 SQL 四大操作 (CRUD)</h3>
+      <ul><li><code>SELECT ... FROM ... WHERE</code> 查詢／過濾</li>
+      <li><code>INSERT</code> 新增／<code>UPDATE</code> 修改／<code>DELETE</code> 刪列</li>
+      <li>DROP TABLE 刪表；TRUNCATE 清空</li></ul>
+      <h3>子句順序與用途</h3>
+      <ul><li>WHERE 過濾列 → GROUP BY 分組 → HAVING 過濾組 → ORDER BY 排序</li></ul>
+      <h3>鍵與關聯</h3>
+      <ul><li><b>主鍵 PK</b>：唯一、不可重複、不可 NULL、一表一個</li>
+      <li>外鍵 FK：關聯另一表主鍵</li>
+      <li><b>JOIN</b> 合併兩表；<b>UNION</b> 上下疊加（欄位數需相同→union 注入基礎）</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>第6章 資料庫安全入門</h2>
+      <h3>🔑 SQL Injection 原理</h3>
+      <ul><li>未過濾輸入被當 SQL 語法。<code>' OR '1'='1</code> 使條件恆真 → 繞過登入</li>
+      <li>註解符號 <code>--+</code>（<code>--</code>+空格）截斷後段語法</li></ul>
+      <h3>🔑 sqli-labs 攻擊流程（Less-1）</h3>
+      <ul><li><code>?id=1'</code> 觸發錯誤訊息（<b>error-based</b>）</li>
+      <li><code>order by N--+</code> 逐一試，找出<b>欄位數</b>（報錯前的最大值）</li>
+      <li><code>union select 1,2,3--+</code> 用 union 取出資料</li>
+      <li>盲注：布林盲注（真假差異）／時間盲注（延遲）</li></ul>
+      <h3>🔑 防禦</h3>
+      <ul><li><b>參數化查詢 / Prepared Statement</b>（最根本）</li>
+      <li>最小權限 DB 帳號、輸入驗證、關閉詳細錯誤訊息、WAF</li></ul>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>期中考速攻 · 複習題庫</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="期中考速攻">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2233; --card2:#222c42; --line:#2c3852;
+    --txt:#e7ecf5; --dim:#93a1bd; --accent:#4f8cff; --accent2:#7c5cff;
+    --ok:#2fbf71; --bad:#f2555a; --warn:#f5a524; --core:#ffd166;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:linear-gradient(160deg,#0f1420,#141b2c);color:var(--txt);min-height:100vh}
+  a{color:var(--accent)}
+  .wrap{max-width:820px;margin:0 auto;padding:22px 18px 60px}
+  header h1{font-size:22px;margin:0 0 4px}
+  header p{color:var(--dim);margin:0 0 14px;font-size:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .mode{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:15px;cursor:pointer;
+    transition:.15s;text-align:left}
+  .mode:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .mode h3{margin:0 0 6px;font-size:15.5px}
+  .mode p{margin:0;color:var(--dim);font-size:12.5px;line-height:1.5}
+  .mode .ico{font-size:20px;margin-bottom:5px}
+  .mode .badge{float:right;background:var(--accent);color:#fff;border-radius:20px;font-size:11px;padding:1px 8px;font-weight:700}
+  .mode .badge.warn{background:var(--warn);color:#20160a}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chip{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:20px;
+    padding:6px 13px;font-size:13px;cursor:pointer;transition:.12s;user-select:none}
+  .chip:hover{border-color:var(--accent)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 20px;
+    font-size:15px;cursor:pointer;font-weight:600}
+  button.btn:hover{filter:brightness(1.08)}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+  button.mini{padding:7px 13px;font-size:13px;border-radius:8px}
+  .stat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--dim);margin-bottom:4px}
+  .stat b{color:var(--txt);font-size:20px;display:block;line-height:1.2}
+  .bar{height:7px;background:var(--card2);border-radius:6px;overflow:hidden;margin:10px 0}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width .4s}
+  .note{font-size:12.5px;color:var(--dim);line-height:1.6}
+  .rec{background:rgba(245,165,36,.12);border:1px solid var(--warn);border-radius:10px;padding:11px 13px;
+    margin-top:12px;font-size:13px;line-height:1.6;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  /* 各章掌握度 */
+  .chrow{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+  .chrow .nm{flex:0 0 148px;color:var(--txt)}
+  @media(max-width:560px){.chrow .nm{flex-basis:96px;font-size:12px}}
+  .chrow .b{flex:1;height:9px;background:var(--card2);border-radius:6px;overflow:hidden}
+  .chrow .b>i{display:block;height:100%;border-radius:6px}
+  .chrow .pc{flex:0 0 62px;text-align:right;color:var(--dim);font-variant-numeric:tabular-nums}
+  /* 作答 */
+  .qmeta{display:flex;justify-content:space-between;align-items:center;color:var(--dim);font-size:13px;margin-bottom:8px}
+  .tag{font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);margin-left:6px}
+  .tag.core{color:var(--core);border-color:var(--core)}
+  .q{font-size:18px;line-height:1.6;margin:6px 0 16px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--line);
+    color:var(--txt);border-radius:10px;padding:13px 15px;margin-bottom:10px;cursor:pointer;font-size:15px;
+    line-height:1.5;transition:.12s}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#26324c}
+  .opt.correct{border-color:var(--ok);background:rgba(47,191,113,.14)}
+  .opt.wrong{border-color:var(--bad);background:rgba(242,85,90,.14)}
+  .opt .k{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;font-weight:700;
+    color:var(--dim);border:1px solid var(--line);border-radius:6px;margin-right:8px;font-size:13px}
+  .fb{border-radius:10px;padding:14px;margin-top:6px;font-size:14px;line-height:1.65;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:rgba(47,191,113,.1);border:1px solid var(--ok)}
+  .fb.bad{background:rgba(242,85,90,.1);border:1px solid var(--bad)}
+  .fb .src{color:var(--dim);font-size:12.5px;margin-top:8px}
+  .fb .learn{margin-top:8px}
+  .fb .insight{background:rgba(124,92,255,.13);border:1px solid var(--accent2);border-radius:8px;
+    padding:10px 12px;margin-top:10px;font-size:13.5px;line-height:1.75}
+  .fillbox{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card2);color:var(--txt);font-size:16px;outline:none}
+  .fillbox:focus{border-color:var(--accent)}
+  .se{background:var(--card2);border:1px dashed var(--accent2);border-radius:10px;padding:12px;margin:0 0 10px}
+  .se .t{font-size:13px;color:#c9bcff;margin-bottom:6px;line-height:1.6}
+  .se textarea{width:100%;min-height:54px;background:var(--card);color:var(--txt);border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;font-size:14px;resize:vertical;outline:none;font-family:inherit;line-height:1.6}
+  .se textarea:focus{border-color:var(--accent)}
+  .toggle{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;font-size:12.5px;color:var(--dim)}
+  .toggle .sw{width:34px;height:18px;border-radius:20px;background:var(--card2);border:1px solid var(--line);position:relative;transition:.15s;flex:0 0 auto}
+  .toggle .sw::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--dim);top:1px;left:1px;transition:.15s}
+  .toggle.on .sw{background:var(--accent);border-color:var(--accent)}
+  .toggle.on .sw::after{background:#fff;left:17px}
+  .mynote{background:rgba(79,140,255,.1);border:1px solid var(--accent);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:13px;white-space:pre-wrap;line-height:1.6}
+  .fbactions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .bmbtn{background:transparent;border:1px solid var(--core);color:var(--core);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .bmbtn.on{background:var(--core);color:#20160a;font-weight:700}
+  #review{position:fixed;inset:0;background:rgba(8,12,20,.92);z-index:50;overflow:auto;padding:16px}
+  #review .card{max-width:820px;margin:16px auto}
+  .rvbadge{font-size:12px;color:var(--core);border:1px solid var(--core);border-radius:20px;padding:2px 9px;margin-left:6px}
+  .timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
+  .timer.low{color:var(--bad)}
+  .kbd{font-size:11.5px;color:var(--dim);margin-top:10px;text-align:center}
+  .kbd b{color:var(--txt);background:var(--card2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-weight:600}
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px}
+  .hidden{display:none}
+  .big{font-size:44px;font-weight:800;text-align:center;margin:6px 0}
+  .center{text-align:center}
+  .pill{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:20px;
+    padding:4px 12px;font-size:12px;color:var(--dim);margin:3px}
+  .breakdown div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}
+  /* 速記卡 */
+  .flashcard{min-height:230px;display:flex;flex-direction:column;justify-content:center;gap:12px;
+    background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:24px;cursor:pointer;text-align:center}
+  .flashcard .lbl{font-size:12px;color:var(--dim);letter-spacing:1px}
+  .flashcard .ft{font-size:18px;line-height:1.55;font-weight:600}
+  .flashcard .bk{font-size:15px;line-height:1.7;text-align:left;border-top:1px dashed var(--line);padding-top:12px}
+  .flashcard .bk .ans{color:var(--ok);font-weight:700}
+  .flashcard .bk .ins{color:#c9bcff;margin-top:8px;font-size:13.5px}
+  .flashactions{display:flex;gap:10px;margin-top:12px}
+  .flashactions button{flex:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎯 期中考速攻 · 複習題庫</h1>
+    <p id="subtitle"></p>
+    <p style="margin:-6px 0 14px"><a href="cheatsheet.html" style="font-size:14px">📄 開啟「一頁重點濃縮表」（建立框架 / 考前速看）</a></p>
+  </header>
+
+  <!-- 首頁 -->
+  <section id="home">
+    <div class="card">
+      <div class="stat" id="dash"></div>
+      <div class="bar"><i id="masteryBar"></i></div>
+      <div id="chMastery" style="margin-top:12px"></div>
+      <div id="weakTopics" style="margin-top:10px"></div>
+      <div class="rec" id="rec"></div>
+      <div id="settings" style="margin-top:12px"></div>
+    </div>
+
+    <div class="grid">
+      <button class="mode" data-mode="exam">
+        <div class="ico">📝</div><h3>模擬考（精選貫穿題）</h3>
+        <p>每章最能貫穿主題的重點，全單選、60 分計時、作答完看解析。貼合真實考試。</p>
+      </button>
+      <button class="mode" data-mode="chapter">
+        <div class="ico">📚</div><h3>章節練習（融會貫通題庫）</h3>
+        <p>完整題庫逐題練，含多選/填空與「融會貫通」講解、來源與延伸學習。</p>
+      </button>
+      <button class="mode" data-mode="core">
+        <div class="ico">⭐</div><h3>核心速覽</h3>
+        <p>只出「核心必考」題。時間不夠時先打通這些，投報率最高。</p>
+      </button>
+      <button class="mode" data-mode="srs">
+        <div class="ico">🔁</div><h3>間隔複習<span class="badge" id="srsBadge" style="display:none"></span></h3>
+        <p>把答錯與不熟的題目依「間隔重複」排程，弱的先出、記牢才畢業。</p>
+      </button>
+      <button class="mode" data-mode="flash">
+        <div class="ico">🃏</div><h3>速記卡（主動回想）</h3>
+        <p>看題目先自己想答案，再翻面對照重點＋融會貫通。快速建立記憶。</p>
+      </button>
+      <button class="mode" data-mode="bookmarks">
+        <div class="ico">🔖</div><h3>我的收藏<span class="badge" id="bmBadge" style="display:none"></span></h3>
+        <p>你按 🔖 收藏的題（不管對錯都留著），隨時回來複習、看自己當時寫的想法。</p>
+      </button>
+      <button class="mode" data-mode="cheat" onclick="location.href='cheatsheet.html'">
+        <div class="ico">📄</div><h3>重點濃縮表</h3>
+        <p>六章高頻考點一頁看完，可列印／存 PDF。考前一晚只看這頁＋錯題。</p>
+      </button>
+    </div>
+
+    <div class="card" id="syncCard">
+      <h3 style="margin:0 0 6px">☁️ 跨裝置同步（手動備份／還原）</h3>
+      <p class="note" style="margin:0 0 10px">進度存在各裝置的瀏覽器，不會自動同步。在一端「匯出」，把代碼傳到另一端「合併匯入」，就能把兩邊進度合起來。</p>
+      <div class="row">
+        <button class="btn mini" id="exportBtn">📤 匯出我的進度</button>
+        <button class="btn mini ghost" id="importOpenBtn">📥 匯入（貼上代碼）</button>
+      </div>
+      <textarea id="syncBox" class="fillbox" style="display:none;margin-top:10px;min-height:80px;font-size:12px;resize:vertical" placeholder="把另一端匯出的代碼貼在這裡"></textarea>
+      <div class="row" id="syncActions" style="display:none;margin-top:8px"></div>
+      <div class="note" id="syncMsg" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card" id="chapterPick" style="display:none">
+      <h3 style="margin:0 0 10px" id="chapterPickTitle">選擇章節</h3>
+      <div class="row" id="chapterChips"></div>
+      <div class="foot">
+        <span class="note" id="chapterCount"></span>
+        <button class="btn" id="startChapter">開始</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 作答 -->
+  <section id="quiz" class="hidden">
+    <div class="card">
+      <div class="qmeta">
+        <span id="qProgress"></span>
+        <span><span id="scoreCount" style="margin-right:12px"></span><span class="timer" id="timer"></span></span>
+      </div>
+      <div class="bar"><i id="qBar"></i></div>
+      <div class="qmeta" style="margin-top:10px">
+        <span id="qTopic"></span>
+        <span id="qTags"></span>
+      </div>
+      <div class="q" id="qText"></div>
+      <div id="opts"></div>
+      <div class="se" id="selfExplain" style="display:none">
+        <div class="t">💭 作答前先想：你為什麼選這個答案？（在心裡說清楚，或簡單寫下理由，再看解析）</div>
+        <textarea id="seText" placeholder="因為……（可留空；重點是先把理由講明白，這一步最能加深理解）"></textarea>
+      </div>
+      <div class="fb" id="fb"></div>
+      <div class="kbd" id="kbdHint"></div>
+      <div class="foot">
+        <button class="ghost btn" id="quitBtn">離開</button>
+        <button class="ghost btn" id="prevBtn" style="display:none">← 上一題</button>
+        <button class="btn" id="nextBtn">送出</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 回顧上一題（覆蓋層，唯讀） -->
+  <section id="review" class="hidden">
+    <div class="card">
+      <div class="qmeta"><span id="rvProgress"></span><span>🔎 回顧（唯讀）</span></div>
+      <div class="qmeta" style="margin-top:8px"><span id="rvTopic"></span><span id="rvTags"></span></div>
+      <div class="q" id="rvText"></div>
+      <div id="rvOpts"></div>
+      <div class="fb show" id="rvFb"></div>
+      <div class="foot">
+        <button class="ghost btn" id="rvPrev">◀ 更早</button>
+        <button class="btn" id="rvClose">關閉，回作答</button>
+        <button class="ghost btn" id="rvNext">更近 ▶</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 速記卡 -->
+  <section id="flash" class="hidden">
+    <div class="card">
+      <div class="qmeta"><span id="flashProgress"></span><span id="flashTopic"></span></div>
+      <div class="bar"><i id="flashBar"></i></div>
+      <div class="flashcard" id="flashCard"></div>
+      <div class="flashactions" id="flashActions"></div>
+      <div class="kbd">鍵盤：<b>空白鍵</b> 翻面　<b>1</b> 還不熟　<b>2</b> 記得了（評分後自動下一張）</div>
+      <div class="foot"><button class="ghost btn" id="flashQuit">離開</button><span class="note" id="flashHint">先自己回想答案，再翻面對照</span></div>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="hidden">
+    <div class="card center">
+      <h3 style="margin:0">本次結果</h3>
+      <div class="big" id="scoreBig"></div>
+      <div id="scoreMsg" class="note"></div>
+      <div class="bar" style="margin:14px 0"><i id="scoreBar"></i></div>
+      <div id="scorePills"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px">各章表現</h3>
+      <div id="breakdown"></div>
+    </div>
+    <div class="foot">
+      <button class="ghost btn" id="homeBtn">回首頁</button>
+      <button class="ghost btn" id="reviewAllBtn">檢討全部</button>
+      <button class="btn" id="reviewWrongBtn">複習錯題</button>
+    </div>
+  </section>
+</div>
+
+<script src="data.js"></script>
+<script src="gen.js"></script>
+<script>
+const D = window.QUIZ_DATA;
+const QS = D.questions;
+// 參數化題（每次隨機生成）併入題庫，當作有穩定 id 的「題目」，作答時才生成具體數字
+const GENS = (window.QUIZ_GENERATORS||[]).map(g=>({...g, isGen:true, type:"single"}));
+const ALLQ = QS.concat(GENS);
+const QBYID = {}; ALLQ.forEach(q=>QBYID[q.id]=q);
+function materialize(item){
+  if(!item || !item.isGen) return item;
+  const g=item.gen();
+  return { id:item.id, ch:item.ch, topic:item.topic, kind:item.kind, core:item.core,
+           diff:item.diff||2, src:item.src||"（隨機生成）", type:"single", learn:item.learn, isGen:true,
+           q:g.q, options:g.options, ans:g.ans, exp:g.exp, insight:g.insight };
+}
+const $ = s => document.querySelector(s);
+const LS = {
+  get:(k,d)=>{try{const v=JSON.parse(localStorage.getItem("rev_"+k));return v==null?d:v}catch(e){return d}},
+  set:(k,v)=>localStorage.setItem("rev_"+k,JSON.stringify(v))
+};
+const KEY = ["A","B","C","D","E","F"];
+const GRAD = 4;            // box>=4 視為已掌握（畢業）
+const CHNAME = D.chapters;
+function selfExplainOn(){ return LS.get("selfExplain", true); }   // 練習模式作答前自我解釋（預設開）
+function showSelfExplain(){
+  const p=$("#selfExplain"); p.style.display="block"; $("#seText").value=getNote(state.cur.id)||"";
+  $("#nextBtn").textContent="看解析";
+  p.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+/* 收藏 & 想法筆記（localStorage） */
+function getBookmarks(){ return LS.get("bookmarks", []); }
+function isBookmarked(id){ return getBookmarks().includes(id); }
+function toggleBookmark(id){ let b=getBookmarks(); b.includes(id)?b=b.filter(x=>x!==id):b.push(id); LS.set("bookmarks",b); }
+function getNote(id){ return (LS.get("notes",{}))[id]||""; }
+function saveNote(id,txt){ const n=LS.get("notes",{}); if(txt) n[id]=txt; else delete n[id]; LS.set("notes",n); }
+function esc(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+$("#subtitle").textContent = `${D.meta.title}　範圍：${D.meta.scope}　共 ${QS.length} 題　（考試：${D.meta.exam.minutes} 分 / ${D.meta.exam.type} / ${D.meta.exam.attempts} 次取高分）`;
+
+/* ========== 間隔重複 (Leitner) 資料層 ==========
+   srs = { id: box }  box 0..5；答錯→0、答對→box+1（上限5）。box>=GRAD 視為掌握。
+   相容舊資料：把舊的 wrong[]/seen{} 遷移進來。 */
+function loadSRS(){
+  let srs = LS.get("srs", null);
+  if(srs) return srs;
+  srs = {};
+  const seen = LS.get("seen", {}), wrong = LS.get("wrong", []);
+  Object.keys(seen).forEach(id=>{
+    if(!QBYID[id]) return;
+    srs[id] = wrong.includes(id) ? 0 : Math.min((seen[id].right||1)+1, GRAD);
+  });
+  wrong.forEach(id=>{ if(QBYID[id]) srs[id]=0; });
+  LS.set("srs", srs);
+  return srs;
+}
+function saveSRS(srs){ LS.set("srs", srs); }
+function recordAnswer(q, ok){
+  const srs = loadSRS();
+  const cur = srs[q.id];
+  srs[q.id] = ok ? Math.min((cur==null?0:cur)+1, 5) : 0;
+  saveSRS(srs);
+}
+function masteredCount(){ const s=loadSRS(); return Object.keys(s).filter(id=>QBYID[id]&&s[id]>=GRAD).length; }
+function dueList(){ // 待複習：已作答但尚未掌握，弱的(box小)先出
+  const s=loadSRS();
+  return ALLQ.filter(q=>s[q.id]!=null && s[q.id]<GRAD).sort((a,b)=>s[a.id]-s[b.id]);
+}
+
+let state = null, timerInt = null, flash = null;
+
+/* ========== 首頁 ========== */
+const CONCEPT_REQ=3;   // 一個觀念要「答對幾道不同的題」才算掌握（題數不足則需全部）→ 逼你懂觀念而非背單題
+function conceptStats(){
+  const s=loadSRS(); const m={};
+  ALLQ.forEach(q=>{ const k=q.ch+"::"+q.topic; (m[k]=m[k]||{ch:q.ch,topic:q.topic,ids:[]}).ids.push(q.id); });
+  return Object.values(m).map(c=>{
+    const mastered=c.ids.filter(id=>s[id]!=null && s[id]>=GRAD).length;
+    const touched=c.ids.filter(id=>s[id]!=null).length;
+    const req=Math.min(CONCEPT_REQ, c.ids.length);
+    return { ch:c.ch, topic:c.topic, ids:c.ids, mastered, touched, req, isMastered:mastered>=req };
+  });
+}
+function chapterStats(){
+  const by={};
+  conceptStats().forEach(c=>{ const ch=String(c.ch); (by[ch]=by[ch]||{total:0,mastered:0}); by[ch].total++; if(c.isMastered)by[ch].mastered++; });
+  return Object.keys(CHNAME).filter(ch=>by[ch]).map(ch=>({
+    ch, name:CHNAME[ch], total:by[ch].total, mastered:by[ch].mastered, pct:Math.round(by[ch].mastered/by[ch].total*100)
+  }));
+}
+function weakTopics(){
+  return conceptStats().filter(c=>String(c.ch)!=='7' && c.touched>0 && !c.isMastered)
+    .sort((a,b)=>(a.mastered/a.req)-(b.mastered/b.req) || b.touched-a.touched).slice(0,4);
+}
+function renderHome(){
+  show("home");
+  const cs=conceptStats();
+  const inScopeC=cs.filter(c=>String(c.ch)!=='7');
+  const totalC=inScopeC.length, masteredC=inScopeC.filter(c=>c.isMastered).length;
+  const due=dueList().length;
+  const best=LS.get("bestExam",null);
+  $("#dash").innerHTML =
+    `<div><b>${masteredC}/${totalC}</b>觀念已掌握</div>`+
+    `<div><b>${due}</b>待複習</div>`+
+    `<div><b>${best!=null?best+"%":"—"}</b>模擬考最佳</div>`;
+  $("#masteryBar").style.width=(totalC?masteredC/totalC*100:0)+"%";
+  const mastered=masteredC;
+  // 各章掌握度長條
+  const stats=chapterStats();
+  $("#chMastery").innerHTML = stats.filter(s=>s.ch!=="7").map(s=>{
+    const col=s.pct>=70?"var(--ok)":s.pct>=40?"var(--warn)":"var(--bad)";
+    return `<div class="chrow"><span class="nm">第${s.ch}章 ${s.name}</span>`+
+      `<span class="b"><i style="width:${s.pct}%;background:${col}"></i></span>`+
+      `<span class="pc">${s.mastered}/${s.total}</span></div>`;
+  }).join("");
+  // 最弱觀念（topic 級，比章更精準；點一下直接針對該觀念練）
+  const weak=weakTopics();
+  const wt=$("#weakTopics");
+  if(weak.length){
+    wt.innerHTML=`<div class="note" style="margin-bottom:6px">🎯 最弱觀念（點一下針對它練）：</div><div class="row"></div>`;
+    const rowEl=wt.querySelector(".row");
+    weak.forEach(t=>{
+      const el=document.createElement("div");
+      el.className="chip"; el.style.borderColor="var(--bad)";
+      el.textContent=`${t.topic}（${t.mastered}/${t.req}）`;
+      el.onclick=()=>startQuiz(ALLQ.filter(q=>String(q.ch)===String(t.ch)&&q.topic===t.topic), {timed:false,instant:true,label:t.topic});
+      rowEl.appendChild(el);
+    });
+  } else wt.innerHTML="";
+  // 弱點建議
+  const inScope=stats.filter(s=>s.ch!=="7");
+  const weakest=inScope.slice().sort((a,b)=>a.pct-b.pct)[0];
+  const days=daysLeft();
+  let msg;
+  if(mastered===0){ msg=`還沒開始～建議先「⭐核心速覽」建立框架，再逐章攻破。`; }
+  else if(due>0){ msg=`你有 <b>${due}</b> 題待複習，最弱的是 <b style="color:var(--warn)">第${weakest.ch}章 ${weakest.name}</b>（${weakest.pct}%）。`; }
+  else { msg=`目前最弱：<b style="color:var(--warn)">第${weakest.ch}章 ${weakest.name}</b>（${weakest.pct}%）。`; }
+  const dtxt = days!=null?`　⏳ 距關閉約 <b style="color:var(--warn)">${days}</b> 天`:"";
+  $("#rec").innerHTML = `<span>${msg}${dtxt}</span>`+
+    `<button class="btn mini" id="recBtn">從最弱章開始 →</button>`;
+  $("#recBtn").onclick=()=>{ startQuiz(ALLQ.filter(q=>String(q.ch)===weakest.ch), {timed:false,instant:true,label:`第${weakest.ch}章 加強`}); };
+  // 間隔複習徽章
+  const badge=$("#srsBadge");
+  if(due>0){ badge.style.display="inline-block"; badge.textContent=due; badge.className="badge warn"; }
+  else badge.style.display="none";
+  // 收藏徽章
+  const bmN=getBookmarks().length, bmb=$("#bmBadge");
+  if(bmN>0){ bmb.style.display="inline-block"; bmb.textContent=bmN; bmb.className="badge"; } else bmb.style.display="none";
+  // 設定：作答前自我解釋（後設認知，練習模式）
+  $("#settings").innerHTML=`<span class="toggle ${selfExplainOn()?'on':''}" id="seToggle"><span class="sw"></span>作答前自我解釋（練習模式）— 逼你想清楚「為什麼」，最能加深理解</span>`;
+  $("#seToggle").onclick=()=>{ LS.set("selfExplain", !selfExplainOn()); renderHome(); };
+}
+function daysLeft(){
+  try{const end=new Date("2026-07-09T23:59:59");const now=new Date();
+    return Math.max(0,Math.ceil((end-now)/86400000));}catch(e){return null}
+}
+
+/* ========== 模式 ========== */
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{
+  const m=b.dataset.mode;
+  if(m==="cheat") return;
+  if(m==="chapter"){ toggleChapterPick("quiz"); return; }
+  if(m==="flash"){ toggleChapterPick("flash"); return; }
+  if(m==="exam") startQuiz(pickExam(), {timed:true, instant:false, label:"模擬考"});
+  if(m==="core") startQuiz(ALLQ.filter(q=>q.core), {timed:false, instant:true, label:"核心速覽"});
+  if(m==="srs"){
+    const list=dueList();
+    if(!list.length){ alert("目前沒有待複習的題目——先去練習或做速記卡吧！"); return; }
+    startQuiz(list.slice(0,30), {timed:false, instant:true, label:"間隔複習"});
+  }
+  if(m==="bookmarks"){
+    const list=ALLQ.filter(q=>isBookmarked(q.id));
+    if(!list.length){ alert("還沒有收藏的題目。作答看到解析時，按『🔖 收藏此題』就會留在這裡（不管對錯）。"); return; }
+    startQuiz(list, {timed:false, instant:true, label:"我的收藏"});
+  }
+});
+
+/* ========== 章節選擇（quiz 或 flash 共用） ========== */
+let pickedCh=new Set(), pickMode="quiz";
+function toggleChapterPick(mode){
+  pickMode=mode;
+  const box=$("#chapterPick");
+  box.style.display="block";
+  $("#chapterPickTitle").textContent = mode==="flash"?"速記卡：選擇章節":"章節練習：選擇章節";
+  const chips=$("#chapterChips"); chips.innerHTML="";
+  Object.keys(CHNAME).forEach(ch=>{
+    const n=ALLQ.filter(q=>q.ch==ch).length; if(!n) return;
+    const el=document.createElement("div");
+    el.className="chip"+(pickedCh.has(ch)?" on":"");
+    el.textContent=`第${ch}章 ${CHNAME[ch]}（${n}）`;
+    el.onclick=()=>{pickedCh.has(ch)?pickedCh.delete(ch):pickedCh.add(ch);el.classList.toggle("on");updateChapterCount();};
+    chips.appendChild(el);
+  });
+  updateChapterCount();
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function updateChapterCount(){
+  const n=ALLQ.filter(q=>pickedCh.has(String(q.ch))).length;
+  $("#chapterCount").textContent = pickedCh.size?`已選 ${n} 題`:"未選=全部章節";
+}
+$("#startChapter").onclick=()=>{
+  const list = pickedCh.size?ALLQ.filter(q=>pickedCh.has(String(q.ch))):ALLQ.slice();
+  $("#chapterPick").style.display="none";
+  if(pickMode==="flash") startFlash(list);
+  else startQuiz(list, {timed:false, instant:true, label:"章節練習"});
+};
+
+/* ========== 模擬考抽題（收斂：examSet ∪ examKey，單選） ========== */
+function pickExam(){
+  // 從「精選貫穿題(examSet/examKey，皆單選)」按章分層抽樣：每章至多 7 題、上限約 42 題，
+  // 貼合 60 分鐘；每次抽樣不同 → 連考試層級也難背題。
+  const keySet=new Set(D.meta.examSet||[]);
+  const pool=ALLQ.filter(q=>(q.type||"single")==="single" && (keySet.has(q.id)||q.examKey));
+  const byCh={}; shuffle(pool.slice()).forEach(q=>{(byCh[q.ch]=byCh[q.ch]||[]).push(q);});
+  let out=[];
+  Object.keys(byCh).sort().forEach(ch=>{ out=out.concat(byCh[ch].slice(0,7)); });
+  return shuffle(out);
+}
+
+/* ========== 作答 ========== */
+function startQuiz(list, opt){
+  if(!list.length){alert("沒有題目");return;}
+  state={ list:shuffle(list.slice()), i:0, opt, sel:new Set(), order:null, answered:false,
+          correct:0, results:[], history:[], remain:opt.timed?D.meta.exam.minutes*60:0 };
+  show("quiz");
+  if(opt.timed) startTimer(); else $("#timer").textContent="";
+  renderQ();
+}
+function startTimer(){
+  clearInterval(timerInt); tick(); timerInt=setInterval(tick,1000);
+  function tick(){
+    const m=Math.floor(state.remain/60), s=state.remain%60;
+    const t=$("#timer"); t.textContent=`⏱ ${m}:${String(s).padStart(2,"0")}`;
+    t.classList.toggle("low",state.remain<=60);
+    if(state.remain<=0){clearInterval(timerInt);finish();return;}
+    state.remain--;
+  }
+}
+function qType(q){ return q.type||"single"; }
+function normalize(s){ return String(s||"").trim().toLowerCase().replace(/\s+/g,"").replace(/['"`；;，,。.／/]/g,""); }
+/* 速記卡：只用「有明確答案、能單獨回想」的題目當卡片正面。
+   排除「下列何者正確/不是」這種需要選項的辨識題（它們留在有選項的作答模式）。 */
+const F_NEG=/不是|不正確|錯誤|何者為非|下列.*錯/;
+const F_RECOG=/下列|以下|何者|哪一|哪些/;
+// 速記卡鞏固「大觀念／重點詞／應用」，跳過純記憶性的特例(kind:"fact")
+function flashEligible(q){ if(q.isGen || q.kind==="fact") return false; return q.card ? true : !(F_NEG.test(q.q) || F_RECOG.test(q.q)); }
+function flashFront(q){ return q.card || q.q; }
+function renderQ(){
+  const q=materialize(state.list[state.i]);   // 參數化題在此生成具體數字
+  state.cur=q;
+  state.answered=false; state.sel=new Set(); state.order=null; state.explained=false;
+  $("#selfExplain").style.display="none"; $("#prevBtn").style.display="none";
+  const type=qType(q);
+  $("#qProgress").textContent=`${state.opt.label}　第 ${state.i+1} / ${state.list.length} 題`;
+  $("#qBar").style.width=(state.i/state.list.length*100)+"%";
+  $("#scoreCount").innerHTML = state.i>0
+    ? `<span style="color:var(--ok)">✓${state.correct}</span> <span style="color:var(--bad)">✗${state.i-state.correct}</span>` : "";
+  $("#qTopic").textContent=`第${q.ch}章 · ${q.topic}`;
+  const typeTag = type==="multi" ? `<span class="tag" style="color:var(--accent2);border-color:var(--accent2)">多選</span>`
+                : type==="fill"  ? `<span class="tag" style="color:var(--ok);border-color:var(--ok)">填空</span>` : "";
+  $("#qTags").innerHTML=(q.core?`<span class="tag core">⭐核心</span>`:"")+typeTag+`<span class="tag">難度 ${"★".repeat(q.diff)}</span>`;
+  $("#qText").textContent=q.q+(type==="multi"?"（可複選）":"");
+  const opts=$("#opts"); opts.innerHTML="";
+  if(type==="fill"){
+    const inp=document.createElement("input");
+    inp.id="fillInput"; inp.type="text"; inp.className="fillbox"; inp.autocomplete="off";
+    inp.placeholder="輸入你的答案，按 Enter 或『作答』";
+    inp.onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); onSubmit(); } };
+    opts.appendChild(inp); setTimeout(()=>inp.focus(),30);
+    $("#kbdHint").innerHTML=kbdHintFor(q);
+  } else {
+    state.order=shuffle(q.options.map((_,i)=>i));
+    state.order.forEach((orig,pos)=>{
+      const b=document.createElement("button");
+      b.className="opt"; b.dataset.orig=orig;
+      b.innerHTML=`<span class="k">${KEY[pos]}</span>${q.options[orig]}`;
+      b.onclick=()=>selectOpt(orig,b,type);
+      opts.appendChild(b);
+    });
+    $("#kbdHint").innerHTML=kbdHintFor(q);
+  }
+  const fb=$("#fb"); fb.className="fb"; fb.innerHTML="";
+  $("#nextBtn").textContent = state.opt.instant ? "作答" : "送出";
+}
+function selectOpt(orig,b,type){
+  if(state.answered) return;
+  if(type==="multi"){
+    if(state.sel.has(orig)){ state.sel.delete(orig); b.classList.remove("sel"); }
+    else { state.sel.add(orig); b.classList.add("sel"); }
+  } else {
+    state.sel=new Set([orig]);
+    $("#opts").querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel");
+  }
+}
+function gradeCurrent(q){
+  const type=qType(q);
+  if(type==="fill"){
+    const val=normalize($("#fillInput").value); if(!val) return null;
+    return (q.accept||[]).some(a=>{const n=normalize(a);return n&&(val===n||val.includes(n)||(n.includes(val)&&val.length>=2));});
+  }
+  if(type==="multi"){
+    if(state.sel.size===0) return null;
+    const want=new Set(q.ans); if(state.sel.size!==want.size) return false;
+    for(const x of state.sel) if(!want.has(x)) return false; return true;
+  }
+  if(state.sel.size===0) return null;
+  return [...state.sel][0]===q.ans;
+}
+function answerText(q){
+  const type=qType(q);
+  if(type==="fill") return (q.accept||[]).join("　/　");
+  return (type==="multi"?q.ans:[q.ans]).map(i=>q.options[i]).join("　/　");
+}
+function reveal(){
+  if(state.answered) return;
+  $("#selfExplain").style.display="none";
+  const q=state.cur, res=gradeCurrent(q);
+  if(res===null){ flashHintMsg(qType(q)==="fill"?"請先輸入答案":"請先選一個答案"); return; }
+  state.answered=true; if(res) state.correct++;
+  recordAnswer(q,res); state.results.push({id:q.id,ch:q.ch,ok:res});
+  const type=qType(q);
+  if(type==="fill"){ const inp=$("#fillInput"); inp.disabled=true; inp.style.borderColor=res?"var(--ok)":"var(--bad)"; }
+  else{
+    const want=new Set(type==="multi"?q.ans:[q.ans]);
+    $("#opts").querySelectorAll(".opt").forEach(n=>{
+      const orig=+n.dataset.orig; n.classList.remove("sel");
+      if(want.has(orig)) n.classList.add("correct");
+      else if(state.sel.has(orig)) n.classList.add("wrong");
+      n.style.cursor="default";
+    });
+  }
+  // 記錄想法、推入回顧歷史
+  const note=($("#seText").value||"").trim();
+  saveNote(q.id, note);
+  state.history.push({ q:snapQ(q), sel:[...state.sel], fillVal:type==="fill"?($("#fillInput")?$("#fillInput").value:""):"", res, note });
+  const fb=$("#fb");
+  fb.className="fb show "+(res?"ok":"bad");
+  fb.innerHTML=feedbackHTML(q,res,note);
+  wireBookmark("#fb", q.id);
+  $("#nextBtn").textContent=(state.i+1>=state.list.length)?"看結果":"下一題";
+  updatePrevBtn();
+  fb.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function snapQ(q){ return {id:q.id,q:q.q,options:q.options,ans:q.ans,type:qType(q),exp:q.exp,insight:q.insight,src:q.src,learn:q.learn,ch:q.ch,topic:q.topic,accept:q.accept}; }
+function feedbackHTML(q,res,note){
+  return `<b>${res?"✅ 答對":"❌ 答錯"}</b>　正解：${answerText(q)}<br>${q.exp}`+
+    (q.insight?`<div class="insight">🔗 <b>融會貫通</b>：${q.insight}</div>`:"")+
+    (note?`<div class="mynote">📝 你的想法：${esc(note)}</div>`:"")+
+    `<div class="src">📄 來源：${q.src}</div>`+
+    (q.learn?`<div class="learn">📺 延伸學習（影片替代）：<a href="${q.learn.url}" target="_blank" rel="noopener">${q.learn.label}</a></div>`:"")+
+    `<div class="fbactions"><button class="bmbtn ${isBookmarked(q.id)?'on':''}">${isBookmarked(q.id)?'🔖 已收藏':'🔖 收藏此題'}</button></div>`;
+}
+function wireBookmark(containerSel,id){
+  const b=$(containerSel+" .bmbtn"); if(!b) return;
+  b.onclick=()=>{ toggleBookmark(id); const on=isBookmarked(id); b.classList.toggle('on',on); b.textContent=on?'🔖 已收藏':'🔖 收藏此題'; };
+}
+function updatePrevBtn(){ $("#prevBtn").style.display=(state.opt.instant && state.history.length>=2)?"inline-block":"none"; }
+/* 回顧上一題（唯讀覆蓋層） */
+function openReview(){
+  if(state.history.length<2) return;
+  renderSnapshot(state.history.length-2);
+  $("#quiz").classList.add("hidden"); $("#review").classList.remove("hidden");
+}
+function closeReview(){ $("#review").classList.add("hidden"); $("#quiz").classList.remove("hidden"); }
+function renderSnapshot(idx){
+  idx=Math.max(0,Math.min(idx,state.history.length-1)); state.reviewIdx=idx;
+  const s=state.history[idx], q=s.q;
+  $("#rvProgress").textContent=`回顧　${idx+1} / ${state.history.length}`;
+  $("#rvTopic").textContent=`第${q.ch}章 · ${q.topic}`;
+  $("#rvTags").innerHTML=(s.res?'<span class="tag" style="color:var(--ok);border-color:var(--ok)">✓ 答對</span>':'<span class="tag" style="color:var(--bad);border-color:var(--bad)">✗ 答錯</span>')+(isBookmarked(q.id)?'<span class="rvbadge">🔖 已收藏</span>':'');
+  $("#rvText").textContent=q.q;
+  const opts=$("#rvOpts"); opts.innerHTML="";
+  if(q.type==="fill"){
+    const d=document.createElement("div"); d.className="opt "+(s.res?"correct":"wrong");
+    d.innerHTML=`你的作答：${esc(s.fillVal||"（空白）")}<br>正解：${(q.accept||[]).join("　/　")}`;
+    opts.appendChild(d);
+  } else {
+    const want=new Set(q.type==="multi"?q.ans:[q.ans]);
+    q.options.forEach((o,i)=>{ const b=document.createElement("div"); b.className="opt";
+      b.innerHTML=`<span class="k">${KEY[i]}</span>${o}`;
+      if(want.has(i))b.classList.add("correct"); else if(s.sel.includes(i))b.classList.add("wrong");
+      opts.appendChild(b); });
+  }
+  $("#rvFb").className="fb show "+(s.res?"ok":"bad");
+  $("#rvFb").innerHTML=feedbackHTML(q,s.res,s.note);
+  wireBookmark("#rvFb", q.id);
+  $("#rvPrev").disabled=idx<=0; $("#rvNext").disabled=idx>=state.history.length-1;
+}
+function kbdHintFor(q){
+  const type=qType(q);
+  if(type==="fill") return "鍵盤：輸入答案後按 <b>Enter</b>";
+  if(type==="multi") return "鍵盤：<b>A–E</b> 勾選／取消　<b>Enter</b> 送出";
+  return `鍵盤：<b>A–D</b>（或 <b>1–4</b>）選答　<b>Enter</b> ${state.opt.instant?"看解析／下一題":"送出"}`;
+}
+function flashHintMsg(t){
+  $("#kbdHint").innerHTML=`<span style="color:var(--warn)">${t}</span>`;
+  setTimeout(()=>{ if(state && !state.answered) $("#kbdHint").innerHTML=kbdHintFor(state.cur||state.list[state.i]); },1200);
+}
+function onSubmit(){
+  if(state.opt.instant){
+    if(!state.answered){
+      const res=gradeCurrent(state.cur);
+      if(res===null){ flashHintMsg(qType(state.cur)==="fill"?"請先輸入答案":"請先選一個答案"); return; }
+      if(selfExplainOn() && !state.explained){ showSelfExplain(); state.explained=true; return; }
+      reveal();
+    } else advance();
+  }
+  else{
+    const q=state.cur, res=gradeCurrent(q);
+    if(res===null){ flashHintMsg("請先作答"); return; }
+    if(res) state.correct++; recordAnswer(q,res); state.results.push({id:q.id,ch:q.ch,ok:res});
+    advance();
+  }
+}
+$("#nextBtn").onclick=onSubmit;
+function advance(){ state.i++; if(state.i>=state.list.length){ finish(); return; } renderQ(); }
+$("#quitBtn").onclick=()=>{ if(confirm("確定離開？本次進度不列入模擬考最佳成績。")){clearInterval(timerInt);renderHome();} };
+$("#prevBtn").onclick=openReview;
+$("#rvClose").onclick=closeReview;
+$("#rvPrev").onclick=()=>renderSnapshot(state.reviewIdx-1);
+$("#rvNext").onclick=()=>renderSnapshot(state.reviewIdx+1);
+
+/* ========== 跨裝置同步（手動匯出／合併匯入） ========== */
+function exportData(){
+  const o={_app:"ultimate-review",_v:1};
+  ["srs","bookmarks","notes","bestExam","selfExplain"].forEach(k=>{ const v=LS.get(k,null); if(v!=null) o["rev_"+k]=v; });
+  return o;
+}
+function mergeImport(obj){
+  if(!obj || obj._app!=="ultimate-review") throw new Error("格式不符");
+  const srs=LS.get("srs",{}), isrs=obj.rev_srs||{};
+  Object.keys(isrs).forEach(id=>{ srs[id]=Math.max(srs[id]==null?-1:srs[id], isrs[id]); }); LS.set("srs",srs);
+  const bm=new Set(LS.get("bookmarks",[])); (obj.rev_bookmarks||[]).forEach(x=>bm.add(x)); LS.set("bookmarks",[...bm]);
+  const notes=LS.get("notes",{}); Object.assign(notes, obj.rev_notes||{}); LS.set("notes",notes);
+  LS.set("bestExam", Math.max(LS.get("bestExam",0), obj.rev_bestExam||0));
+  if(obj.rev_selfExplain!=null) LS.set("selfExplain", obj.rev_selfExplain);
+}
+function downloadJSON(str){
+  try{ const b=new Blob([str],{type:"application/json"}); const a=document.createElement("a");
+    a.href=URL.createObjectURL(b); a.download="review-progress.json"; document.body.appendChild(a); a.click();
+    a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); }catch(e){}
+}
+$("#exportBtn").onclick=()=>{
+  const str=JSON.stringify(exportData());
+  const box=$("#syncBox"); box.style.display="block"; box.value=str; box.readOnly=true; box.select();
+  let copied=false; try{ if(navigator.clipboard){ navigator.clipboard.writeText(str); copied=true; } }catch(e){}
+  $("#syncActions").style.display="flex";
+  $("#syncActions").innerHTML=`<button class="btn mini" id="dlBtn">下載檔案</button><button class="btn mini ghost" id="copyBtn">全選複製</button>`;
+  $("#dlBtn").onclick=()=>{ downloadJSON(str); $("#syncMsg").textContent="已下載 review-progress.json，把它傳到另一端後用『匯入』貼上內容。"; };
+  $("#copyBtn").onclick=()=>{ box.select(); try{ if(navigator.clipboard) navigator.clipboard.writeText(str); }catch(e){} $("#syncMsg").textContent="已嘗試複製；若沒反應請長按框內文字→全選→複製。"; };
+  $("#syncMsg").textContent=(copied?"✅ 已複製到剪貼簿。":"請長按框內文字全選複製。")+"把這段代碼傳到另一端（貼進 Line/記事本都行），在那邊按『匯入』貼上。";
+};
+$("#importOpenBtn").onclick=()=>{
+  const box=$("#syncBox"); box.style.display="block"; box.value=""; box.readOnly=false; box.focus();
+  $("#syncActions").style.display="flex";
+  $("#syncActions").innerHTML=`<button class="btn mini" id="doImport">合併匯入</button>`;
+  $("#syncMsg").textContent="把另一端匯出的代碼整段貼上，按『合併匯入』。合併＝取兩邊較佳的進度，不會蓋掉你已掌握的。";
+  $("#doImport").onclick=()=>{
+    try{ mergeImport(JSON.parse(box.value.trim())); box.value=""; box.style.display="none"; $("#syncActions").style.display="none"; $("#syncMsg").textContent="✅ 匯入完成、已合併兩邊進度。"; renderHome(); }
+    catch(e){ $("#syncMsg").textContent="❌ 代碼無法解析，請確認整段（含開頭 { 到結尾 }）完整貼上。"; }
+  };
+};
+
+/* ========== 速記卡（主動回想）========== */
+function startFlash(list){
+  const elig=list.filter(flashEligible);
+  if(!elig.length){ alert("這個範圍的題目多為『挑錯／辨識選項』題，不適合做無選項的速記卡。\n請改用『章節練習』，或選其他章。"); return; }
+  // 依熟練度：不熟(box小)的先出，強化弱點
+  const s=loadSRS();
+  const sorted=elig.slice().sort((a,b)=>((s[a.id]==null?-1:s[a.id])-(s[b.id]==null?-1:s[b.id])));
+  flash={ list:sorted, i:0, flipped:false };
+  show("flash"); renderFlash();
+}
+function renderFlash(){
+  const q=flash.list[flash.i]; flash.flipped=false;
+  $("#flashProgress").textContent=`速記卡　${flash.i+1} / ${flash.list.length}`;
+  $("#flashTopic").textContent=`第${q.ch}章 · ${q.topic}`;
+  $("#flashBar").style.width=(flash.i/flash.list.length*100)+"%";
+  $("#flashCard").innerHTML=`<div class="lbl">題目 — 先自己回想答案</div><div class="ft">${flashFront(q)}</div>`;
+  $("#flashActions").innerHTML=`<button class="btn ghost" id="flipBtn">翻面看答案（空白鍵）</button>`;
+  $("#flipBtn").onclick=flipFlash;
+  $("#flashHint").textContent="先自己回想答案，再翻面對照";
+}
+function flipFlash(){
+  const q=flash.list[flash.i]; flash.flipped=true;
+  const ans = qType(q)==="fill" ? (q.accept||[]).join("　/　") : (qType(q)==="multi"?q.ans:[q.ans]).map(i=>q.options[i]).join("　/　");
+  $("#flashCard").innerHTML=`<div class="lbl">${flashFront(q)}</div>`+
+    `<div class="bk"><span class="ans">✅ ${ans}</span><br>${q.exp}`+
+    (q.insight?`<div class="ins">🔗 ${q.insight}</div>`:"")+`</div>`;
+  $("#flashActions").innerHTML=
+    `<button class="btn ghost" id="fForgot">還不熟（1）</button>`+
+    `<button class="btn" id="fKnow">記得了（2）</button>`;
+  $("#fForgot").onclick=()=>flashRate(false);
+  $("#fKnow").onclick=()=>flashRate(true);
+  $("#flashHint").textContent="誠實評分 → 會排進間隔複習";
+}
+function flashFlipOrNext(){ if(!flash.flipped) flipFlash(); /* 翻面後空白鍵不亂跳，需按評分 */ }
+function flashRate(know){
+  const q=flash.list[flash.i];
+  recordAnswer(q, know);   // 記得→升級、不熟→歸零，餵給 SRS
+  flash.i++;
+  if(flash.i>=flash.list.length){ alert("這疊速記卡complete！不熟的已排進『間隔複習』。"); renderHome(); return; }
+  renderFlash();
+}
+$("#flashQuit").onclick=()=>renderHome();
+
+/* ========== 結果 ========== */
+let lastSession=null;
+function finish(){
+  clearInterval(timerInt); show("result");
+  lastSession=state.results.map(r=>QBYID[r.id]).filter(Boolean);
+  const total=state.results.length, pct=total?Math.round(state.correct/total*100):0;
+  $("#scoreBig").textContent=`${state.correct} / ${total}`;
+  $("#scoreBar").style.width=pct+"%";
+  const msg=pct>=90?"🏆 穩了！這區塊你已掌握。":pct>=70?"👍 不錯，把錯題再刷一輪就很穩。":
+            pct>=50?"⚠️ 及格邊緣，建議『核心速覽』+『間隔複習』加強。":"🔥 差距較大，先攻核心題、反覆間隔複習。";
+  $("#scoreMsg").textContent=`正確率 ${pct}%　${msg}`;
+  $("#scorePills").innerHTML=`<span class="pill">${state.opt.label}</span>`+(state.opt.timed?`<span class="pill">計時</span>`:"");
+  if(state.opt.timed && state.opt.label==="模擬考"){ const best=LS.get("bestExam",0); if(pct>best) LS.set("bestExam",pct); }
+  const by={}; state.results.forEach(r=>{(by[r.ch]=by[r.ch]||{n:0,ok:0});by[r.ch].n++;if(r.ok)by[r.ch].ok++;});
+  $("#breakdown").innerHTML=Object.keys(by).sort().map(ch=>{
+    const b=by[ch], p=Math.round(b.ok/b.n*100);
+    const c=p>=70?"var(--ok)":p>=50?"var(--warn)":"var(--bad)";
+    return `<div><span>第${ch}章 ${CHNAME[ch]||""}</span><span style="color:${c}">${b.ok}/${b.n}（${p}%）</span></div>`;
+  }).join("");
+}
+$("#homeBtn").onclick=renderHome;
+$("#reviewAllBtn").onclick=()=>{
+  if(!lastSession||!lastSession.length){alert("沒有可檢討的題目");return;}
+  startQuiz(lastSession, {timed:false, instant:true, label:"檢討全部"});
+};
+$("#reviewWrongBtn").onclick=()=>{
+  const ids=state.results.filter(r=>!r.ok).map(r=>r.id);
+  const list=QS.filter(q=>ids.includes(q.id));
+  if(!list.length){alert("本次全對，沒有錯題！");return;}
+  startQuiz(list,{timed:false,instant:true,label:"錯題複習"});
+};
+
+/* ========== 鍵盤操作 ========== */
+document.addEventListener("keydown", e=>{
+  const inField = document.activeElement && (document.activeElement.tagName==="INPUT" || document.activeElement.tagName==="TEXTAREA");
+  // 作答中
+  if(!$("#quiz").classList.contains("hidden") && state){
+    if(inField){ return; } // 填空由 input 自行處理 Enter
+    const map={a:0,b:1,c:2,d:3,e:4,"1":0,"2":1,"3":2,"4":3,"5":4};
+    const k=e.key.toLowerCase();
+    if(!state.answered && (k in map)){
+      const btn=$("#opts").querySelectorAll(".opt")[map[k]];
+      if(btn){ btn.click(); e.preventDefault(); }
+    } else if(e.key==="Enter"){ onSubmit(); e.preventDefault(); }
+    return;
+  }
+  // 速記卡
+  if(!$("#flash").classList.contains("hidden") && flash){
+    if(e.key===" "){ e.preventDefault(); if(!flash.flipped) flipFlash(); }
+    else if(e.key==="1"){ if(flash.flipped) flashRate(false); }
+    else if(e.key==="2"){ if(flash.flipped) flashRate(true); }
+    else if(e.key==="Enter"){ e.preventDefault(); if(!flash.flipped) flipFlash(); }
+  }
+});
+
+/* ========== 工具 ========== */
+function show(id){["home","quiz","flash","review","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
+  if(id!=="quiz")clearInterval(timerInt);}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+renderHome();
+</script>
+</body>
+</html>
