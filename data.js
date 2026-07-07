@@ -59,8 +59,8 @@ window.QUIZ_DATA = {
     {
       id: "1-01", ch: 1, topic: "OSI 模型", src: "1.2 OSI模型與TCP/IP協議 p.4", core: true, diff: 1,
       q: "OSI 七層模型是由哪個組織、於何時提出？",
-      options: ["IEEE，1990 年", "ISO（國際標準化組織），1984 年", "IETF，1981 年", "ANSI，1977 年"],
-      ans: 1,
+      options: ["ISO（國際標準化組織），1984 年", "IEEE（電機電子工程師學會），1990 年", "IETF（網際網路工程任務組），1981 年", "ANSI（美國國家標準協會），1977 年"],
+      ans: 0,
       exp: "講義明確指出 OSI 由國際標準化組織 (ISO) 於 1984 年提出，目的是解決不同廠商設備無法互通的問題。",
       learn: { label: "Cloudflare：什麼是 OSI 模型", url: "https://www.cloudflare.com/zh-tw/learning/ddos/glossary/open-systems-interconnection-model-osi/" }
     },
@@ -238,8 +238,8 @@ window.QUIZ_DATA = {
     {
       id: "2-08", ch: 2, topic: "Shell 安全", src: "2.2 Linux基礎操作 p.28,38", core: false, diff: 3,
       q: "攻擊者修改 PATH 環境變數，使系統優先執行惡意程式，這種手法稱為？",
-      options: ["SQL 注入", "PATH 劫持 (PATH hijacking)", "XSS", "DDoS"],
-      ans: 1,
+      options: ["PATH 劫持 (PATH hijacking)", "DLL 劫持 (DLL hijacking)", "環境變數注入 (env injection)", "命令替換 (command substitution)"],
+      ans: 0,
       exp: "PATH 決定執行檔搜尋順序；若被竄改指向惡意目錄，系統可能優先執行惡意程式，稱為 PATH 劫持。",
       learn: { label: "Linux Journey：Environment", url: "https://linuxjourney.com/lesson/environment-variables" }
     },
@@ -256,8 +256,8 @@ window.QUIZ_DATA = {
     {
       id: "3-02", ch: 3, topic: "HTTP 狀態碼", src: "3.1 網頁技術基礎 v3", core: true, diff: 1,
       q: "HTTP 狀態碼 404 代表什麼？",
-      options: ["伺服器內部錯誤", "找不到資源 (Not Found)", "請求成功", "需要授權"],
-      ans: 1,
+      options: ["找不到請求的資源 (Not Found)", "伺服器發生內部錯誤 (Internal Error)", "請求已成功處理 (OK)", "需要先通過身份驗證 (Unauthorized)"],
+      ans: 0,
       exp: "404 = 找不到資源；200 成功、500 伺服器內部錯誤、401 需授權、403 禁止存取。",
       learn: { label: "MDN：HTTP 狀態碼", url: "https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status" }
     },
@@ -277,16 +277,16 @@ window.QUIZ_DATA = {
     {
       id: "3-04", ch: 3, topic: "會話管理", src: "3.2 基礎網站安全 v2", core: true, diff: 2,
       q: "HTTP 是無狀態協定，網站通常用什麼機制在多次請求間辨識同一使用者？",
-      options: ["IP 位址", "Cookie / Session", "MAC 位址", "URL 長度"],
-      ans: 1,
+      options: ["Cookie / Session 機制", "用戶端連線的 IP 位址", "網路卡的 MAC 位址", "請求 URL 的長度"],
+      ans: 0,
       exp: "伺服器發給瀏覽器 Cookie（常含 Session ID）以在無狀態的 HTTP 上維持登入狀態。若 Session 被竊取即會話劫持。",
       learn: { label: "MDN：使用 HTTP Cookie", url: "https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies" }
     },
     {
       id: "3-05", ch: 3, topic: "XSS", src: "3.2 基礎網站安全 v2", core: true, diff: 2,
       q: "攻擊者將惡意 JavaScript 注入網頁，讓其他使用者的瀏覽器執行，屬於哪種攻擊？",
-      options: ["SQL 注入", "跨站腳本 (XSS)", "暴力破解", "阻斷服務"],
-      ans: 1,
+      options: ["跨站腳本 (XSS)", "SQL 注入 (SQL Injection)", "跨站請求偽造 (CSRF)", "阻斷服務 (DoS)"],
+      ans: 0,
       exp: "XSS（Cross-Site Scripting）是把惡意腳本注入頁面，於受害者瀏覽器執行，可竊取 Cookie/Session。防禦：輸出編碼、輸入驗證、CSP。",
       learn: { label: "PortSwigger：跨站腳本 XSS", url: "https://portswigger.net/web-security/cross-site-scripting" }
     },
@@ -295,13 +295,8 @@ window.QUIZ_DATA = {
     {
       id: "4-01", ch: 4, topic: "OWASP 組織", src: "4.1 OWASP Top 10 p.5", core: true, diff: 1,
       q: "OWASP 是什麼樣的組織？",
-      options: [
-        "營利性防毒軟體公司",
-        "非營利國際組織，致力改善軟體安全並提供免費資源",
-        "政府資安主管機關",
-        "硬體防火牆製造商"
-      ],
-      ans: 1,
+      options: ["非營利國際組織，提供免費資安資源與標準", "營利性的防毒軟體開發公司", "政府設立的資安主管機關", "商業硬體防火牆的製造商"],
+      ans: 0,
       exp: "OWASP = Open Web Application Security Project，非營利國際組織，提供免費工具、標準與資源；Top 10 每 3–4 年更新一次。",
       learn: { label: "OWASP 官方網站", url: "https://owasp.org/" }
     },
@@ -329,13 +324,8 @@ window.QUIZ_DATA = {
     {
       id: "4-04", ch: 4, topic: "OWASP Top 10", src: "4.1 OWASP Top 10 p.10", core: false, diff: 3,
       q: "講義 2025 版新增/強調的 A03「軟體供應鏈缺失」，下列何者是其防護措施？",
-      options: [
-        "使用弱加密演算法",
-        "建立 SBOM、用 SCA 工具掃描第三方套件、驗證套件簽章與雜湊",
-        "開啟所有預設服務",
-        "回傳完整堆疊追蹤給使用者"
-      ],
-      ans: 1,
+      options: ["建立 SBOM、用 SCA 掃描第三方套件、驗證套件簽章", "使用更快的弱加密演算法以提升效能", "開啟所有預設服務以方便相容", "回傳完整堆疊追蹤協助使用者除錯"],
+      ans: 0,
       exp: "軟體供應鏈缺失的防護：相依套件清單/SBOM、SCA 掃描、可信來源、驗證簽章與雜湊、保護 CI/CD 管線與憑證。",
       learn: { label: "OWASP：Software Supply Chain", url: "https://owasp.org/www-project-top-ten/" }
     },
@@ -350,12 +340,7 @@ window.QUIZ_DATA = {
     {
       id: "4-06", ch: 4, topic: "真實案例", src: "4.1 OWASP Top 10 p.20", core: false, diff: 2,
       q: "2017 年 Equifax 大規模資料外洩的主因是？",
-      options: [
-        "Apache Struts 的已知漏洞未及時修補",
-        "員工密碼設為 123456",
-        "機房淹水",
-        "使用者自行刪除資料"
-      ],
+      options: ["Apache Struts 的已知漏洞未及時修補", "員工把管理員密碼設為 123456", "資料庫連線帳號使用了 root 權限", "第三方廠商的 API 金鑰意外外洩"],
       ans: 0,
       exp: "Equifax(2017) 因 Apache Struts 已知漏洞未即時修補；教訓是及時修補與監控。SolarWinds(2020) 為供應鏈攻擊、Capital One(2019) 為 WAF 錯誤配置與 SSRF。",
       learn: { label: "OWASP Top 10 專案", url: "https://owasp.org/www-project-top-ten/" }
@@ -363,13 +348,8 @@ window.QUIZ_DATA = {
     {
       id: "4-07", ch: 4, topic: "存取控制", src: "4.1 OWASP Top 10 p.8", core: true, diff: 2,
       q: "使用者直接修改 URL 或 API 參數就能存取他人資料，屬於哪類 OWASP 風險？其正確防護為何？",
-      options: [
-        "加密失效；改用明文",
-        "存取控制失效；實施最小權限、強制授權機制與良好存取控制模型",
-        "日誌失效；關閉告警",
-        "供應鏈失效；移除 SBOM"
-      ],
-      ans: 1,
+      options: ["存取控制失效；防禦為最小權限與強制授權檢查", "加密機制失效；防禦為改用明文傳輸", "安全日誌失效；防禦為關閉所有告警", "供應鏈失效；防禦為移除 SBOM 清單"],
+      ans: 0,
       exp: "此為存取控制失效 (Broken Access Control)，常見案例含直接存取 URL 繞過驗證、API 未做權限檢查、權限提升。防護為最小權限、強制授權、良好存取控制模型。",
       learn: { label: "PortSwigger：Access Control", url: "https://portswigger.net/web-security/access-control" }
     },
@@ -394,13 +374,8 @@ window.QUIZ_DATA = {
     {
       id: "5-03", ch: 5, topic: "資料庫概念", src: "5.1 資料庫基本概念", core: true, diff: 2,
       q: "關於「主鍵 (Primary Key)」，下列敘述何者正確？",
-      options: [
-        "允許重複值與 NULL",
-        "唯一識別資料表中每一列，不可重複、不可為 NULL",
-        "只能是文字型別",
-        "一個資料表可以有很多個主鍵"
-      ],
-      ans: 1,
+      options: ["唯一識別每一列，不可重複、不可為 NULL", "可以有重複值，但不允許 NULL", "只能設定在文字型別的欄位上", "一個資料表可以同時有多個主鍵"],
+      ans: 0,
       exp: "主鍵唯一識別每一列，值不可重複也不可為 NULL；一個資料表只有一個主鍵（可由多欄組成複合主鍵）。",
       learn: { label: "W3Schools：SQL PRIMARY KEY", url: "https://www.w3schools.com/sql/sql_primarykey.asp" }
     },
@@ -430,12 +405,7 @@ window.QUIZ_DATA = {
     {
       id: "6-01", ch: 6, topic: "SQL 注入", src: "6.1 資料庫安全入門 / 4.1 p.19", core: true, diff: 2,
       q: "登入框輸入 ' OR '1'='1 就能繞過密碼驗證，這是利用什麼原理？",
-      options: [
-        "把使用者輸入當成 SQL 語法的一部分，使 WHERE 條件恆為真",
-        "暴力破解密碼",
-        "竊取瀏覽器 Cookie",
-        "耗盡伺服器頻寬"
-      ],
+      options: ["把使用者輸入當成 SQL 語法，使 WHERE 條件恆為真", "用大量嘗試暴力破解出正確的密碼", "竊取瀏覽器 Cookie 冒用其登入狀態", "用大量請求耗盡伺服器的頻寬資源"],
       ans: 0,
       exp: "未過濾的輸入被拼進 SQL，'1'='1' 讓 WHERE 條件恆為真，繞過驗證。這對應 OWASP 的注入攻擊。防禦：參數化查詢。",
       learn: { label: "PortSwigger：SQL Injection", url: "https://portswigger.net/web-security/sql-injection" }
@@ -443,21 +413,16 @@ window.QUIZ_DATA = {
     {
       id: "6-02", ch: 6, topic: "SQLi 手法", src: "6.2 SQLi Labs p.4", core: true, diff: 3,
       q: "在 sqli-labs Less-1，攻擊者輸入 ?id=1' order by 3--+ 的主要目的是？",
-      options: [
-        "刪除資料表",
-        "判斷查詢回傳的欄位數量",
-        "關閉資料庫",
-        "加密欄位"
-      ],
-      ans: 1,
+      options: ["判斷查詢回傳的欄位數量", "刪除目標的整張資料表", "取得資料庫的版本資訊", "繞過登入頁的密碼驗證"],
+      ans: 0,
       exp: "用 order by 逐一增加數字直到報錯，可推測 SELECT 回傳的欄位數（講義示範 order by 1→4 發現錯誤，推測共三個欄位），為後續 union 注入鋪路。--+ 是註解符號 -- 加空格。",
       learn: { label: "PortSwigger：UNION attacks", url: "https://portswigger.net/web-security/sql-injection/union-attacks" }
     },
     {
       id: "6-03", ch: 6, topic: "SQLi 手法", src: "6.2 SQLi Labs p.4", core: false, diff: 3,
       q: "sqli-labs 中，輸入 ?id=1' 後頁面回傳 SQL 語法錯誤訊息，這種可從錯誤訊息取得資訊的注入稱為？",
-      options: ["時間盲注", "錯誤型注入 (Error-based)", "跨站腳本", "檔案包含"],
-      ans: 1,
+      options: ["錯誤型注入 (Error-based)", "時間盲注 (Time-based Blind)", "布林盲注 (Boolean-based Blind)", "聯集查詢注入 (UNION-based)"],
+      ans: 0,
       exp: "頁面直接回傳資料庫錯誤訊息，攻擊者據此推斷查詢結構，稱錯誤型 (error-based) 注入。若無錯誤但有真假差異則為布林盲注，無回應差異則靠時間盲注。",
       learn: { label: "PortSwigger：Blind SQLi", url: "https://portswigger.net/web-security/sql-injection/blind" }
     },
@@ -472,13 +437,8 @@ window.QUIZ_DATA = {
     {
       id: "6-05", ch: 6, topic: "最小權限", src: "6.1 資料庫安全入門", core: false, diff: 2,
       q: "為降低資料庫被入侵後的損害，網站連線資料庫用的帳號應該？",
-      options: [
-        "使用 root/最高權限帳號以免出錯",
-        "僅授予應用所需的最小權限 (least privilege)",
-        "所有網站共用同一組管理員帳號",
-        "停用密碼方便連線"
-      ],
-      ans: 1,
+      options: ["只授予應用所需的最小權限 (least privilege)", "用 root/最高權限帳號以免權限不足出錯", "所有網站共用同一組管理員帳號方便管理", "把帳密寫死在程式碼裡以免忘記"],
+      ans: 0,
       exp: "最小權限原則：應用帳號只給必要權限，即使被 SQLi 攻破也難以刪庫或存取其他資料。這與 Linux 權限、OWASP 存取控制的原則一致。",
       learn: { label: "OWASP：資料庫安全速查表", url: "https://cheatsheetseries.owasp.org/cheatsheets/Database_Security_Cheat_Sheet.html" }
     },
@@ -488,12 +448,7 @@ window.QUIZ_DATA = {
     {
       id: "3-06", ch: 3, topic: "HTML 元素", src: "repo 01_HTML/03_blockinline", core: false, diff: 1,
       q: "關於區塊元素 (block) 與行內元素 (inline)，下列敘述何者正確？",
-      options: [
-        "block 元素（如 div、p）會獨佔一行；inline 元素（如 span、a）不換行、與文字並排",
-        "inline 元素一定會換行",
-        "block 元素不能設定寬高",
-        "兩者顯示行為完全相同"
-      ],
+      options: ["block（div、p）獨佔一行；inline（span、a）不換行、與文字並排", "inline 元素會獨佔一行，block 元素則與文字並排", "block 元素無法設定寬高，只能靠內容撐開", "兩者顯示行為相同，差別只在標籤名稱"],
       ans: 0,
       exp: "block（div/p/h1）預設獨佔整行、可設寬高；inline（span/a/img）依內容寬度、與相鄰內容並排，寬高設定多半無效。",
       learn: { label: "MDN：區塊與行內排版", url: "https://developer.mozilla.org/zh-TW/docs/Web/HTML/Block-level_elements" }
@@ -509,12 +464,7 @@ window.QUIZ_DATA = {
     {
       id: "3-08", ch: 3, topic: "CSS 版面", src: "repo 02_CSS/07_flex, 08_grid", core: true, diff: 2,
       q: "關於 CSS Flexbox 與 Grid 版面，下列敘述何者最正確？",
-      options: [
-        "Flexbox 適合一維（單軸）排列；Grid 適合二維（列與欄同時）排版",
-        "兩者都只能做垂直排列",
-        "Grid 只能用於文字，不能排版",
-        "Flexbox 是用來寫資料庫查詢的"
-      ],
+      options: ["Flexbox 適合一維排列；Grid 適合二維（列與欄）排版", "Flexbox 適合二維排版；Grid 只能做一維排列", "兩者都只能做垂直方向的排列", "Grid 只能排文字，不能用於版面配置"],
       ans: 0,
       exp: "Flexbox 主打一維（一列或一欄）彈性排列；Grid 是二維系統，可同時控制列與欄，適合整體版面。float 是較早期的排版手法。",
       learn: { label: "CSS-Tricks：Flexbox 完整指南", url: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/" }
@@ -530,12 +480,7 @@ window.QUIZ_DATA = {
     {
       id: "3-10", ch: 3, topic: "JavaScript 變數", src: "repo 03_JS/02_var", core: false, diff: 2,
       q: "JavaScript 中 let 與 var 的主要差別是？",
-      options: [
-        "let 為區塊作用域 (block scope)；var 為函式作用域且會提升 (hoisting)",
-        "兩者完全相同",
-        "var 不能存數字",
-        "let 宣告的變數不能改值"
-      ],
+      options: ["let 是區塊作用域；var 是函式作用域且有變數提升", "var 是區塊作用域；let 是函式作用域（剛好相反）", "兩者相同，只是 let 是較新的寫法", "let 宣告後就不能再改值，var 才可以"],
       ans: 0,
       exp: "let/const 是區塊作用域、較安全；var 是函式作用域且有提升行為，易產生非預期 bug。（不能改值的是 const，不是 let。）",
       learn: { label: "MDN：let", url: "https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/let" }
@@ -553,20 +498,15 @@ window.QUIZ_DATA = {
     {
       id: "4-08", ch: 4, topic: "XSS 分類", src: "repo 04_WebsiteSecurity/01_xss.html", core: true, diff: 2,
       q: "三種 XSS 中，惡意腳本被『永久寫入伺服器資料庫』、每個瀏覽該頁的使用者都會中招、危害範圍最廣的是？",
-      options: ["反射型 Reflected XSS", "儲存型 Stored XSS", "DOM 型 DOM-based XSS", "以上皆非"],
-      ans: 1,
+      options: ["儲存型 Stored XSS", "反射型 Reflected XSS", "DOM 型 DOM-based XSS", "突變型 Mutation XSS"],
+      ans: 0,
       exp: "儲存型 (Stored) 把 payload 存進伺服器（如留言板），凡讀取該資料的使用者都會執行，危害最廣。反射型靠 URL 夾帶+釣魚連結，DOM 型完全在前端 JS 處理。",
       learn: { label: "PortSwigger：Stored XSS", url: "https://portswigger.net/web-security/cross-site-scripting/stored" }
     },
     {
       id: "4-09", ch: 4, topic: "XSS 分類", src: "repo 04_WebsiteSecurity/01_xss.html", core: true, diff: 3,
       q: "DOM-based XSS 的特徵是什麼？",
-      options: [
-        "完全發生在瀏覽器端 JS：從不安全的 Source（如 location.hash）讀入，未轉義寫入不安全的 Sink（如 innerHTML）",
-        "一定要伺服器把資料存進資料庫",
-        "只會發生在後端 PHP",
-        "與 JavaScript 無關"
-      ],
+      options: ["完全在瀏覽器端 JS：從 Source(如 location.hash) 讀入、未轉義寫入 Sink", "一定要伺服器把惡意內容存進資料庫才會觸發", "只發生在後端 PHP，與前端 JavaScript 無關", "由伺服器把 URL 參數反射回 HTML 造成"],
       ans: 0,
       exp: "DOM 型不經伺服器反射，而是前端 JS 把來源 (Source，如 location.hash / document.URL) 的資料，未經轉義寫入危險 Sink（innerHTML、document.write）而觸發。",
       learn: { label: "PortSwigger：DOM-based XSS", url: "https://portswigger.net/web-security/cross-site-scripting/dom-based" }
@@ -587,12 +527,7 @@ window.QUIZ_DATA = {
     {
       id: "4-11", ch: 4, topic: "HttpOnly", src: "repo 04_WebsiteSecurity/01_xss.html", core: false, diff: 2,
       q: "為敏感 Cookie 加上 HttpOnly 屬性的主要資安目的是？",
-      options: [
-        "阻止 JavaScript 透過 document.cookie 讀取該 Cookie，降低 XSS 竊取 Session 的風險",
-        "讓 Cookie 永不過期",
-        "加密整個網站流量",
-        "加速網頁載入"
-      ],
+      options: ["阻止 JavaScript 用 document.cookie 讀取，降低 XSS 竊 Session", "讓 Cookie 永不過期以維持登入狀態", "把整個網站的流量加密以防止竊聽", "壓縮 Cookie 內容以加快網頁載入"],
       ans: 0,
       exp: "HttpOnly 讓 Cookie 無法被前端 JS（document.cookie）存取，即使發生 XSS 也較難竊取 Session Cookie。加密傳輸是 HTTPS/Secure 屬性的職責。",
       learn: { label: "MDN：Set-Cookie HttpOnly", url: "https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies#restrict_access_to_cookies" }
@@ -600,13 +535,8 @@ window.QUIZ_DATA = {
     {
       id: "4-12", ch: 4, topic: "CSRF", src: "repo 04_WebsiteSecurity/src/06_transfer.php, 04_csrf.html", core: true, diff: 2,
       q: "攻擊者誘導『已登入』的使用者在不知情下，向其信任的網站送出非本意的請求（如轉帳），屬於哪種攻擊？其常見防禦為何？",
-      options: [
-        "XSS；防禦為關閉 JavaScript",
-        "CSRF（跨站請求偽造）；防禦為 CSRF Token、SameSite Cookie、驗證 Referer",
-        "SQL 注入；防禦為參數化查詢",
-        "暴力破解；防禦為加長密碼"
-      ],
-      ans: 1,
+      options: ["CSRF；防禦為 CSRF Token、SameSite Cookie 與驗證 Referer", "XSS；防禦為在瀏覽器關閉 JavaScript", "SQL 注入；防禦為對輸入做參數化查詢", "點擊劫持；防禦為設定 X-Frame-Options"],
+      ans: 0,
       exp: "CSRF 利用使用者已通過驗證的身分（瀏覽器自動帶 Cookie）偽造請求。防禦：不可預測的 CSRF Token、SameSite Cookie、關鍵操作二次驗證。它與 XSS 不同：XSS 是注入腳本，CSRF 是偽造請求。",
       learn: { label: "PortSwigger：CSRF", url: "https://portswigger.net/web-security/csrf" }
     },
@@ -615,12 +545,7 @@ window.QUIZ_DATA = {
     {
       id: "5-06", ch: 5, topic: "外鍵", src: "repo 05_SQL/fk.sql", core: true, diff: 2,
       q: "外鍵 (FOREIGN KEY) 設定 ON DELETE RESTRICT，代表什麼行為？",
-      options: [
-        "若子表仍有參照該筆的資料，就『禁止』刪除父表該筆資料",
-        "刪父表資料時，連帶自動刪掉子表相關資料",
-        "把子表的外鍵設為 NULL",
-        "外鍵沒有任何約束作用"
-      ],
+      options: ["若子表仍有參照，就禁止刪除父表該筆資料", "刪父表時連帶自動刪掉子表相關資料", "刪父表時把子表的外鍵自動設為 NULL", "外鍵在刪除時不做任何約束檢查"],
       ans: 0,
       exp: "RESTRICT：只要有子資料參照就不准刪父資料（保護參照完整性）。CASCADE 則會連帶刪除子資料；SET NULL 把外鍵設為 NULL。",
       learn: { label: "SQLBolt：關聯與外鍵概念", url: "https://sqlbolt.com/lesson/select_queries_with_joins" }
@@ -628,12 +553,7 @@ window.QUIZ_DATA = {
     {
       id: "5-07", ch: 5, topic: "外鍵", src: "repo 05_SQL/fk.sql（註解）", core: false, diff: 2,
       q: "依 repo 註解，SQLite 對外鍵約束的預設行為是？",
-      options: [
-        "預設『不啟用』外鍵約束檢查，需 PRAGMA foreign_keys = ON 才生效",
-        "預設一律強制啟用，無法關閉",
-        "SQLite 不支援外鍵",
-        "外鍵只能在 MySQL 使用"
-      ],
+      options: ["預設不啟用外鍵檢查，需 PRAGMA foreign_keys=ON", "預設一律強制啟用，且無法關閉", "完全不支援外鍵，只能靠程式自行檢查", "外鍵語法只能在 MySQL 使用，SQLite 不行"],
       ans: 0,
       exp: "SQLite 為相容性預設不啟用外鍵約束，需執行 PRAGMA foreign_keys = ON。這是實作細節但常被忽略，導致以為有約束其實沒有。",
       learn: { label: "SQLite 官方：Foreign Keys", url: "https://www.sqlite.org/foreignkeys.html" }
@@ -643,12 +563,7 @@ window.QUIZ_DATA = {
     {
       id: "6-06", ch: 6, topic: "SQLi 根因", src: "repo 06_SQLi/.../unsafe.php", core: true, diff: 2,
       q: "unsafe.php 用 \"...WHERE id = $id\" 直接把使用者輸入串進 SQL。造成 SQL Injection 的『根本原因』是？",
-      options: [
-        "把不可信的使用者輸入，以字串串接方式當成 SQL 語法的一部分",
-        "資料表欄位太多",
-        "使用了 SELECT 而非 INSERT",
-        "網頁用了 HTTPS"
-      ],
+      options: ["把不可信輸入以字串串接方式當成 SQL 語法", "查詢的資料表欄位數量設計得太多", "使用了 SELECT 而不是 INSERT 語法", "網頁沒有啟用 HTTPS 加密連線"],
       ans: 0,
       exp: "根因是『字串串接把輸入當程式碼』。因此 ?id=1 OR 1=1 會讓條件恆真、傾印整表。與欄位數、SELECT/INSERT、是否 HTTPS 無關。",
       learn: { label: "PortSwigger：SQL Injection", url: "https://portswigger.net/web-security/sql-injection" }
@@ -656,12 +571,7 @@ window.QUIZ_DATA = {
     {
       id: "6-07", ch: 6, topic: "Prepared Statement", src: "repo 06_SQLi/.../safe-pdo.php + README", core: true, diff: 3,
       q: "safe-pdo.php 用 PDO Prepared Statement（WHERE id = ? 綁定參數）擋下注入。依 repo 說明，關於它的定位下列何者最正確？",
-      options: [
-        "它是『語法層』防護：讓輸入只當資料不當語法；但仍直連 users 表，不等於權限層防護",
-        "它同時解決語法與權限問題，之後不必再管資料庫帳號權限",
-        "它是權限層防護，與 SQL 語法無關",
-        "用了它就可以放心用 root 帳號連線"
-      ],
+      options: ["屬語法層防護：讓輸入只當資料；但仍直連 users 表、非權限層", "同時解決語法與權限，之後不必管帳號權限", "屬權限層防護，與 SQL 語法本身無關", "用了它就可以放心改用 root 帳號連線"],
       ans: 0,
       exp: "repo 明講：Prepared Statement 是『語法層』防護（輸入只當資料），是防 SQLi 的主要手段；但 safe-pdo 仍以 webtable 直連 table，權限層要另外靠最小權限處理。兩者是不同層次、要並用。",
       learn: { label: "OWASP：Query Parameterization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html" }
@@ -669,12 +579,7 @@ window.QUIZ_DATA = {
     {
       id: "6-08", ch: 6, topic: "最小權限", src: "repo 06_SQLi/.../04_grants.sql, README", core: true, diff: 3,
       q: "Lab 建立 webtable（只能 CRUD users、不能 CALL SP）與 websp（不能 CRUD、只能 CALL 指定 SP）兩個帳號。這種權限切分的主要目的是？",
-      options: [
-        "落實最小權限，縮小被攻破後的『爆炸半徑』，但不能取代 Prepared Statement",
-        "讓查詢速度變快",
-        "完全防止 SQL Injection，之後不需再做輸入處理",
-        "方便所有人共用 root 帳號"
-      ],
+      options: ["落實最小權限、縮小爆炸半徑，但不能取代 Prepared Statement", "能讓資料庫的查詢執行速度變得更快", "已完全防止注入，之後不需再做輸入處理", "方便讓所有應用共用同一組 root 帳號"],
       ans: 0,
       exp: "最小權限讓每個帳號只有必要權限，即使被注入，損害範圍（爆炸半徑）也受限。但 repo 強調：最小權限『只能降低爆炸半徑，不能取代 Prepared Statement』。",
       learn: { label: "OWASP：資料庫安全速查表", url: "https://cheatsheetseries.owasp.org/cheatsheets/Database_Security_Cheat_Sheet.html" }
@@ -690,12 +595,7 @@ window.QUIZ_DATA = {
     {
       id: "6-10", ch: 6, topic: "SP DEFINER", src: "repo 06_SQLi/.../03_procedures.sql, README", core: false, diff: 3,
       q: "Lab 的 Stored Procedure 使用 SQL SECURITY DEFINER 且 DEFINER='sp_owner'。這代表 SP 執行時以誰的權限運作？",
-      options: [
-        "以定義者 sp_owner 的權限執行，讓只能 CALL 的 websp 不必直接擁有 users 表權限",
-        "以呼叫者 websp 的權限執行",
-        "以 root 權限執行",
-        "不需要任何權限"
-      ],
+      options: ["以定義者 sp_owner 權限執行，讓 websp 不必直接握有 users 表權限", "以呼叫者 websp 自己的權限來執行", "一律以資料庫 root 的最高權限執行", "不需要任何權限即可執行該程序"],
       ans: 0,
       exp: "SQL SECURITY DEFINER 讓 SP 以『定義者』(sp_owner) 權限執行；因此 websp 帳號自己沒有 users 表權限，也能透過受控的 SP 完成操作——這正是用 SP 做權限封裝的設計。相對地 INVOKER 是以呼叫者權限執行。",
       learn: { label: "MySQL 官方：Stored Program Privileges", url: "https://dev.mysql.com/doc/refman/8.0/en/stored-programs-security.html" }
@@ -703,12 +603,7 @@ window.QUIZ_DATA = {
     {
       id: "6-11", ch: 6, topic: "sqlmap", src: "repo 06_SQLi/.../scripts, requests", core: true, diff: 2,
       q: "Lab 用 sqlmap 搭配 request file（sqlmap -r unsafe.txt --batch --level=2 --risk=1）驗證漏洞。sqlmap 是什麼？",
-      options: [
-        "自動化偵測與利用 SQL Injection 的工具",
-        "資料庫備份工具",
-        "網頁排版框架",
-        "防火牆設定程式"
-      ],
+      options: ["自動化偵測與利用 SQL Injection 的工具", "自動排程資料庫備份的命令列工具", "產生網頁前端版面的 CSS 框架", "設定伺服器防火牆規則的管理程式"],
       ans: 0,
       exp: "sqlmap 是自動化 SQLi 偵測/利用工具；-r 讀取攔截下來的 HTTP request 檔，--level/--risk 控制測試強度。它用來『驗證』unsafe 頁面有洞、safe-pdo 頁面擋得住。",
       learn: { label: "sqlmap 官方", url: "https://github.com/sqlmapproject/sqlmap/wiki/Usage" }
@@ -716,12 +611,7 @@ window.QUIZ_DATA = {
     {
       id: "6-12", ch: 6, topic: "密碼儲存", src: "repo 06_SQLi 教學備註（password_plain）", core: false, diff: 1,
       q: "Lab 刻意保留 password_plain（明文密碼）欄位。依教學備註，這給我們的資安啟示是？",
-      options: [
-        "正式系統『絕不可』明文儲存密碼，應用雜湊加鹽（如 bcrypt）保存",
-        "明文存密碼很方便，正式環境也建議照做",
-        "密碼不需要保護",
-        "明文密碼可加快登入速度所以較好"
-      ],
+      options: ["正式系統絕不可明文存密碼，應雜湊加鹽 (bcrypt)", "明文存密碼很方便，正式環境也建議照做", "密碼屬於公開資訊，本來就不需要保護", "明文密碼能加快登入比對，所以較理想"],
       ans: 0,
       exp: "password_plain 只為展示『資料一旦外洩，明文密碼直接曝光』的風險。正式系統必須用單向雜湊加鹽（bcrypt/argon2）儲存，資料庫被拖走也難還原原始密碼。",
       learn: { label: "OWASP：密碼儲存速查表", url: "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" }
@@ -752,12 +642,7 @@ window.QUIZ_DATA = {
     {
       id: "5-09", ch: 5, topic: "分頁 LIMIT/OFFSET", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 2,
       q: "SQL 查詢 `SELECT * FROM titles LIMIT 5 OFFSET 10;` 會取出什麼？",
-      options: [
-        "跳過前 10 筆，取接續的 5 筆（分頁效果）",
-        "取前 5 筆",
-        "取第 5 到第 10 筆共 6 筆",
-        "刪除前 10 筆"
-      ],
+      options: ["跳過前 10 筆，取接續的 5 筆（分頁效果）", "取資料表的前 5 筆並跳過其餘", "取第 5 到第 10 筆、共 6 筆資料", "刪除前 10 筆後再取出 5 筆"],
       ans: 0,
       exp: "LIMIT 限制筆數、OFFSET 指定跳過幾筆。LIMIT 5 OFFSET 10＝略過前 10 筆後取 5 筆，是常見的分頁 (pagination) 寫法。",
       learn: { label: "SQLBolt：ORDER BY / LIMIT", url: "https://sqlbolt.com/lesson/filtering_sorting_query_results" }
@@ -789,12 +674,7 @@ window.QUIZ_DATA = {
     {
       id: "5-13", ch: 5, topic: "JOIN（SQLite 限制）", src: "repo 05_SQL/imdbdemo.sql（註解）", core: false, diff: 2,
       q: "依 repo 註解，SQLite 對 RIGHT JOIN 的支援情況與替代做法是？",
-      options: [
-        "舊版 SQLite 不直接支援 RIGHT JOIN，可交換兩表順序改用 LEFT JOIN 達成相同效果",
-        "SQLite 只支援 RIGHT JOIN，不支援 LEFT JOIN",
-        "SQLite 完全不支援任何 JOIN",
-        "RIGHT JOIN 與 INNER JOIN 完全相同"
-      ],
+      options: ["舊版不支援 RIGHT JOIN，可交換兩表用 LEFT JOIN 取代", "只支援 RIGHT JOIN，反而不支援 LEFT JOIN", "完全不支援任何 JOIN，只能用子查詢", "RIGHT JOIN 與 INNER JOIN 效果完全相同"],
       ans: 0,
       exp: "repo 註明 RIGHT JOIN 在（舊版）SQLite 會報錯，可把左右表對調並用 LEFT JOIN 得到等效結果。這是實作差異，跨資料庫時要留意。",
       learn: { label: "SQLite 官方：JOIN", url: "https://www.sqlite.org/syntax/join-operator.html" }
@@ -810,12 +690,7 @@ window.QUIZ_DATA = {
     {
       id: "5-15", ch: 5, topic: "子查詢", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 3,
       q: "`SELECT ... WHERE r.rating > (SELECT AVG(rating) FROM ratings)` 這種寫法屬於？",
-      options: [
-        "子查詢 (subquery)：括號內先算出一個值，再供外層查詢比較",
-        "交易 (transaction)",
-        "觸發器 (trigger)",
-        "外鍵約束"
-      ],
+      options: ["子查詢：括號內先算出一個值，供外層查詢比較", "交易：把多個操作包成一個原子單位", "觸發器：在資料變動時自動執行的程序", "外鍵約束：限制欄位只能參照另一張表"],
       ans: 0,
       exp: "括號內的 SELECT 是子查詢，先算出全體平均評分，外層再篩選高於平均的電影。子查詢可回傳單值、一欄或一個暫時結果集。",
       learn: { label: "SQLBolt：子查詢概念", url: "https://sqlbolt.com/" }
@@ -836,12 +711,7 @@ window.QUIZ_DATA = {
     {
       id: "5-17", ch: 5, topic: "NULL 處理", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 2,
       q: "關於 SQL 的 NULL，下列何者正確？",
-      options: [
-        "判斷是否為空要用 IS NULL / IS NOT NULL；可用 COALESCE/IFNULL 提供預設值",
-        "NULL 等於 0，可用 = 0 判斷",
-        "NULL = NULL 會回傳 TRUE",
-        "NULL 就是空字串 ''"
-      ],
+      options: ["判斷用 IS NULL / IS NOT NULL；可用 COALESCE 給預設值", "NULL 等於 0，可以用 = 0 來判斷", "NULL = NULL 會回傳 TRUE，可直接比較", "NULL 就等同空字串 ''，兩者可互換"],
       ans: 0,
       exp: "NULL 代表『未知/無值』，不等於 0 也不等於空字串；不能用 =NULL 判斷，要用 IS NULL。COALESCE(x,'預設')／IFNULL 可在 x 為 NULL 時給替代值。",
       learn: { label: "SQLBolt：NULL 處理", url: "https://sqlbolt.com/lesson/select_queries_with_nulls" }
@@ -849,7 +719,7 @@ window.QUIZ_DATA = {
     {
       id: "5-18", ch: 5, topic: "CASE WHEN", src: "repo 05_SQL/imdbdemo.sql", core: false, diff: 2,
       q: "SQL 中要依片長把資料分類成 Short/Medium/Long（條件邏輯），使用哪個語法？",
-      options: ["CASE WHEN ... THEN ... ELSE ... END", "IF ELSE 區塊", "FOR 迴圈", "GOTO"],
+      options: ["用 CASE WHEN ... THEN ... ELSE ... END", "用 IF ... ELSE ... 條件區塊", "用 FOR 迴圈逐列判斷並分類", "用 SWITCH ... CASE 語法分類"],
       ans: 0,
       exp: "CASE WHEN 條件 THEN 值 ... ELSE 值 END 是 SQL 的條件邏輯運算式，可在 SELECT 中依條件輸出不同結果（如 runtime<90 → 'Short'）。",
       learn: { label: "W3Schools：SQL CASE", url: "https://www.w3schools.com/sql/sql_case.asp" }
@@ -857,12 +727,7 @@ window.QUIZ_DATA = {
     {
       id: "5-19", ch: 5, topic: "索引與效能", src: "repo 05_SQL/imdbdemo.sql（EXPLAIN QUERY PLAN）", core: true, diff: 3,
       q: "對已建立索引的欄位做 ORDER BY，相較無索引的欄位，通常有什麼差別？",
-      options: [
-        "有索引可加速排序/查找；無索引常需全表掃描並用暫存結構排序（較慢）",
-        "有沒有索引對效能完全沒差",
-        "索引一定會讓查詢變慢",
-        "索引只影響 INSERT，不影響查詢"
-      ],
+      options: ["有索引可加速查找/排序；無索引常需全表掃描", "有沒有索引對查詢效能完全沒有差別", "建索引一定會讓所有查詢都變得更慢", "索引只影響 INSERT 速度，不影響查詢"],
       ans: 0,
       exp: "索引像書的目錄：有索引時查找/排序可走索引（EXPLAIN 顯示 USING INDEX）；無索引則全表掃描並可能用暫存 B-Tree 排序。代價是索引會佔空間、略增寫入成本。",
       learn: { label: "Use The Index, Luke（索引入門）", url: "https://use-the-index-luke.com/" }
@@ -870,12 +735,7 @@ window.QUIZ_DATA = {
     {
       id: "5-20", ch: 5, topic: "交易 Transaction", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 3,
       q: "用 BEGIN TRANSACTION ... COMMIT 包住『同時新增電影與評分』兩個操作，主要目的是確保什麼？",
-      options: [
-        "原子性 (Atomicity)：兩個操作要嘛全部成功，要嘛全部不生效（出錯可 ROLLBACK）",
-        "讓查詢速度變快",
-        "自動幫欄位加索引",
-        "把明文密碼加密"
-      ],
+      options: ["原子性：兩操作全部成功或全部不生效（可 ROLLBACK）", "讓這兩個寫入操作的執行速度變更快", "自動為新增的欄位建立索引以利查詢", "把寫入的明文密碼自動加密後再儲存"],
       ans: 0,
       exp: "交易確保一組操作的原子性——全成或全不成。中途出錯用 ROLLBACK 回復，避免只寫一半造成資料不一致。這是 ACID 特性中的 A。",
       learn: { label: "Wikipedia：ACID（交易特性）", url: "https://zh.wikipedia.org/zh-tw/ACID" }
@@ -1066,7 +926,7 @@ window.QUIZ_DATA = {
     {
       id: "1-14", ch: 1, topic: "特殊 IP", src: "1.3 IP網路基礎 p.16", core: false, diff: 2,
       q: "127.0.0.1 這個 IP 位址的用途是？",
-      options: ["本機回送位址 (localhost)，測試本機網路功能", "預設閘道", "廣播位址", "公共 DNS 伺服器"],
+      options: ["本機回送位址 (loopback/localhost)，測試本機網路", "區域網路中的預設閘道位址", "對整個網段發送的廣播位址", "Google 提供的公共 DNS 伺服器"],
       ans: 0,
       exp: "127.0.0.1 是 loopback / localhost，指向自己，用來測試本機 TCP/IP 是否正常。169.254.x.x 是 DHCP 失敗時的 APIPA；255.255.255.255 是廣播。",
       learn: { label: "Wikipedia：localhost", url: "https://zh.wikipedia.org/wiki/Localhost" }
@@ -1101,12 +961,7 @@ window.QUIZ_DATA = {
     {
       id: "1-18", ch: 1, topic: "NAT", src: "1.3 IP網路基礎 p.17,18", core: true, diff: 2,
       q: "關於 NAT（網路位址轉換）的敘述，何者最正確？",
-      options: [
-        "把私有 IP 轉為公共 IP，節省 IPv4 位址並隱藏內部網路結構；PAT 用不同埠號做多對一映射",
-        "NAT 是一種加密協定，可取代 HTTPS",
-        "NAT 只能用於 IPv6",
-        "NAT 會把公共 IP 轉成私有 IP 供外網直接連線"
-      ],
+      options: ["把私有 IP 轉公共 IP、節省位址並隱藏內部；PAT 用埠號多對一", "一種傳輸層加密協定，可用來取代 HTTPS", "只在 IPv6 網路中使用的位址分配機制", "把公共 IP 轉成私有 IP，讓外網可直接連內部"],
       ans: 0,
       exp: "NAT 讓多台私有 IP 主機共用公共 IP 上網（PAT/NAPT 靠埠號區分），順帶隱藏內部結構。但講義提醒：NAT 不是安全機制的替代品，仍需防火牆。",
       insight: "NAT 之所以『看起來安全』，是因為外部無法主動連進內部——但那是副作用不是設計目的。這呼應資安的常見陷阱：把某功能的副作用當成防護（就像第六章『Stored Procedure 不等於安全』）。",
@@ -1129,7 +984,7 @@ window.QUIZ_DATA = {
     {
       id: "1-20", ch: 1, topic: "ARP 安全", src: "1.3 IP網路基礎 p.84", core: false, diff: 2,
       q: "在 ARP 表中發現『多個不同的 MAC 位址對應到同一個 IP』，最可能代表什麼？",
-      options: ["ARP 欺騙 (ARP Spoofing) 攻擊的跡象", "網路速度變快", "DNS 設定正確", "IP 位址用完了"],
+      options: ["ARP 欺騙 (ARP Spoofing) 攻擊的跡象", "該 IP 的裝置最近更換了網路卡", "網路交換器的 MAC 位址表發生溢位", "DHCP 正在為該裝置重新分配位址"],
       ans: 0,
       exp: "正常情況一個 IP 只對應一個 MAC。同一 IP 出現多個 MAC，常是有人偽造 ARP 回應想攔截流量（中間人）。",
       insight: "這題把『指令(arp)→現象→攻擊(ARP欺騙 L2)→防禦』串起來。資安很多時候就是『觀察到異常對應關係』——一 IP 多 MAC(ARP欺騙)、一域名多結果(DNS劫持)、一帳號多地登入(盜用)，都是同一種偵測直覺。",
@@ -1139,12 +994,7 @@ window.QUIZ_DATA = {
     {
       id: "1-21", ch: 1, topic: "DNS 概念", src: "1.4 基礎網路服務 p.4", core: true, diff: 1,
       q: "DNS（域名系統）的主要功能是？",
-      options: [
-        "將網域名稱（如 www.google.com）解析成 IP 位址",
-        "加密網頁流量",
-        "分配私有 IP 位址",
-        "掃描開放的通訊埠"
-      ],
+      options: ["把網域名稱解析成對應的 IP 位址", "為連線的網頁流量進行加密", "為內部裝置動態分配私有 IP", "掃描目標主機開放的通訊埠"],
       ans: 0,
       exp: "DNS 是分散式資料庫，像網際網路的電話簿，把好記的網域名稱轉成機器用的 IP 位址。加密是 TLS、配 IP 是 DHCP、掃埠是 Nmap。",
       learn: { label: "Cloudflare：什麼是 DNS", url: "https://www.cloudflare.com/zh-tw/learning/dns/what-is-dns/" }
@@ -1179,12 +1029,7 @@ window.QUIZ_DATA = {
     {
       id: "1-25", ch: 1, topic: "HTTP 狀態碼", src: "1.4 基礎網路服務 p.23", core: true, diff: 2,
       q: "HTTP 狀態碼 401 與 403 的差別是？",
-      options: [
-        "401 = 需要身份驗證（還沒登入）；403 = 已知你是誰但『權限不足』被拒絕",
-        "401 = 找不到頁面；403 = 伺服器錯誤",
-        "兩者完全相同",
-        "401 = 成功；403 = 重定向"
-      ],
+      options: ["401＝尚未通過身份驗證；403＝已驗證但權限不足", "401＝已驗證但權限不足；403＝尚未登入（相反）", "401＝找不到頁面；403＝伺服器內部錯誤", "401＝請求成功；403＝資源已被永久移轉"],
       ans: 0,
       exp: "401 Unauthorized＝尚未通過驗證，請先登入；403 Forbidden＝身份沒問題但無權存取此資源。404 才是找不到、5xx 是伺服器錯。",
       insight: "把狀態碼按百位分類記：2xx 成功、3xx 轉址(301永久/302臨時)、4xx 你的錯(400語法/401要登入/403沒權限/404找不到)、5xx 伺服器的錯。401 vs 403＝『沒驗證』vs『沒授權』，正好對應第四章 OWASP 的認證失效 vs 存取控制失效。",
@@ -1252,12 +1097,7 @@ window.QUIZ_DATA = {
     {
       id: "2-09", ch: 2, topic: "權限符號法", src: "2.2 Linux基礎操作 p.16,17", core: true, diff: 2,
       q: "檔案權限顯示為 -rwxr-x---，代表下列哪一種存取權限？",
-      options: [
-        "擁有者可讀寫執行、群組可讀與執行、其他人完全沒有權限",
-        "所有人都可讀寫執行",
-        "只有其他人可讀",
-        "擁有者只能讀"
-      ],
+      options: ["擁有者可讀寫執行、群組可讀與執行、其他人無權限", "擁有者與群組皆可讀寫執行、其他人唯讀", "所有人皆可讀取，僅擁有者可寫入與執行", "擁有者僅可讀取，群組與其他人可讀寫"],
       ans: 0,
       exp: "九碼分三組：擁有者 rwx(7)、群組 r-x(5)、其他 ---(0)，即 chmod 750。開頭的 - 表示一般檔案。",
       insight: "讀權限字串就切三段各 3 碼、每段換數字(rwx=7)。這題等於 chmod 750。把符號法↔數字法自由互換，是第二章權限題的基本功，也連到 SUID/敏感檔 600 等安全設定。",
@@ -1266,12 +1106,7 @@ window.QUIZ_DATA = {
     {
       id: "2-10", ch: 2, topic: "Sticky Bit", src: "2.2 Linux基礎操作 p.20", core: false, diff: 3,
       q: "/tmp 目錄常設定 Sticky Bit，其作用是？",
-      options: [
-        "限制刪除：即使目錄可寫，使用者也只能刪自己的檔案，不能刪別人的",
-        "讓所有人都能刪任何檔案",
-        "以擁有者權限執行程式",
-        "禁止任何人寫入"
-      ],
+      options: ["限制刪除：即使目錄可寫，也只能刪自己的檔案", "讓目錄下所有人都能刪除任何人的檔案", "讓程式以目錄擁有者的權限來執行", "禁止任何使用者在該目錄寫入新檔案"],
       ans: 0,
       exp: "Sticky Bit(1) 用於共用可寫目錄(如 /tmp)：大家都能建檔，但只能刪自己的，防止互刪。SUID(4) 才是以擁有者權限執行。",
       insight: "三個特殊權限別混：SUID(以檔案擁有者身分執行,提權風險)、SGID(以群組身分執行)、Sticky(限制刪除)。SUID 是攻擊面、Sticky 是保護措施——同屬『特殊權限』卻方向相反，正是考題愛設的陷阱。",
@@ -1305,12 +1140,7 @@ window.QUIZ_DATA = {
     {
       id: "4-14", ch: 4, topic: "OWASP A04 加密", src: "4.1 OWASP Top 10 p.11", core: true, diff: 2,
       q: "OWASP『加密機制失效 (Cryptographic Failures)』的常見案例與防護，下列何者正確？",
-      options: [
-        "案例：明文傳輸敏感資料、用弱加密演算法；防護：實施 HTTPS、使用強演算法、妥善管理金鑰",
-        "案例：密碼太長；防護：改用明文",
-        "案例：開了 HTTPS；防護：關掉加密",
-        "與加密完全無關"
-      ],
+      options: ["明文傳輸敏感資料、用弱演算法；防護為 HTTPS 與強演算法", "把密碼設得太長；防護為改用明文儲存", "已經啟用 HTTPS；防護為關閉所有加密", "使用最新 TLS 版本；防護為停用憑證驗證"],
       ans: 0,
       exp: "加密失效常見於明文傳輸、弱演算法、不當金鑰管理；防護為 HTTPS、強加密演算法、妥善保護與更新金鑰。",
       insight: "把它接回第一章：HTTP 明文的三大弱點(可竊聽/可竄改/無法驗證身份)正是『加密失效』的具體表現，HTTPS 就是防護。第一章的網路服務知識，到第四章就變成 OWASP 的風險項目——知識是連續的。",
@@ -1336,12 +1166,7 @@ window.QUIZ_DATA = {
     {
       id: "1-30", ch: 1, topic: "網路類型", src: "1.1 網路基本概念 p.8~9", core: false, diff: 1,
       q: "關於 LAN 與 WAN 的區別，下列何者正確？",
-      options: [
-        "LAN 覆蓋範圍小、傳輸快（如教室/家庭）；WAN 跨城市或國家（如跨國企業網路）",
-        "LAN 一定比 WAN 慢",
-        "WAN 只用於單一房間內",
-        "兩者範圍完全相同"
-      ],
+      options: ["LAN 覆蓋範圍小、速度快；WAN 跨城市或國家", "LAN 一定比 WAN 慢，因為要經過更多設備", "WAN 只用於單一建築內的裝置互連", "兩者覆蓋範圍相同，只是使用的協定不同"],
       ans: 0,
       exp: "LAN(區域網路)範圍小、速度高；WAN(廣域網路)跨地理範圍大，常用 VPN 加密保護傳輸、面臨 DDoS 等公共基礎設施風險。",
       learn: { label: "Cloudflare：LAN/WAN", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-lan/" }
@@ -1349,12 +1174,7 @@ window.QUIZ_DATA = {
     {
       id: "1-31", ch: 1, topic: "無線安全", src: "1.1 網路基本概念 p.10", core: false, diff: 2,
       q: "關於有線與無線網路的安全性，下列敘述何者正確？",
-      options: [
-        "無線信號易被截獲、安全性較低，應使用強加密（如 WPA3）與認證機制",
-        "無線網路天生比有線安全",
-        "有線網路無法加密",
-        "WPA3 是一種病毒"
-      ],
+      options: ["無線信號易被截獲、較不安全，應用 WPA3 強加密", "無線網路因為有加密，天生比有線安全", "有線網路無法加密，所以比無線更危險", "只要把 SSID 隱藏起來，無線就不會被攻擊"],
       ans: 0,
       exp: "無線靈活但信號易被截獲，安全性較有線低，需靠 WPA3 等強加密與認證彌補。有線一般較穩定安全。",
       learn: { label: "Wi-Fi Alliance：WPA3", url: "https://www.wi-fi.org/discover-wi-fi/security" }
@@ -1399,12 +1219,7 @@ window.QUIZ_DATA = {
     {
       id: "2-13", ch: 2, topic: "Windows UAC", src: "2.3 Windows系統操作 p.10 / 2.1 p.6", core: true, diff: 2,
       q: "Windows 的 UAC（使用者帳戶控制）主要作用是？",
-      options: [
-        "在執行需要系統管理權限的操作前跳出確認，避免程式在使用者不知情下取得高權限",
-        "加速開機",
-        "掃描病毒",
-        "加密整顆硬碟"
-      ],
+      options: ["提權前跳出確認，避免程式偷偷取得管理員權限", "在背景自動掃描並移除惡意程式", "加密整顆磁碟以保護開機前的資料", "加速系統開機與程式載入的速度"],
       ans: 0,
       exp: "UAC 讓使用者平時以標準權限運作，需提權時才彈出同意視窗，降低惡意程式偷偷提權的機會。磁碟加密是 BitLocker、防毒是 Defender。",
       learn: { label: "Microsoft：UAC", url: "https://learn.microsoft.com/zh-tw/windows/security/application-security/application-control/user-account-control/" }
@@ -1412,12 +1227,7 @@ window.QUIZ_DATA = {
     {
       id: "2-14", ch: 2, topic: "Windows 加密", src: "2.3 Windows系統操作 p.21", core: false, diff: 2,
       q: "Windows 中 BitLocker 與 EFS 的差別是？",
-      options: [
-        "BitLocker 加密『整顆磁碟/磁區』；EFS 加密『個別檔案或資料夾』",
-        "兩者都只能加密單一檔案",
-        "BitLocker 是防毒、EFS 是防火牆",
-        "兩者完全相同"
-      ],
+      options: ["BitLocker 加密整顆磁碟/磁區；EFS 加密個別檔案或資料夾", "BitLocker 加密單一檔案；EFS 加密整顆磁碟", "BitLocker 是防毒軟體、EFS 是防火牆", "兩者相同，都是加密單一資料夾的工具"],
       ans: 0,
       exp: "BitLocker 是全磁碟加密（常搭配 TPM 晶片與安全開機）；EFS(加密檔案系統)針對個別檔案/資料夾加密。",
       learn: { label: "Microsoft：BitLocker", url: "https://learn.microsoft.com/zh-tw/windows/security/operating-system-security/data-protection/bitlocker/" }
@@ -1456,12 +1266,7 @@ window.QUIZ_DATA = {
     {
       id: "2-18", ch: 2, topic: "Windows 防火牆", src: "2.3 Windows系統操作 p.11", core: false, diff: 2,
       q: "Windows 防火牆的設定檔 (Profile) 分為哪三種網路類型？",
-      options: [
-        "公用 (Public)、私人 (Private)、網域 (Domain)",
-        "紅、黃、綠",
-        "讀取、寫入、執行",
-        "TCP、UDP、ICMP"
-      ],
+      options: ["公用 (Public)、私人 (Private)、網域 (Domain)", "家用、企業、公共熱點三種等級", "讀取、寫入、執行三種存取權限", "TCP、UDP、ICMP 三種協定規則"],
       ans: 0,
       exp: "依所在網路套用不同規則：公用(如咖啡廳 Wi-Fi，最嚴)、私人(家用)、網域(企業 AD 環境)，可分別設定入站/出站規則。",
       learn: { label: "Microsoft：Windows 防火牆", url: "https://learn.microsoft.com/zh-tw/windows/security/operating-system-security/network-security/windows-firewall/" }
@@ -1469,12 +1274,7 @@ window.QUIZ_DATA = {
     {
       id: "2-19", ch: 2, topic: "日誌與鑑識", src: "2.3 Windows系統操作 p.16", core: false, diff: 3,
       q: "攻擊者入侵 Windows 後常會「清除事件檢視器 (Event Viewer) 的日誌」，主要目的是？",
-      options: [
-        "抹除入侵痕跡、妨礙事後鑑識與追蹤",
-        "讓電腦跑更快",
-        "幫系統管理員整理紀錄",
-        "備份重要資料"
-      ],
+      options: ["抹除入侵痕跡、妨礙事後鑑識與追蹤", "釋放磁碟空間以提升系統效能", "重設系統的稽核與記錄政策", "觸發 Windows 的自動更新機制"],
       ans: 0,
       exp: "日誌記錄登入、權限變更等關鍵事件；攻擊者清除日誌是為了反鑑識、隱藏行蹤。因此日誌『集中保存、防竄改』很重要。",
       insight: "這正對應第四章 OWASP『安全日誌與告警失效』：沒有日誌就看不到攻擊、事後也追不到路徑。攻防雙方都盯著日誌——防守方要它完整、攻擊方要它消失。",
@@ -1483,12 +1283,7 @@ window.QUIZ_DATA = {
     {
       id: "2-20", ch: 2, topic: "遠端桌面安全", src: "2.3 Windows系統操作 p.23", core: false, diff: 2,
       q: "強化 Windows 遠端桌面 (RDP) 安全時，啟用「網路層級認證 (NLA)」的好處是？",
-      options: [
-        "要求連線者在建立完整 RDP 工作階段『之前』就先通過身份驗證，降低被攻擊面",
-        "讓畫面變清晰",
-        "自動加快網速",
-        "停用所有密碼"
-      ],
+      options: ["在開啟完整工作階段前先驗證身分，降低攻擊面", "自動壓縮遠端桌面的畫面以加快傳輸", "允許免密碼的快速連線以方便使用", "為整個遠端桌面工作階段加密畫面"],
       ans: 0,
       exp: "NLA 讓使用者在耗用伺服器資源、開啟完整工作階段前就先認證，減少未認證連線帶來的攻擊面（如 RDP 弱點利用）。",
       learn: { label: "Microsoft：RDP NLA", url: "https://learn.microsoft.com/zh-tw/windows-server/remote/remote-desktop-services/clients/remote-desktop-allow-access" }
@@ -1545,7 +1340,7 @@ window.QUIZ_DATA = {
     {
       id: "3-17", ch: 3, topic: "CSS 顏色", src: "3.1 網頁技術基礎 p.77", core: false, diff: 1,
       q: "CSS 中 rgba(255, 0, 0, 0.5) 的最後一個值 0.5 代表什麼？",
-      options: ["透明度 (alpha)，0 全透明、1 不透明", "紅色深淺", "字體大小", "邊框粗細"],
+      options: ["透明度 (alpha)，0 全透明、1 不透明", "紅色的深淺程度", "文字的字體大小", "邊框的粗細像素"],
       ans: 0,
       exp: "rgba 的 a 是 alpha 透明度(0~1)。此例為半透明紅色。HEX #FF0000、rgb(255,0,0) 也都是紅色。",
       learn: { label: "MDN：CSS color", url: "https://developer.mozilla.org/zh-TW/docs/Web/CSS/color_value" }
@@ -1553,12 +1348,7 @@ window.QUIZ_DATA = {
     {
       id: "3-18", ch: 3, topic: "DOM 操作", src: "3.1 網頁技術基礎 p.148", core: true, diff: 2,
       q: "JavaScript DOM 操作中，innerText 與 innerHTML 的差別是？",
-      options: [
-        "innerText 只處理純文字；innerHTML 會把字串當 HTML 解析（因此有 XSS 風險）",
-        "兩者完全相同",
-        "innerText 會執行 <script>",
-        "innerHTML 只能讀不能寫"
-      ],
+      options: ["innerText 當純文字；innerHTML 會解析 HTML（有 XSS 風險）", "innerHTML 當純文字；innerText 會解析 HTML", "兩者相同，都會把字串當純文字處理", "innerHTML 只能讀取、不能寫入內容"],
       ans: 0,
       exp: "innerText 取/設純文字；innerHTML 會解析標籤，若把未過濾的使用者輸入塞進 innerHTML 就可能造成 XSS。取用元素可用 getElementById / querySelector。",
       insight: "第三章的 DOM API 到第四章就是安全議題：innerHTML 是危險 Sink、innerText/textContent 是安全 Sink。學前端 API 順手問一句『它會不會把字串當程式碼』，開發與資安視角就接上了。",
@@ -1578,12 +1368,7 @@ window.QUIZ_DATA = {
     {
       id: "4-17", ch: 4, topic: "CVSS", src: "4.2 基本的漏洞掃描 p.22,25", core: false, diff: 2,
       q: "CVSS (Common Vulnerability Scoring System) 是用來做什麼的？",
-      options: [
-        "以標準化分數（0~10）評估漏洞的嚴重性與優先級",
-        "掃描開放的通訊埠",
-        "加密資料庫",
-        "產生強密碼"
-      ],
+      options: ["以標準分數(0~10)評估漏洞的嚴重性與優先級", "掃描主機上開放的通訊埠與服務", "為資料庫中的敏感欄位進行加密", "為使用者產生高強度的隨機密碼"],
       ans: 0,
       exp: "CVSS 是業界標準評分，分數分級：危急 9.0–10、高 7.0–8.9、中 4.0–6.9、低 0.1–3.9。用來排定修補優先順序。",
       learn: { label: "FIRST：CVSS", url: "https://www.first.org/cvss/" }
@@ -1608,12 +1393,7 @@ window.QUIZ_DATA = {
     {
       id: "4-20", ch: 4, topic: "WAF 虛擬補丁", src: "4.3 網站防火牆基礎 p.14,23", core: true, diff: 3,
       q: "當一個新漏洞被公開、但官方修補程式還沒發布時，WAF 的哪項能力可提供即時防護？",
-      options: [
-        "虛擬補丁 (Virtual Patching)：以 WAF 規則暫時阻擋針對該漏洞的攻擊請求",
-        "格式化硬碟",
-        "關閉整個網站",
-        "把伺服器搬到雲端"
-      ],
+      options: ["虛擬補丁：用 WAF 規則暫時阻擋針對該漏洞的請求", "自動幫作業系統套用官方的安全更新", "把有漏洞的服務暫時關閉直到修好", "將整個網站遷移到別的雲端平台"],
       ans: 0,
       exp: "虛擬補丁讓你不改原始碼、也不必等官方 patch，就能先用 WAF 規則擋住利用該漏洞的請求，爭取修補時間（對零日漏洞特別有用）。",
       insight: "呼應 4.2『高風險漏洞平均 15 天內就被利用』——修補有時間差，WAF 的虛擬補丁正是填補這個『暴露窗口』的緩衝層。這也是縱深防禦的價值：一層來不及，還有另一層頂著。",
@@ -1622,12 +1402,7 @@ window.QUIZ_DATA = {
     {
       id: "4-21", ch: 4, topic: "真實案例 WannaCry", src: "4.2 基本的漏洞掃描 p.36", core: false, diff: 2,
       q: "2017 年 WannaCry 勒索軟體全球大爆發，主要是利用了什麼？帶來的教訓是？",
-      options: [
-        "利用未修補的 Windows SMB 漏洞 (MS17-010)；教訓是及時修補與更新系統的重要性",
-        "利用使用者密碼太長",
-        "因為大家都用 HTTPS",
-        "因為防火牆開太多"
-      ],
+      options: ["利用未修補的 Windows SMB 漏洞 (MS17-010)", "利用使用者設定的弱密碼進行暴力破解", "透過釣魚郵件誘騙員工開啟惡意附件", "利用瀏覽器的零日漏洞進行水坑攻擊"],
       ans: 0,
       exp: "WannaCry 靠 MS17-010 這個 SMB 漏洞蠕蟲式擴散，影響 150 國逾 30 萬台。核心教訓：定期漏洞掃描 + 及時修補已知漏洞。",
       learn: { label: "Wikipedia：WannaCry", url: "https://zh.wikipedia.org/wiki/WannaCry" }
@@ -1646,12 +1421,7 @@ window.QUIZ_DATA = {
     {
       id: "6-15", ch: 6, topic: "資料庫備份", src: "6.1 資料庫安全入門 p.16,19", core: false, diff: 2,
       q: "MySQL 中用來『備份』與『還原』資料庫的常見做法，配對何者正確？",
-      options: [
-        "備份用 mysqldump 匯出成 .sql；還原用 mysql 匯入該 .sql 檔",
-        "備份用 mysql；還原用 mysqldump",
-        "兩者都用 SELECT",
-        "備份用 DROP TABLE"
-      ],
+      options: ["備份用 mysqldump 匯出 .sql；還原用 mysql 匯入", "備份用 mysql 匯入；還原用 mysqldump 匯出", "備份與還原都用 SELECT 語法即可完成", "備份用 DROP TABLE 清空後再重建"],
       ans: 0,
       exp: "備份：mysqldump -u root -p db > backup.sql；還原：mysql -u root -p db < backup.sql。可搭配 Cron Job 定時自動備份。",
       learn: { label: "MySQL：mysqldump", url: "https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html" }
@@ -1659,7 +1429,7 @@ window.QUIZ_DATA = {
     {
       id: "6-16", ch: 6, topic: "備份策略", src: "6.1 資料庫安全入門 p.15", core: false, diff: 2,
       q: "資料庫備份策略中，「只備份自上次『完整備份』以來變動的資料」屬於哪一種？",
-      options: ["差異備份 (Differential)", "完整備份 (Full)", "無備份", "即時備份"],
+      options: ["差異備份 (Differential Backup)", "完整備份 (Full Backup)", "增量備份 (Incremental Backup)", "快照備份 (Snapshot Backup)"],
       ans: 0,
       exp: "完整備份＝全部；差異備份＝自上次完整備份以來的變動；增量備份＝自上次任一次備份以來的變動。差異還原較快、增量省空間。",
       learn: { label: "備份策略概念", url: "https://cheatsheetseries.owasp.org/cheatsheets/Database_Security_Cheat_Sheet.html" }
@@ -1667,12 +1437,7 @@ window.QUIZ_DATA = {
     {
       id: "6-17", ch: 6, topic: "資料加密", src: "6.1 資料庫安全入門 p.6", core: false, diff: 2,
       q: "資料庫中儲存信用卡號、密碼等機敏資料時，應採取什麼措施？其中金鑰管理為何重要？",
-      options: [
-        "用 AES/RSA 等演算法加密；金鑰若外洩則加密形同虛設，故必須妥善保管與控管金鑰",
-        "存成明文以方便查詢",
-        "只要改欄位名稱就安全",
-        "把資料庫關掉就好"
-      ],
+      options: ["用 AES/RSA 加密；金鑰外洩加密即形同虛設，須妥善控管", "存成明文以方便日後查詢與比對", "只要把欄位名稱改得難懂就安全", "把資料庫關機不對外開放就足夠"],
       ans: 0,
       exp: "機敏資料應加密(如 AES 對稱、RSA 非對稱)，避免外洩後被直接利用。加密的安全性取決於金鑰——金鑰外洩等於沒加密，所以金鑰管理與備份還原都要謹慎。",
       insight: "呼應第六章 Lab 的 password_plain 反例：明文存密碼一旦資料庫被拖走就全曝光。加密＋金鑰管理，加上密碼用雜湊加鹽，才是完整的資料保護——這也是 OWASP『加密機制失效』要防的。",
@@ -1684,12 +1449,7 @@ window.QUIZ_DATA = {
     {
       id: "1-35", ch: 1, topic: "TTL", src: "0 課前基本認識 p.36~37", core: false, diff: 2,
       q: "封包的 TTL (Time To Live) 欄位主要作用，以及常見作業系統的預設值，何者正確？",
-      options: [
-        "TTL 是跳站數 (hop count)，每經一個路由器減 1，歸零即丟棄以避免封包無限繞行；Windows 預設 128、Linux 64",
-        "TTL 是封包大小，Windows 預設 64",
-        "TTL 是加密金鑰長度",
-        "TTL 只有 IPv6 才有"
-      ],
+      options: ["每經一路由器減 1、歸零即丟棄；預設 Windows 128、Linux 64", "封包大小的上限值，預設 Windows 64、Linux 128", "封包加密金鑰的長度（以位元計算）", "封包已存活的秒數，與經過幾個路由器無關"],
       ans: 0,
       exp: "TTL 每過一個路由器減 1，歸零就丟棄，避免封包在網路上無限繞圈。預設值：Linux/FreeBSD 64、Windows 128、Cisco 254——可藉此粗略推測對方作業系統。",
       insight: "TTL 順帶洩漏了主機資訊：看回應的 TTL 接近 64 多半是 Linux、接近 128 是 Windows。這和 traceroute 利用 TTL 逐跳遞增來畫出路徑是同一個機制——一個小欄位，攻防雙方都能拿來做偵查。",
@@ -1698,12 +1458,7 @@ window.QUIZ_DATA = {
     {
       id: "1-36", ch: 1, topic: "ICMP", src: "0 課前基本認識 p.40~41", core: true, diff: 2,
       q: "ping 指令是靠哪個協定運作？成功收到回應時對應的 ICMP 類型是？",
-      options: [
-        "ICMP 協定；送出 Echo Request (Type 8)、成功收到 Echo Reply (Type 0)",
-        "TCP 協定；靠三向交握",
-        "HTTP 協定；靠 GET 請求",
-        "DNS 協定；靠 A 記錄"
-      ],
+      options: ["ICMP；送 Echo Request(Type 8)、收 Echo Reply(Type 0)", "TCP；靠三向交握建立連線後傳送", "HTTP；送出 GET 請求並等待回應", "UDP；送出封包但不等待任何回應"],
       ans: 0,
       exp: "ping 用 ICMP：送 Echo Request(Type 8)、對方回 Echo Reply(Type 0)。其他常見類型：Type 3 目的不可達、Type 11 逾時(TTL 用盡)。許多伺服器/防火牆會擋 ICMP 以降低可見性。",
       insight: "ping 看似簡單卻牽動整條鏈：先 ARP 解析 MAC(L2)、再送 ICMP(L3)。防火牆擋不擋 ICMP、TTL 多少、有沒有回 Type 3，都是偵查資訊——這正是課程說的『Ping 其實學問很大』。",
@@ -1741,7 +1496,7 @@ window.QUIZ_DATA = {
     {
       id: "3-20", ch: 3, topic: "CIA 對應", src: "3.2 基礎網站安全 p.5~7", core: true, diff: 3,
       q: "使用雜湊 (checksum/hash) 或數位簽章來確保『資料在傳輸/儲存中沒有被竄改』，主要保護 CIA 中的哪一項？",
-      options: ["完整性 (Integrity)", "機密性 (Confidentiality)", "可用性 (Availability)", "以上皆非"],
+      options: ["完整性 (Integrity)", "機密性 (Confidentiality)", "可用性 (Availability)", "不可否認性 (Non-repudiation)"],
       ans: 0,
       exp: "雜湊/數位簽章驗證資料未被更動 → 完整性。加密→機密性；備份/災難復原/防 DDoS→可用性。",
       insight: "把防護手段對應到 CIA，是把零散知識點收斂的好方法：加密↔C、雜湊/簽章↔I、備份/負載平衡/防 DoS↔A。第一章 md5sum/sha256sum、1.4 的 TLS 完整性、第六章備份，全都能掛回這張表。",
@@ -1761,12 +1516,7 @@ window.QUIZ_DATA = {
     {
       id: "5-22", ch: 5, topic: "關聯式 vs NoSQL", src: "5.1 資料庫基本概念 p.16~17", core: false, diff: 2,
       q: "關於關聯式資料庫 (RDBMS) 與非關聯式資料庫 (NoSQL)，下列敘述何者正確？",
-      options: [
-        "RDBMS(如 MySQL/PostgreSQL)以表格與明確關聯儲存、結構清晰；NoSQL(如 MongoDB/Redis)無固定表格，以鍵值/文件/圖形儲存、彈性高",
-        "NoSQL 就是沒有任何資料庫",
-        "RDBMS 不支援 SQL",
-        "兩者完全相同"
-      ],
+      options: ["RDBMS(MySQL)以表格與關聯儲存、結構清晰；NoSQL(MongoDB)無固定表格、彈性高", "NoSQL 指的是完全不使用任何資料庫的架構", "RDBMS 不支援 SQL，只有 NoSQL 才支援", "兩者完全相同，只是廠商取的名字不同"],
       ans: 0,
       exp: "RDBMS 用表格(欄位/記錄)與外鍵建立關聯、適合結構化資料；NoSQL(Not Only SQL)以 key-value/document/graph 儲存、適合大量非結構化資料、擴展性強。",
       learn: { label: "MongoDB：SQL vs NoSQL", url: "https://www.mongodb.com/nosql-explained" }
@@ -1785,12 +1535,7 @@ window.QUIZ_DATA = {
     {
       id: "6-19", ch: 6, topic: "SQLi 注入點閉合", src: "6.2 SQLi Labs p.10", core: false, diff: 3, kind: "fact",
       q: "sqli-labs 各關卡要嘗試 1' OR '1'='1、1) OR (1=1、1')) OR (('1'='1 等不同 payload，主要是為了？",
-      options: [
-        "試出後端 SQL 對輸入的『閉合方式』（是用單引號、括號還是雙括號包住參數），才能正確注入",
-        "測試網路速度",
-        "破解密碼雜湊",
-        "產生亂數"
-      ],
+      options: ["試出後端 SQL 對輸入的閉合方式（引號/括號），才能正確注入", "測試網路連線的速度與延遲高低", "用不同方式破解密碼欄位的雜湊值", "產生隨機字串以填滿資料庫欄位"],
       ans: 0,
       exp: "後端可能寫成 id='$id'、id=($id)、id=('$id') 等不同閉合。攻擊者要先猜對閉合符號(引號/括號數量)，注入的 payload 才能讓語法正確、條件生效。",
       learn: { label: "PortSwigger：SQL injection", url: "https://portswigger.net/web-security/sql-injection" }
@@ -2046,12 +1791,7 @@ window.QUIZ_DATA = {
       id: "FIX-4", ch: 4, topic: "Cookie 安全", src: "整合 ch4（挑錯）", core: false, diff: 2, kind: "fixit",
       card: "登入後設 Set-Cookie: session=... 但沒有任何安全屬性，該補什麼？",
       q: "某網站登入後回傳 `Set-Cookie: session=abc123`（沒有任何安全屬性）。應補上哪些屬性、各防什麼？",
-      options: [
-        "HttpOnly（防 JS/XSS 竊取）、Secure（只走 HTTPS）、SameSite（防 CSRF）",
-        "只要加 Expires 讓它永不過期",
-        "把 session 值加長就安全了",
-        "Cookie 不需要任何屬性"
-      ],
+      options: ["加上 HttpOnly(防 XSS)、Secure(只走 HTTPS)、SameSite(防 CSRF)", "加上 Expires 讓 Cookie 永不過期即可", "把 session 的值加長變得難以猜測就安全", "改用 localStorage 儲存 session 就不需屬性"],
       ans: 0,
       exp: "缺安全屬性的 Session Cookie 易被 XSS 竊取、明文外洩、被 CSRF 利用。修正：HttpOnly＋Secure＋SameSite，三者各擋一種威脅。",
       insight: "同一個 Cookie，用不同屬性防不同攻擊（XSS/竊聽/CSRF）——這就是縱深防禦的縮影。",
@@ -2081,12 +1821,7 @@ window.QUIZ_DATA = {
       id: "FIX-7", ch: 1, topic: "HTTPS", src: "整合 ch1（挑錯）", core: true, diff: 2, kind: "fixit",
       card: "登入頁用 HTTP 明文傳帳號密碼，錯在哪、怎麼改？",
       q: "某登入頁使用 HTTP（非 HTTPS）傳送帳號密碼。問題與正確修正是？",
-      options: [
-        "明文傳輸可被監聽/竄改（中間人攻擊）；應改用 HTTPS（TLS）加密，並用 HSTS 強制",
-        "HTTP 有密碼欄位就安全了",
-        "把密碼欄位設成 type=password 就安全",
-        "只要網址很長就不會被監聽"
-      ],
+      options: ["明文傳輸可被監聽/竄改（MITM）；應改用 HTTPS(TLS) 並強制 HSTS", "只要密碼欄位存在，HTTP 傳輸就已足夠安全", "把欄位設成 type=password，傳輸內容就會加密", "只要登入網址夠長夠複雜就不會被監聽"],
       ans: 0,
       exp: "HTTP 明文＝任何在路徑上的人都能看到帳密。type=password 只是畫面遮住、傳輸仍是明文。修正：全站 HTTPS＋HSTS。",
       insight: "『看不見』不等於『加密』：type=password、POST 都只是不顯示，真正保護傳輸的是 TLS。這連到 HTTP 明文的三大弱點與 OWASP 加密失效。",
