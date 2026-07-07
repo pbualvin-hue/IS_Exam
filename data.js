@@ -321,13 +321,8 @@ window.QUIZ_DATA = {
     {
       id: "4-03", card: "依講義 OWASP 2025，注入攻擊 (Injection) 排第幾？主要防護是什麼？", ch: 4, topic: "OWASP Top 10", src: "4.1 OWASP Top 10 p.12", core: true, diff: 2,
       q: "依講義（2025 版），注入攻擊 (Injection) 的排名是？其防護措施包含下列何者？",
-      options: [
-        "A03；防護為使用預設憑證",
-        "A05；防護為使用參數化查詢、ORM、輸入驗證與過濾",
-        "A01；防護為關閉日誌",
-        "A10；防護為明文傳輸"
-      ],
-      ans: 1,
+      options: ["A05；防護為參數化查詢、ORM 與輸入驗證", "A03；防護為建立 SBOM 與相依套件掃描", "A01；防護為最小權限與強制授權檢查", "A07；防護為多因素認證與強密碼策略"],
+      ans: 0,
       exp: "講義將注入列為 A05:2025，常見案例含 SQL/NoSQL/OS 命令/LDAP 注入；防護為參數化查詢、ORM 框架、輸入驗證與過濾。",
       learn: { label: "PortSwigger：SQL Injection", url: "https://portswigger.net/web-security/sql-injection" }
     },
@@ -469,12 +464,7 @@ window.QUIZ_DATA = {
     {
       id: "6-04", ch: 6, topic: "SQLi 防禦", src: "6.1 資料庫安全入門", core: true, diff: 2,
       q: "防禦 SQL 注入「最根本」的做法是？",
-      options: [
-        "用參數化查詢 / 預備語句 (Prepared Statements)",
-        "把錯誤訊息顯示得更詳細",
-        "改用更長的資料表名稱",
-        "關閉防火牆"
-      ],
+      options: ["使用參數化查詢／預備語句 (Prepared Statement)", "對輸入做 HTML 實體編碼後再拼進 SQL", "把查詢包成 Stored Procedure 即可自動防護", "為資料庫帳號設定最小權限就能防止注入"],
       ans: 0,
       exp: "參數化查詢/預備語句讓輸入只當資料、不會被當成 SQL 語法，是最根本的防禦；並輔以最小權限資料庫帳號、輸入驗證、關閉詳細錯誤訊息。",
       learn: { label: "OWASP：SQLi 防禦速查表", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" }
@@ -553,12 +543,7 @@ window.QUIZ_DATA = {
     {
       id: "3-11", ch: 3, topic: "DOM 與安全", src: "repo 03_JS/05_dom + 04 XSS", core: true, diff: 3,
       q: "在 JavaScript 操作 DOM 時，為何安全上建議優先用 textContent 而非 innerHTML？",
-      options: [
-        "textContent 把內容當純文字，不會解析成 HTML/JS，可避免 DOM-based XSS；innerHTML 會解析標籤",
-        "innerHTML 速度一定比較慢",
-        "textContent 可以執行 JavaScript",
-        "兩者沒有安全差異"
-      ],
+      options: ["textContent 當純文字、不解析標籤，可避免 DOM XSS", "innerHTML 會自動過濾 <script>，兩者一樣安全", "textContent 會執行內嵌腳本，風險其實更高", "兩者都解析 HTML，差別只在載入速度"],
       ans: 0,
       exp: "innerHTML 會把字串當 HTML 解析，若含 <script>/事件屬性可能被執行造成 XSS；textContent 只當純文字放入，是較安全的 Sink。",
       learn: { label: "MDN：Node.textContent", url: "https://developer.mozilla.org/zh-TW/docs/Web/API/Node/textContent" }
@@ -697,12 +682,7 @@ window.QUIZ_DATA = {
     {
       id: "6-09", ch: 6, topic: "Stored Procedure", src: "repo 06_SQLi/.../sp-unsafe.php, README", core: true, diff: 3,
       q: "Lab 的 sp_search_users_unsafe 是 Stored Procedure，卻仍可被 SQL Injection。原因是？（貫穿觀念題）",
-      options: [
-        "因為它在 SP 內用 CONCAT + PREPARE + EXECUTE 動態拼接輸入——Stored Procedure 不等於自動安全",
-        "因為 Stored Procedure 本來就完全不安全，一律有洞",
-        "因為它沒有使用 websp 帳號",
-        "因為 MySQL 不支援 Stored Procedure"
-      ],
+      options: ["SP 內用 CONCAT 動態拼接輸入，SP 不等於自動安全", "因為呼叫時沒改用 websp 最小權限帳號", "因為 SP 的參數沒有宣告 VARCHAR 型別", "因為 MySQL 的 SP 不支援參數綁定"],
       ans: 0,
       exp: "關鍵觀念：把邏輯包進 SP 不會自動安全。若 SP 內部仍用 CONCAT 串接輸入再 PREPARE/EXECUTE 動態 SQL，一樣可被注入。安全與否取決於『有沒有拼接不可信輸入』，不是包不包成 SP。",
       learn: { label: "OWASP：Query Parameterization", url: "https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html" }
@@ -749,12 +729,7 @@ window.QUIZ_DATA = {
     {
       id: "6-13", ch: 6, topic: "縱深防禦（總整合）", src: "repo 06_SQLi/README（Teaching Notes）", core: true, diff: 3,
       q: "（總整合題）綜合整個 SQLi Lab，要真正防住 SQL Injection 並限縮損害，最完整的做法是？",
-      options: [
-        "以 Prepared Statement 為主要防線（語法層），再用最小權限帳號縮小爆炸半徑（權限層），並避免在 SP 內動態拼接輸入",
-        "把查詢改寫成 Stored Procedure 封裝即可，因為 SP 內部一定會自動參數化、不會被注入",
-        "只要用最小權限帳號連線，就算被注入也只能讀到有限資料，等於已經防住了",
-        "在前端用 JavaScript 過濾掉單引號等特殊字元後再送出，後端即可免於注入"
-      ],
+      options: ["Prepared Statement 為主、最小權限縮小爆炸半徑、SP 內不拼接輸入", "把查詢改成 Stored Procedure 封裝即可自動參數化", "用最小權限帳號連線，被注入也只能讀有限資料", "在前端用 JavaScript 過濾特殊字元再送出即可"],
       ans: 0,
       exp: "這是全 Lab 的核心：Prepared Statement（主要、語法層）+ 最小權限（縮小爆炸半徑、權限層）+ 不在 SP 內拼接輸入，三者縱深防禦。單靠 SP、單靠權限、或只靠前端檢查都會被繞過。",
       learn: { label: "OWASP：SQLi 防禦速查表", url: "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" }
@@ -798,12 +773,7 @@ window.QUIZ_DATA = {
     {
       id: "5-11", ch: 5, topic: "GROUP BY / HAVING", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 3,
       q: "要『依 type 分組計數，並只留下數量超過 1000 的組別』，WHERE 與 HAVING 該怎麼用？",
-      options: [
-        "用 HAVING COUNT(*) > 1000（HAVING 過濾『分組後』的聚合結果）",
-        "用 WHERE COUNT(*) > 1000（WHERE 可以直接過濾聚合值）",
-        "WHERE 與 HAVING 完全等價，隨便用哪個都行",
-        "分組後無法再做任何過濾"
-      ],
+      options: ["用 HAVING COUNT(*) > 1000（過濾分組後的聚合結果）", "用 WHERE COUNT(*) > 1000（WHERE 可直接過濾聚合）", "用 GROUP BY COUNT(*) > 1000 一併分組並過濾", "先 ORDER BY COUNT(*) 再取大於 1000 的列"],
       ans: 0,
       exp: "WHERE 在分組『前』過濾單筆列、不能用聚合函數；HAVING 在 GROUP BY『後』過濾分組結果，才能寫 COUNT(*)>1000。這是常考的區別。",
       learn: { label: "SQLBolt：GROUP BY / HAVING", url: "https://sqlbolt.com/lesson/select_queries_with_aggregates_pt_2" }
@@ -811,12 +781,7 @@ window.QUIZ_DATA = {
     {
       id: "5-12", card: "INNER JOIN 與 LEFT JOIN 的差別是什麼？", ch: 5, topic: "JOIN 類型", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 3,
       q: "關於 INNER JOIN 與 LEFT JOIN 的差別，下列何者正確？",
-      options: [
-        "INNER JOIN 只回傳兩表都有對應的列；LEFT JOIN 回傳左表全部，右表無對應時填 NULL",
-        "兩者結果完全相同",
-        "LEFT JOIN 只回傳右表資料",
-        "INNER JOIN 會回傳左表所有列並補 NULL"
-      ],
+      options: ["INNER JOIN 取兩表交集；LEFT JOIN 保留左表全部、右缺補 NULL", "INNER JOIN 保留左表全部並補 NULL、LEFT 只取交集", "兩者結果相同，只是 LEFT JOIN 語法較新", "LEFT JOIN 只回傳右表獨有的列"],
       ans: 0,
       exp: "INNER JOIN＝交集（兩邊都有才出現）；LEFT JOIN＝保留左表全部，右表無對應處補 NULL（例：列出所有電影，沒評分的 rating 為 NULL）。",
       learn: { label: "SQLBolt：JOIN 教學", url: "https://sqlbolt.com/lesson/select_queries_with_outer_joins" }
@@ -837,12 +802,7 @@ window.QUIZ_DATA = {
     {
       id: "5-14", ch: 5, topic: "UNION vs UNION ALL", src: "repo 05_SQL/imdbdemo.sql", core: true, diff: 2,
       q: "UNION 與 UNION ALL 的差別是？",
-      options: [
-        "UNION 會『去除重複』列；UNION ALL 保留全部（含重複），效能較快",
-        "UNION ALL 會去除重複；UNION 保留重複",
-        "兩者完全相同",
-        "UNION 只能合併一張表"
-      ],
+      options: ["UNION 去除重複列；UNION ALL 保留全部、效能較快", "UNION ALL 去除重複；UNION 保留重複列", "兩者相同，UNION ALL 只是舊版寫法", "UNION 會自動排序、UNION ALL 隨機排列"],
       ans: 0,
       exp: "兩者都把多個查詢結果上下合併（欄位數與型別需相容）。UNION 做去重（需額外排序、較慢）；UNION ALL 不去重、較快。這個去重差異也是 union-based SQLi 常見細節。",
       learn: { label: "W3Schools：SQL UNION", url: "https://www.w3schools.com/sql/sql_union.asp" }
@@ -1021,12 +981,7 @@ window.QUIZ_DATA = {
     {
       id: "X-01", ch: 4, topic: "跨章：注入的共通根因", src: "整合 ch4/ch6 + repo", core: true, diff: 3,
       q: "SQL Injection 與 XSS 表面上一個打資料庫、一個打瀏覽器，但它們最根本的『共通成因』是什麼？",
-      options: [
-        "都源於『把不可信的使用者輸入，混進了會被解析執行的內容中』（資料與程式碼未分離）",
-        "都是因為沒有安裝防毒軟體",
-        "都是因為密碼太短",
-        "都只發生在沒有 HTTPS 的網站"
-      ],
+      options: ["不可信輸入被混進會被解析執行的內容（資料與程式碼未分離）", "都因為伺服器沒裝防火牆或 WAF 過濾流量", "都因為使用者密碼強度不足、容易被猜中", "都只發生在沒有啟用 HTTPS 的網站上"],
       ans: 0,
       exp: "SQLi 把輸入拼進 SQL 被資料庫執行；XSS 把輸入輸出到 HTML 被瀏覽器執行。共同點：不可信輸入被當成程式碼解析。",
       insight: "抓住這個大觀念，整個 Web 安全就串起來了：注入類漏洞＝『資料與程式碼混在一起』。所以防禦也同源——都要在『資料進入解析器之前』把它標記成純資料：SQL 用參數化查詢、HTML 用輸出編碼、命令列用參數陣列。換了場景，原則不變。",
@@ -1058,12 +1013,7 @@ window.QUIZ_DATA = {
     {
       id: "X-04", ch: 6, topic: "跨章：為何權限不能取代參數化", src: "整合 ch2/ch6 repo", core: true, diff: 3,
       q: "為什麼「用最小權限的資料庫帳號」不能取代「參數化查詢」來防 SQL Injection？",
-      options: [
-        "最小權限只縮小攻擊成功後的『損害範圍』，但注入本身仍會發生；參數化查詢才是從源頭讓注入不成立",
-        "因為最小權限會讓網站變慢",
-        "因為兩者其實是同一件事",
-        "因為參數化查詢會自動提升帳號權限"
-      ],
+      options: ["最小權限只縮小損害範圍、注入仍會發生；參數化才從源頭阻止", "因為最小權限帳號會拖慢資料庫查詢速度", "因為參數化查詢其實就是最小權限的一種", "因為最小權限只能防 XSS、不能防 SQL 注入"],
       ans: 0,
       exp: "最小權限是『被攻破後』的損害控制（縮小爆炸半徑）；參數化查詢是『不讓攻擊成立』的源頭防護。層次不同，要並用。",
       insight: "這是縱深防禦的精髓：不同防線防的是攻擊鏈的不同階段——『防止發生』(參數化查詢) vs『限制後果』(最小權限)。同樣道理，XSS 的輸出編碼(防發生)＋HttpOnly(限後果)、Linux 的收緊權限(防發生)＋帳號隔離(限後果)。永遠問：這層在攻擊鏈的哪一段？只做後段而缺前段，等於門沒鎖只買保險。",
@@ -1086,12 +1036,7 @@ window.QUIZ_DATA = {
     {
       id: "X-06", ch: 5, topic: "跨章：UNION 從查詢到攻擊", src: "整合 ch5 UNION + ch6 SQLi", core: true, diff: 3,
       q: "第五章學的 UNION（合併兩個查詢結果）為什麼會變成第六章 union-based SQL Injection 的關鍵手法？",
-      options: [
-        "因為攻擊者可用 UNION 把『自己另寫的 SELECT』接在原查詢後面，藉此撈出其他表(如帳密)的資料",
-        "因為 UNION 會自動刪除資料表",
-        "因為 UNION 能加密資料庫",
-        "因為 UNION 只能用在前端"
-      ],
+      options: ["攻擊者用 UNION 把自寫的 SELECT 接在原查詢後，撈出其他表資料", "因為 UNION 執行時會清空原本的資料表", "因為 UNION 能把攻擊者的資料加密回傳", "因為 UNION 只能在前端 JavaScript 執行"],
       ans: 0,
       exp: "注入點若可拼接，攻擊者用 `... UNION SELECT 帳號,密碼 FROM users` 把敏感資料併進原本的輸出。前提是欄位數要相同——這就是為何先用 order by 試出欄位數。",
       insight: "這題示範『正常功能被武器化』：UNION 本是合法查詢工具，一旦注入點允許拼接，就成了跨表竊資料的武器。所以第六章的攻擊流程(order by 試欄位數→union select 撈資料)其實是第五章 SQL 語法的直接應用。懂 SQL 才懂 SQLi，防守方也一樣。",
@@ -1100,12 +1045,7 @@ window.QUIZ_DATA = {
     {
       id: "X-07", card: "CSRF 與 XSS 的核心差異是什麼？（一句話：一個跑我的碼、一個借你的身分）", ch: 4, topic: "跨章：CSRF vs XSS", src: "整合 ch4 repo 04", core: true, diff: 3,
       q: "CSRF 與 XSS 常被搞混，關於兩者的核心差異，何者正確？",
-      options: [
-        "XSS 是『注入並執行惡意腳本』；CSRF 是『冒用使用者已登入的身分，偽造一個請求』，不需在受害站執行腳本",
-        "兩者是完全相同的攻擊",
-        "CSRF 一定要先成功做 SQL Injection",
-        "XSS 只影響伺服器、CSRF 只影響資料庫"
-      ],
+      options: ["XSS 是注入並執行惡意腳本；CSRF 是冒用已登入身分偽造請求", "兩者相同，都是把腳本注入頁面讓瀏覽器執行", "CSRF 必須先用 SQL 注入取得資料庫權限", "XSS 只影響伺服器、CSRF 只影響資料庫"],
       ans: 0,
       exp: "XSS 重點在『執行了不該執行的腳本』；CSRF 重點在『瀏覽器自動帶上 Cookie，讓攻擊者偽造的請求被當成本人操作』。防禦也不同：XSS→輸出編碼/CSP；CSRF→CSRF Token/SameSite Cookie。",
       insight: "一句話記：XSS 是『我讓你的瀏覽器跑我的碼』，CSRF 是『我借你的身分送一個請求』。有趣的是若網站有 XSS，往往能繞過 CSRF 防護——這說明漏洞會互相加乘，資安要看『組合拳』而非單點。",
@@ -1229,12 +1169,7 @@ window.QUIZ_DATA = {
     {
       id: "1-24", card: "DNSSEC 與 DoH/DoT 各自保護什麼？（一個管『驗證/完整性』、一個管『加密/機密性』）", ch: 1, topic: "DNS 安全", src: "1.4 基礎網路服務 p.14", core: true, diff: 3,
       q: "關於 DNSSEC 與 DoH/DoT，下列敘述何者正確？",
-      options: [
-        "DNSSEC 提供『來源驗證與完整性』防止竄改/劫持，但不加密；DoH/DoT 則是把查詢『加密』防竊聽",
-        "DNSSEC 會加密所有 DNS 查詢內容",
-        "DoH/DoT 只驗證身份不加密",
-        "三者都是加密協定，功能完全相同"
-      ],
+      options: ["DNSSEC 做來源驗證與完整性（不加密）；DoH/DoT 加密查詢防竊聽", "DNSSEC 會加密整個 DNS 查詢內容以防竊聽", "DoH/DoT 只做來源驗證、確保記錄未被竄改", "三者都同時提供加密與驗證，功能完全一樣"],
       ans: 0,
       exp: "DNSSEC 用數位簽章確保記錄真實、未被竄改（防投毒/劫持），但查詢本身仍是明文；DoH(走 443)/DoT(走 853)則加密查詢防窺探。",
       insight: "這題點破一個大觀念：『驗證完整性』與『加密機密性』是兩回事。DNSSEC 管『這答案是不是真的』、DoH/DoT 管『別人看不看得到我問了什麼』。同樣的區分也出現在 HTTPS(既驗證又加密)、數位簽章 vs 加密——搞混這兩者是資安常見錯誤。",
@@ -1435,12 +1370,7 @@ window.QUIZ_DATA = {
     {
       id: "1-33", ch: 1, topic: "資安設備 IDS/IPS", src: "1.1 網路基本概念 p.14", core: true, diff: 2, examKey: true,
       q: "IDS 與 IPS 最關鍵的差別是什麼？",
-      options: [
-        "IDS 只『偵測並告警』入侵；IPS 能『主動阻擋』攻擊",
-        "IDS 會阻擋攻擊，IPS 只告警",
-        "兩者完全相同",
-        "IDS/IPS 都是防毒軟體"
-      ],
+      options: ["IDS 只偵測並告警入侵；IPS 能主動阻擋攻擊", "IDS 會主動阻擋攻擊，IPS 只負責記錄告警", "兩者相同，都會即時阻斷可疑連線", "IDS 用於內網、IPS 只用於防火牆外側"],
       ans: 0,
       exp: "IDS(入侵偵測系統)偵測異常並發出告警但不擋；IPS(入侵防禦系統)在偵測到攻擊時能主動阻斷。NAC 管設備入網、SIEM 集中日誌分析。",
       insight: "『偵測 vs 阻擋』這組對比貫穿整門課：IDS/IPS、WAF 的監控模式 vs 主動模式、資安的『偵測』與『防禦』兩種功能。同一威脅，先能看見(偵測)才談得上攔阻(防禦)——這也對應第七章 IDS/IPS 與防火牆的分工。",
@@ -1449,12 +1379,7 @@ window.QUIZ_DATA = {
     {
       id: "1-34", ch: 1, topic: "中間人攻擊", src: "1.1 網路基本概念 p.17", core: true, diff: 2,
       q: "在公共 Wi-Fi 上遭竊聽的『中間人攻擊 (MITM)』，最主要的防禦是？",
-      options: [
-        "使用 HTTPS 加密、VPN 與憑證驗證",
-        "把螢幕調暗",
-        "使用更長的檔名",
-        "關閉防毒軟體"
-      ],
+      options: ["使用 HTTPS 加密、VPN 與憑證驗證", "定期更換 Wi-Fi 密碼並隱藏 SSID", "把敏感資料改用 GET 方法傳送", "安裝防毒軟體並定期全盤掃描"],
       ans: 0,
       exp: "MITM 靠攔截明文竊聽/竄改；用 HTTPS/VPN 加密通道、驗證憑證即可讓攔截者看不懂也改不了內容。",
       insight: "MITM 的剋星永遠是『端到端加密＋身份驗證』。這把第一章(HTTPS/VPN)、1.4(TLS 憑證)、第四章(加密機制失效)全串起來——只要通道加密且能驗證對方身份，中間人就無計可施。",
@@ -1465,12 +1390,7 @@ window.QUIZ_DATA = {
     {
       id: "2-12", ch: 2, topic: "核心/使用者模式", src: "2.1 作業系統基礎 p.6", core: true, diff: 2, examKey: true,
       q: "作業系統為何要分「核心模式 (Kernel Mode)」與「使用者模式 (User Mode)」？",
-      options: [
-        "核心模式可直接存取硬體、權限最高；使用者模式執行應用程式、權限受限，藉此隔離風險",
-        "只是為了讓開機變快",
-        "兩種模式權限完全相同",
-        "使用者模式權限比核心模式高"
-      ],
+      options: ["核心模式可直存硬體、權限最高；使用者模式受限，藉此隔離風險", "為了讓系統開機更快、減少記憶體用量", "兩種模式權限相同，只是執行的程式不同", "使用者模式權限最高、可直接存取硬體"],
       ans: 0,
       exp: "核心模式直接管理硬體與資源、權限最高；一般應用跑在受限的使用者模式。這種分層是為了把不可信的程式關在低權限，避免直接搞垮系統。",
       insight: "這就是『權限分層／最小權限』在作業系統層的體現——和 Linux 的一般使用者 vs root、資料庫的 webtable vs 高權限帳號、網路的分段是同一種思維：把能造成大破壞的能力收在最小範圍。",
@@ -1527,12 +1447,7 @@ window.QUIZ_DATA = {
     {
       id: "2-17", ch: 2, topic: "帳號攻擊", src: "2.1 作業系統基礎 p.13", core: true, diff: 3, examKey: true,
       q: "「用少數幾個常見密碼，去嘗試登入大量不同帳號」以避開帳號鎖定，這種攻擊稱為？",
-      options: [
-        "密碼噴灑 (Password Spraying)",
-        "傳統暴力破解 (對單一帳號狂試密碼)",
-        "SQL 注入",
-        "XSS"
-      ],
+      options: ["密碼噴灑 (Password Spraying)", "傳統暴力破解（對單一帳號連續試密碼）", "字典攻擊（用常見密碼字典逐一嘗試）", "憑證填充（用外洩的帳密組合登入）"],
       ans: 0,
       exp: "密碼噴灑是『一個密碼試很多帳號』，剛好繞過『同一帳號試太多次就鎖定』的防護；傳統暴力破解則是對單一帳號猛試，容易觸發鎖定。",
       insight: "兩者都是猜密碼，但方向相反——這說明防禦要對症：帳號鎖定擋得住暴力破解，卻擋不住噴灑；要靠 MFA、偵測異常登入來補。防禦有效與否，取決於它擋的是哪種攻擊模式（呼應第六章『最小權限擋不了注入本身』）。",
@@ -1621,12 +1536,7 @@ window.QUIZ_DATA = {
     {
       id: "3-16", ch: 3, topic: "CSS 盒模型", src: "3.1 網頁技術基礎 p.103~105", core: true, diff: 2, examKey: true,
       q: "CSS 盒模型中，margin 與 padding 的差別是？",
-      options: [
-        "margin 是元素『外部』的空白（與其他元素的距離）；padding 是元素『內部』內容與邊框之間的空白",
-        "margin 在內、padding 在外",
-        "兩者完全相同",
-        "margin 只能設定顏色"
-      ],
+      options: ["margin 是元素外部空白（與其他元素距離）；padding 是內容與邊框間空白", "margin 是內部空白、padding 是外部空白（剛好相反）", "兩者相同，都是元素與邊框之間的距離", "margin 控制文字大小、padding 控制背景色"],
       ans: 0,
       exp: "由內到外：內容 → padding(內距) → border(邊框) → margin(外距)。padding 撐開內部、margin 推開外部相鄰元素。",
       insight: "盒模型是所有 CSS 排版的地基——flex/grid 都建立在『每個元素是一個盒子』之上。搞懂 content/padding/border/margin 四層，才不會在版面錯位時瞎猜。",
@@ -1659,12 +1569,7 @@ window.QUIZ_DATA = {
     {
       id: "4-16", ch: 4, topic: "誤報/漏報", src: "4.2 基本的漏洞掃描 p.9,21", core: true, diff: 2, examKey: true,
       q: "漏洞掃描結果中，False Positive（誤報）與 False Negative（漏報）分別指什麼？",
-      options: [
-        "誤報＝把『正常/不存在的漏洞』回報成有漏洞；漏報＝『真的有漏洞卻沒被發現』",
-        "誤報＝漏掉真漏洞；漏報＝多報假漏洞",
-        "兩者是同一件事",
-        "都表示掃描完全正確"
-      ],
+      options: ["誤報＝把不存在的漏洞報成有；漏報＝真漏洞卻沒被發現", "誤報＝真漏洞沒被發現；漏報＝多報了假漏洞", "兩者相同，都表示掃描工具設定錯誤", "誤報指掃描逾時、漏報指被防火牆擋下"],
       ans: 0,
       exp: "誤報浪費人力去查不存在的問題；漏報更危險——真漏洞被放過。所以掃描結果要人工驗證、多工具交叉檢查來排除誤報、補足漏報。",
       insight: "誤報 vs 漏報這組概念到處出現：WAF 誤阻(擋到正常請求) vs 漏檢(放過攻擊)、IDS 告警、資安判斷。安全永遠在『太鬆(漏報)』與『太緊(誤報)』間權衡——這也是為何自動化工具一定要配人工驗證。",
@@ -1694,12 +1599,7 @@ window.QUIZ_DATA = {
     {
       id: "4-19", ch: 4, topic: "防火牆 vs WAF", src: "4.3 網站防火牆基礎 p.9", core: true, diff: 3, examKey: true,
       q: "傳統網路層防火牆與 Web 應用程式防火牆 (WAF) 的關鍵差別是？",
-      options: [
-        "網路層防火牆在 L3/L4 過濾 IP/埠；WAF 在 L7 深度檢查 HTTP 請求內容，能防 XSS、SQL 注入等應用層攻擊",
-        "WAF 只看 IP 和埠、不看內容",
-        "兩者運作在完全相同的層級、功能一樣",
-        "網路層防火牆能防 SQL 注入，WAF 不能"
-      ],
+      options: ["網路層防火牆在 L3/L4 過濾 IP/埠；WAF 在 L7 檢查 HTTP 內容防 XSS/SQLi", "WAF 運作在 L3/L4、只看 IP 和埠不看內容", "兩者都在 L7 運作、功能完全重疊可互換", "網路層防火牆能深檢 HTTP、WAF 只擋埠"],
       ans: 0,
       exp: "網路層防火牆(封包過濾/狀態檢測/NGFW)看 IP/埠、開銷低但無法解讀 HTTP 內容；WAF 是應用層(L7)、常以反向代理部署，深度檢查請求內容以防 XSS/SQLi。",
       insight: "這題把第一章 OSI 分層變成防禦策略：不同層要不同防火牆。網路層擋不了應用層攻擊(SQLi/XSS)，所以要 WAF 補上——這正是『縱深防禦』：網路層防火牆是第一道、WAF 是第二道，各守一層。",
@@ -1737,12 +1637,7 @@ window.QUIZ_DATA = {
     {
       id: "6-14", ch: 6, topic: "MySQL 權限", src: "6.1 資料庫安全入門 p.22", core: true, diff: 2, examKey: true,
       q: "在 MySQL 中，「授予」與「收回」使用者權限分別用哪兩個指令？",
-      options: [
-        "GRANT（授予）與 REVOKE（收回）",
-        "ALLOW 與 DENY",
-        "ADD 與 REMOVE",
-        "OPEN 與 CLOSE"
-      ],
+      options: ["GRANT（授予）與 REVOKE（收回）", "ALLOW（授予）與 DENY（收回）", "ADD（授予）與 DROP（收回）", "PERMIT（授予）與 DENY（收回）"],
       ans: 0,
       exp: "GRANT 授予權限（可到資料庫/表/欄位層級，如 SELECT、INSERT）、REVOKE 收回。搭配角色(管理員/讀寫/唯讀)實現最小權限。",
       insight: "GRANT/REVOKE 是把『最小權限原則』落地的工具：只給應用帳號必要的權限。這正是第六章 SQLi Lab 裡 webtable/websp 帳號切分的底層機制——理論(最小權限)與指令(GRANT/REVOKE)要一起記。",
@@ -1817,12 +1712,7 @@ window.QUIZ_DATA = {
     {
       id: "1-37", ch: 1, topic: "滲透測試 vs 弱點掃描", src: "0 課前基本認識 p.56~58", core: true, diff: 3, examKey: true,
       q: "「滲透測試 (Penetration Testing)」與「弱點掃描 (Vulnerability Scanning)」最主要的差別是？",
-      options: [
-        "弱點掃描是自動化找出『已知漏洞』；滲透測試是模擬真實攻擊、實際嘗試利用漏洞（可黑箱/白箱/灰箱），更深入",
-        "兩者完全相同",
-        "滲透測試只是模擬所以不需授權，反而是弱點掃描才需要書面授權",
-        "弱點掃描會實際入侵並取得權限，滲透測試則只是被動掃描、不觸碰系統"
-      ],
+      options: ["弱點掃描自動找已知漏洞；滲透測試模擬真實攻擊、實際利用（黑白灰箱）", "兩者相同，都是自動列出系統已知漏洞清單", "滲透測試只是模擬所以不需授權，弱點掃描才需要", "弱點掃描會實際入侵取得權限、滲透測試只被動掃描"],
       ans: 0,
       exp: "弱點掃描用工具(Nessus/OpenVAS)自動列出已知漏洞、偏廣度；滲透測試模擬駭客實際攻擊鏈、驗證能否真正得手，分黑箱(無資訊)/白箱(全資訊)/灰箱(部分)。兩者都須取得授權。",
       insight: "『掃描找出可能有問題、滲透驗證真的能被打穿』——這對應 4.2 漏洞掃描的『誤報要人工驗證』：自動化負責廣度、人工/滲透負責深度與確認。兩者互補，構成完整的主動防禦。",
@@ -1842,12 +1732,7 @@ window.QUIZ_DATA = {
     {
       id: "3-19", ch: 3, topic: "CIA 三大支柱", src: "3.2 基礎網站安全 p.4~6", core: true, diff: 2, examKey: true,
       q: "資訊安全的三大支柱 (CIA) 是指哪三者？",
-      options: [
-        "機密性 (Confidentiality)、完整性 (Integrity)、可用性 (Availability)",
-        "加密、防火牆、防毒",
-        "帳號、密碼、驗證碼",
-        "備份、還原、稽核"
-      ],
+      options: ["機密性 (Confidentiality)、完整性 (Integrity)、可用性 (Availability)", "身分驗證 (Authentication)、授權 (Authorization)、稽核 (Accounting)", "預防 (Prevention)、偵測 (Detection)、回應 (Response)", "加密 (Encryption)、雜湊 (Hashing)、簽章 (Signature)"],
       ans: 0,
       exp: "CIA＝機密性(資料不被未授權者看到)、完整性(資料不被竄改)、可用性(需要時可正常使用)。這是評估任何資安措施的根本框架。",
       insight: "CIA 是整門課的最上層地圖：加密/存取控制守『機密性』、雜湊/數位簽章守『完整性』、備份/防 DoS 守『可用性』。看任何攻擊都可問『它破壞了哪個 C/I/A』——SQLi 竊資料(C)、竄改資料(I)；DDoS 打(A)。",
@@ -1867,12 +1752,7 @@ window.QUIZ_DATA = {
     {
       id: "5-21", card: "SQL 的 DDL / DML / DCL 各負責什麼？各舉一個指令。", ch: 5, topic: "SQL 語言分類", src: "5.1 資料庫基本概念 p.16", core: true, diff: 3, examKey: true,
       q: "SQL 依功能可分為 DDL / DML / DCL。下列配對何者正確？",
-      options: [
-        "DDL 定義結構(CREATE/ALTER)、DML 操作資料(SELECT/INSERT/UPDATE/DELETE)、DCL 控制權限(GRANT/REVOKE)",
-        "DDL 控制權限、DML 定義結構、DCL 操作資料",
-        "三者都只用來查詢資料",
-        "DDL 是防火牆、DML 是防毒、DCL 是備份"
-      ],
+      options: ["DDL 定義結構、DML 操作資料(SELECT/INSERT)、DCL 控權限(GRANT/REVOKE)", "DDL 控制權限、DML 定義結構、DCL 操作資料", "DDL 定義結構、DML 控制權限、DCL 操作資料", "DDL 資料備份、DML 資料還原、DCL 資料加密"],
       ans: 0,
       exp: "DDL(Data Definition Language)定義/修改結構如 CREATE TABLE；DML(Data Manipulation)增刪查改資料；DCL(Data Control)管權限 GRANT/REVOKE。",
       insight: "這個分類把第五、六章縫起來：DML 是你平常寫的查詢、DDL 建表定型別與主鍵、DCL 就是第六章『最小權限』用的 GRANT/REVOKE。同一個 SQL，用途一分類，權限管理與資料操作的界線就清楚了。",
@@ -1896,12 +1776,7 @@ window.QUIZ_DATA = {
     {
       id: "6-18", ch: 6, topic: "union-based SQLi", src: "6.2 SQLi Labs p.6~8", core: true, diff: 3, examKey: true,
       q: "在 union-based SQL injection 中，攻擊者查詢 information_schema 的主要目的是？",
-      options: [
-        "列舉資料庫的結構——有哪些資料表、每張表有哪些欄位，藉此鎖定要竊取的目標(如 users 表的 password 欄)",
-        "加密整個資料庫",
-        "備份資料庫",
-        "修復漏洞"
-      ],
+      options: ["列舉資料庫結構（有哪些表、每表哪些欄），鎖定要竊取的目標", "取得資料庫的版本與作業系統資訊", "繞過登入頁面的密碼驗證機制", "在資料庫植入後門帳號以長期存取"],
       ans: 0,
       exp: "information_schema 是 MySQL 記錄『元資料』的系統資料庫。攻擊者用 UNION SELECT ... FROM information_schema.tables/columns 列舉表名與欄名，找到 users 後再 UNION 撈 username/password。",
       insight: "完整攻擊鏈把第五、六章串起來：先 order by 試欄位數 → union select database()/version() 探環境 → 查 information_schema 列舉結構 → GROUP_CONCAT 把多筆壓成一格撈出帳密。每一步都是合法 SQL 語法被武器化——懂 SQL 才擋得住 SQLi。",
@@ -1923,12 +1798,7 @@ window.QUIZ_DATA = {
     {
       id: "6-20", card: "用 .env 存資料庫帳密時，三個防範重點是什麼？（放哪、擋什麼、加什麼）", ch: 6, topic: "機密設定管理", src: "5 補充1 PHP+MYSQL（.env）", core: true, diff: 3, examKey: true,
       q: "把資料庫帳密（DB_HOST/DB_USER/DB_PASSWORD）放進 .env 檔管理時，正確的防範做法包含哪些？",
-      options: [
-        "把 .env 放在網站根目錄 (Document Root) 之外、設定 WebServer 拒絕對 .env 的 HTTP 請求、並將 .env 加入 .gitignore 避免被提交",
-        "把 .env 直接放進 public 資料夾方便存取",
-        "把帳密寫死在原始碼並上傳到公開 GitHub",
-        "把 .env 內容印在網頁上"
-      ],
+      options: ["放在網站根目錄之外、設 WebServer 拒絕 .env 的 HTTP 請求、並加入 .gitignore", "把 .env 放進 public 資料夾方便程式讀取", "把帳密改寫在 config.php 並上傳 GitHub 備份", "在 .env 開頭加註解說明以避免被誤刪"],
       ans: 0,
       exp: "機密設定不可外洩：.env 放在文件根目錄外(避免被直接下載)、WebServer 設 deny 規則擋 .env 請求、加入 .gitignore(改用 .env.example 當範本)避免連同密碼推上版控。",
       insight: "這正是 OWASP『安全配置錯誤/機密外洩』的實務：很多外洩不是被駭，而是密碼被 commit 到 GitHub 或 .env 能被直接下載。呼應第六章 Lab『Web 不用 root 帳號』——保護憑證與最小權限一起，才是完整的資料庫防線。",
@@ -1962,12 +1832,7 @@ window.QUIZ_DATA = {
     {
       id: "2-21", ch: 2, topic: "檔案權限", src: "2.2 Linux（情境）", core: true, diff: 3, examKey: true,
       q: "情境：某網站把使用者『上傳檔案的目錄』權限設成 777。這最可能造成什麼風險？",
-      options: [
-        "任何人皆可寫入該目錄，攻擊者可上傳並執行惡意程式（如 webshell）取得伺服器控制權",
-        "檔案讀寫少了權限檢查，因此網站的存取速度會明顯變快",
-        "777 代表最高保護等級，上傳的檔案會被系統自動加密保存",
-        "上傳目錄本來就該開放最大權限，這是常見且正確的設定"
-      ],
+      options: ["任何人可寫入該目錄，攻擊者能上傳並執行 webshell 控制伺服器", "檔案讀寫少了權限檢查，網站存取速度會明顯變快", "777 代表最高保護等級，上傳的檔案會被自動加密", "上傳目錄本就該開放最大權限，這是常見且正確的設定"],
       ans: 0,
       exp: "777＝所有人可讀寫執行。可寫的上傳目錄若又能執行，攻擊者上傳 webshell 即可遠端控制。正確做法：最小權限、上傳目錄禁止執行、驗證檔案類型。",
       insight: "把第二章的權限數字接到真實攻擊：777 不是抽象的『太寬鬆』，而是『別人能放 webshell』。這也呼應 OWASP 的安全配置錯誤——很多入侵源於一個過寬的權限設定。",
@@ -1976,12 +1841,7 @@ window.QUIZ_DATA = {
     {
       id: "2-22", ch: 2, topic: "日誌監控", src: "2.2 Linux p.8,30（應用）", core: false, diff: 2, examKey: true,
       q: "情境：你想『即時』盯著系統，看是否有人不斷嘗試登入失敗。最適合的指令組合是？",
-      options: [
-        "tail -f /var/log/auth.log | grep \"Failed password\"",
-        "cat /etc/passwd",
-        "chmod 777 /var/log",
-        "ping 127.0.0.1"
-      ],
+      options: ["tail -f /var/log/auth.log | grep \"Failed password\"", "grep root /etc/passwd | wc -l", "cat /var/log/auth.log > /dev/null", "netstat -an | grep :22"],
       ans: 0,
       exp: "tail -f 即時追蹤日誌新增內容、grep 篩出『Failed password』失敗紀錄，管道 | 串接兩者。這正是偵測暴力破解/密碼噴灑的基本手法。",
       insight: "這題把 tail -f、grep、管道三個第二章工具組成一個真實的『監控腳本』——資安監控就是這樣把小工具串成偵測能力，對應 OWASP『日誌與告警』的實作面。",
@@ -1990,12 +1850,7 @@ window.QUIZ_DATA = {
     {
       id: "3-21", ch: 3, topic: "HTTP 狀態碼", src: "1.4 / 3.1（情境）", core: true, diff: 2, examKey: true,
       q: "情境：使用者『尚未登入』就想存取需要驗證的 /admin 頁面。依語意，伺服器最適合回應哪個 HTTP 狀態碼？",
-      options: [
-        "401 Unauthorized（需要先通過身份驗證）",
-        "200 OK",
-        "404 Not Found",
-        "500 Internal Server Error"
-      ],
+      options: ["401 Unauthorized", "403 Forbidden", "404 Not Found", "500 Internal Server Error"],
       ans: 0,
       exp: "尚未驗證身分→401(要你先登入)；若已登入但沒權限→403 Forbidden。404 是找不到資源、500 是伺服器錯誤。",
       insight: "401 vs 403 是『沒認證 vs 沒授權』，正好對應 OWASP 的認證失效(A07) vs 存取控制失效(A01)。看到狀態碼能反推是哪種安全問題——這是把第一章 HTTP 和第四章 OWASP 串起來的關鍵。",
@@ -2018,12 +1873,7 @@ window.QUIZ_DATA = {
     {
       id: "5-23", ch: 5, topic: "GROUP BY / HAVING", src: "5.2 / imdbdemo（應用）", core: true, diff: 3, examKey: true,
       q: "情境：你要查『每個電影類型 (type) 的平均評分，且只顯示平均評分大於 8 的類型』。SQL 該怎麼組合？",
-      options: [
-        "SELECT type, AVG(rating) FROM ... GROUP BY type HAVING AVG(rating) > 8",
-        "SELECT type, AVG(rating) FROM ... WHERE AVG(rating) > 8",
-        "SELECT type FROM ... ORDER BY rating > 8",
-        "SELECT type FROM ... GROUP BY rating WHERE type > 8"
-      ],
+      options: ["SELECT type, AVG(rating) FROM t GROUP BY type HAVING AVG(rating) > 8", "SELECT type, AVG(rating) FROM t WHERE AVG(rating) > 8 GROUP BY type", "SELECT type, AVG(rating) FROM t GROUP BY type WHERE AVG(rating) > 8", "SELECT type FROM t GROUP BY type ORDER BY AVG(rating) > 8"],
       ans: 0,
       exp: "先 GROUP BY type 分組算 AVG，再用 HAVING 過濾分組後的聚合值。WHERE 不能用聚合函數（它在分組前作用）。",
       insight: "這題把 GROUP BY / HAVING / WHERE 的差別變成實作：要『對分組結果篩選』就一定是 HAVING。記住執行順序 WHERE→GROUP BY→HAVING，這類題就能自己推出來。",
@@ -2032,12 +1882,7 @@ window.QUIZ_DATA = {
     {
       id: "6-21", ch: 6, topic: "SQL 注入", src: "6.1 / 6.2（情境）", core: true, diff: 3, examKey: true,
       q: "情境：登入框帳號欄輸入 admin'-- 後，不用密碼就成功登入了。這是為什麼？",
-      options: [
-        "-- 是 SQL 註解，把後面『AND password=...』整段變成註解而失效，於是只用 admin 就通過驗證",
-        "因為 admin 是萬用密碼",
-        "因為網站沒有資料庫",
-        "因為瀏覽器自動填了密碼"
-      ],
+      options: ["-- 是 SQL 註解，把後面的密碼比對整段註解掉，只剩比對 admin", "因為 admin 是資料庫預設的萬用管理帳號", "因為單引號讓查詢自動跳過了密碼欄位", "因為 -- 會讓資料庫忽略密碼的大小寫"],
       ans: 0,
       exp: "後端若拼成 ...WHERE username='admin'-- ' AND password='...'，註解符號 -- 讓密碼條件失效，查詢只剩比對 username='admin'，於是繞過密碼。根本防禦：參數化查詢。",
       insight: "這和 ' OR '1'='1 是同一類注入的不同手法：一個讓條件恆真、一個把驗證註解掉。共通點都是『輸入被當成 SQL 語法』——所以防禦也同一招：參數化查詢讓輸入永遠只是資料。",
@@ -2079,12 +1924,7 @@ window.QUIZ_DATA = {
       id: "1-43", ch: 1, topic: "加密種類", src: "1.4 基礎網路服務（TLS）/ 6.1（概念）", core: true, diff: 3, examKey: true, kind: "term",
       card: "對稱式與非對稱式加密差在哪？各舉一例、各解決什麼問題？",
       q: "對稱式加密與非對稱式加密的關鍵差別是？",
-      options: [
-        "對稱用『同一把金鑰』加解密(如 AES)、速度快；非對稱用『公鑰/私鑰配對』(如 RSA)、解決金鑰交換與身分驗證",
-        "對稱較慢、非對稱較快，兩者用途相同",
-        "非對稱只能用於雜湊",
-        "對稱式無法用於加密"
-      ],
+      options: ["對稱用同一把金鑰(AES)、快；非對稱用公私鑰(RSA)、解決金鑰交換", "對稱較慢、非對稱較快，但兩者用途完全相同", "非對稱加密只能用來產生雜湊值、不能加密", "對稱式只能做數位簽章、非對稱式才能加密"],
       ans: 0,
       exp: "對稱(AES)同一把鑰匙、快，但雙方要先安全交換鑰匙；非對稱(RSA)公鑰加密私鑰解密，解決金鑰交換與驗證身分的問題。",
       insight: "HTTPS/TLS 正是兩者合用的經典：先用『非對稱』安全交換一把臨時金鑰，之後用『對稱』快速加密大量資料——這解釋了為何 TLS 握手要用憑證(公鑰)。理解『各解決什麼問題』比背演算法名字有用。",
@@ -2094,12 +1934,7 @@ window.QUIZ_DATA = {
       id: "2-23", ch: 2, topic: "最小權限", src: "2.1/2.2（大觀念）", core: true, diff: 2, examKey: true, kind: "concept",
       card: "什麼是最小權限原則 (Least Privilege)？在哪些地方會用到？",
       q: "『最小權限原則 (Least Privilege)』的核心概念是？",
-      options: [
-        "只授予使用者/程式『完成工作所需的最低限度』權限，以縮小被攻破後的損害範圍",
-        "給每個人最高權限以方便作業",
-        "讓所有帳號共用管理員權限",
-        "只跟密碼長度有關"
-      ],
+      options: ["只授予完成工作所需的最低權限，縮小被攻破後的損害", "預設給予最高權限，事後再逐步收回不必要的", "讓同部門帳號共用權限，方便集中管理", "只要密碼夠強，權限給多給少都沒關係"],
       ans: 0,
       exp: "最小權限＝能不給就不給。應用遍及全課：Linux 一般帳號 vs root、資料庫 webtable/websp、Windows 標準帳號、存取控制。即使被入侵，權限越小、爆炸半徑越小。",
       insight: "這是貫穿整門課的『大觀念』之一，和縱深防禦、零信任並列。看到任何『帳號/權限』設計，都可以問一句：有沒有遵守最小權限？這比記某個指令更能建立資安直覺。",
@@ -2109,12 +1944,7 @@ window.QUIZ_DATA = {
       id: "2-24", ch: 2, topic: "社交工程", src: "2.1 作業系統基礎 p.13（種類）", core: true, diff: 2, examKey: true, kind: "term",
       card: "社交工程 (Social Engineering) 攻擊利用的是什麼？舉一個典型例子。",
       q: "『社交工程 (Social Engineering)』攻擊的本質是？",
-      options: [
-        "利用『人』的心理弱點（信任、恐懼、好奇、貪小便宜）誘騙洩密或操作，而非攻擊技術漏洞",
-        "只利用軟體漏洞",
-        "一種加密演算法",
-        "一種資料庫語法"
-      ],
+      options: ["利用人的心理弱點（信任/恐懼/好奇）誘騙洩密或操作", "利用作業系統或軟體的技術漏洞入侵", "透過大量流量癱瘓目標的服務", "在傳輸過程中攔截並竄改封包內容"],
       ans: 0,
       exp: "社交工程攻擊的是人不是機器：釣魚郵件、假冒客服、誘騙點連結。再強的技術防護也擋不住人被騙，所以『資安意識訓練』是重要防線。",
       insight: "資安不只是技術——最弱的一環常是『人』。釣魚(phishing)是社交工程最常見的形式，常與惡意程式、憑證竊取結合。這提醒我們：防禦要涵蓋技術＋流程＋人的意識。",
@@ -2124,12 +1954,7 @@ window.QUIZ_DATA = {
       id: "4-23", ch: 4, topic: "認證與授權", src: "4.1 OWASP（大觀念）", core: true, diff: 2, examKey: true, kind: "concept",
       card: "認證 (Authentication) 與授權 (Authorization) 有什麼不同？",
       q: "資安中『認證 (Authentication)』與『授權 (Authorization)』的差別是？",
-      options: [
-        "認證＝確認『你是誰』（登入驗證身分）；授權＝確認『你能做什麼』（存取權限）",
-        "兩者是同一件事",
-        "認證是權限、授權是身分",
-        "兩者都只跟加密有關"
-      ],
+      options: ["認證＝確認你是誰（驗證身分）；授權＝確認你能做什麼（權限）", "認證＝確認你能做什麼；授權＝確認你是誰（剛好相反）", "兩者相同，只是認證用於前端、授權用於後端", "認證負責加密資料、授權負責解密資料"],
       ans: 0,
       exp: "先認證(你是誰)、再授權(你能做什麼)。對應 HTTP 401(未認證) vs 403(已認證但無權限)，也對應 OWASP 的認證失效(A07) vs 存取控制失效(A01)。",
       insight: "這組概念是 Web 安全的地基：把『你是誰』和『你能做什麼』分開想，很多題目（狀態碼、OWASP 分類、權限設計）就一次串通。搞混這兩者是初學者最常見的觀念錯誤。",
@@ -2139,12 +1964,7 @@ window.QUIZ_DATA = {
       id: "4-24", ch: 4, topic: "注入攻擊種類", src: "4.1 OWASP A05（種類）", core: true, diff: 2, examKey: true, kind: "term",
       card: "『注入攻擊 (Injection)』這一大類包含哪些？共通根因是什麼？",
       q: "關於『注入攻擊 (Injection)』這一類，何者最正確？",
-      options: [
-        "SQL 注入、OS 命令注入、LDAP 注入都屬於它；共通根因是『不可信輸入被當成命令/查詢的一部分執行』",
-        "只有 SQL 注入算注入攻擊",
-        "注入攻擊只發生在前端",
-        "注入攻擊與使用者輸入無關"
-      ],
+      options: ["SQL/OS 命令/LDAP 注入都屬於它，共通根因是輸入被當成命令執行", "只有 SQL 注入算注入，其餘都歸類為 XSS", "注入只發生在前端，與後端資料庫無關", "注入攻擊與使用者輸入無關，是伺服器設定問題"],
       ans: 0,
       exp: "注入是一個『類別』：SQL/NoSQL/OS 命令/LDAP 注入都是同一原理的不同場景——輸入未經妥善處理就進了解析器。防禦同源：參數化/白名單/輸出編碼，讓輸入只當資料。",
       insight: "把它當『大類』而非單一攻擊：XSS 本質上也是把輸入注入到 HTML 被瀏覽器執行。抓住『資料與程式碼未分離』這個共通根因，就能理解一整片注入類漏洞，而不是逐個死背。",
@@ -2154,12 +1974,7 @@ window.QUIZ_DATA = {
       id: "4-25", ch: 4, topic: "防火牆種類", src: "4.3 網站防火牆（種類）", core: false, diff: 2, examKey: true, kind: "term",
       card: "網路層防火牆有哪幾種類型？和 WAF 的分工是什麼？",
       q: "傳統網路層防火牆依運作方式主要分為哪幾類？",
-      options: [
-        "封包過濾防火牆、狀態檢測防火牆、下一代防火牆 (NGFW)",
-        "只有一種，沒有分類",
-        "對稱防火牆與非對稱防火牆",
-        "DDL、DML、DCL 防火牆"
-      ],
+      options: ["封包過濾、狀態檢測、下一代防火牆 (NGFW)", "軟體防火牆、硬體防火牆、雲端防火牆", "對稱防火牆、非對稱防火牆、混合防火牆", "第一層、第二層、第三層階層式防火牆"],
       ans: 0,
       exp: "封包過濾(看標頭)、狀態檢測(追蹤連線狀態)、NGFW(整合應用辨識/入侵防禦)。這些運作在 L3/L4；應用層攻擊(XSS/SQLi)則交給 L7 的 WAF。",
       insight: "把防禦工具依『守哪一層』分類：網路層防火牆守 L3/L4、WAF 守 L7、IDS/IPS 偵測與阻擋。理解各自的位置與分工，才知道一個攻擊該由誰擋——這就是縱深防禦的佈局。",
@@ -2169,12 +1984,7 @@ window.QUIZ_DATA = {
       id: "4-26", ch: 4, topic: "縱深防禦", src: "4.3 / 0 課前（大觀念）", core: true, diff: 2, examKey: true, kind: "concept",
       card: "什麼是縱深防禦 (Defense in Depth)？舉出課程中的例子。",
       q: "『縱深防禦 (Defense in Depth)』的核心概念是？",
-      options: [
-        "用『多層互補』的防護，任何一層被突破，仍有其他層擋著，避免單點失效就全盤皆輸",
-        "集中資源打造單一最強防線，只要那一道夠強，就不需要其他層",
-        "把所有防護都部署在網路最外層，形成一道堅固的邊界即可",
-        "指的是把重要資料重複加密兩次以上，加密的層數越多越安全"
-      ],
+      options: ["用多層互補的防護，一層被突破仍有其他層擋著", "集中資源打造單一最強防線，夠強就不需其他層", "把所有防護部署在網路最外層，形成一道邊界", "把重要資料重複加密兩次以上，層數越多越安全"],
       ans: 0,
       exp: "縱深防禦＝多層防護疊加。課程例子：SQLi 的參數化查詢＋最小權限、Cookie 的 Secure/HttpOnly/SameSite、網路層防火牆＋WAF、修補＋虛擬補丁。",
       insight: "這是資安最重要的『大觀念』之一：沒有單一銀彈，任何一層都可能失效，所以要層層設防。你會發現整門課的防禦措施，幾乎都能歸到『這是第幾層、補的是哪個缺口』。",
@@ -2184,12 +1994,7 @@ window.QUIZ_DATA = {
       id: "4-27", ch: 4, topic: "存取控制", src: "4.1 OWASP A01（大觀念）", core: true, diff: 2, examKey: true, kind: "term",
       card: "存取控制 (Access Control) 是什麼？失效會怎樣？",
       q: "『存取控制 (Access Control)』在資安中的目的是？",
-      options: [
-        "確保只有『經授權』的使用者能存取特定資源或功能，防止越權存取",
-        "加快網頁載入速度",
-        "把資料壓縮",
-        "產生亂數密碼"
-      ],
+      options: ["確保只有經授權者能存取特定資源，防止越權", "確保資料在傳輸過程中不被竊聽或竄改", "確保系統在遭受攻擊下仍能維持正常運作", "確保每筆操作都留下無法否認的紀錄"],
       ans: 0,
       exp: "存取控制決定『誰能存取什麼』。失效就是 OWASP 2025 排第一的『存取控制失效』——如改個 URL/參數就看到別人資料。防護：最小權限、強制授權檢查、良好的存取控制模型。",
       insight: "存取控制是『授權』的落實，和認證(你是誰)互補。它排 OWASP 榜首，因為多數功能的安全都靠『這個人能不能做這件事』的檢查——漏一個就出事。與 Linux/DB 的權限、最小權限同屬一個大主題。",
@@ -2199,12 +2004,7 @@ window.QUIZ_DATA = {
       id: "6-22", ch: 6, topic: "雜湊與加密", src: "6.1 資料庫安全（重點詞）", core: true, diff: 3, examKey: true, kind: "term",
       card: "雜湊 (hash) 與加密 (encryption) 有什麼根本不同？密碼該用哪個存？",
       q: "『雜湊 (hashing)』與『加密 (encryption)』的根本差別是？",
-      options: [
-        "雜湊是『單向、不可還原』（用於驗證完整性、儲存密碼）；加密是『可用金鑰還原』（用於保護機密性）",
-        "兩者都可以用金鑰還原",
-        "雜湊比加密更容易被還原",
-        "加密是單向的、雜湊是雙向的"
-      ],
+      options: ["雜湊單向不可還原（驗完整性/存密碼）；加密可用金鑰還原（保機密性）", "兩者都可用金鑰還原，差別只在演算法速度", "雜湊可還原、加密不可還原（剛好相反）", "雜湊用於加密傳輸、加密用於驗證完整性"],
       ans: 0,
       exp: "雜湊(如 SHA-256)單向不可逆，適合存密碼(加鹽)與驗證檔案完整性；加密(如 AES)可用金鑰還原，適合保護要再讀回的機敏資料。密碼要『雜湊加鹽』，不是加密。",
       insight: "常見大誤解：『把密碼加密儲存』——其實密碼應該『雜湊加鹽』，因為系統不需要還原密碼、只需比對。雜湊對應 CIA 的完整性、加密對應機密性；分清這兩者，密碼儲存與資料保護的題目就不會錯。",
@@ -2216,12 +2016,7 @@ window.QUIZ_DATA = {
       id: "FIX-1", ch: 6, topic: "SQL 注入", src: "整合 ch6（挑錯）", core: true, diff: 3, examKey: true, kind: "fixit",
       card: "PHP 用字串串接組 SQL 查詢，錯在哪、該怎麼改？",
       q: "某後端這樣寫：$sql = \"SELECT * FROM users WHERE id = $id\";（$id 直接來自使用者）。主要問題與正確修正是？",
-      options: [
-        "有 SQL Injection 漏洞（輸入被當語法）；應改用參數化查詢/預備語句 (Prepared Statement) 讓輸入只當資料",
-        "改用字串跳脫函式（如 addslashes）處理 $id 即可，跳脫後就不會被注入",
-        "只要把 $id 用單引號包成 WHERE id='$id'，變成字串就安全了",
-        "只要在前端限制輸入欄位只能填數字，後端就不必再處理"
-      ],
+      options: ["有 SQL Injection 漏洞（輸入被當語法）；應改用參數化查詢", "改用字串跳脫函式（addslashes）處理即可，跳脫後就安全", "把 $id 用單引號包成 WHERE id='$id'，變成字串就安全", "在前端限制輸入只能填數字，後端就不必再處理"],
       ans: 0,
       exp: "字串串接把 $id 當成 SQL 語法 → 可注入。修正：用 PDO/mysqli 的參數化查詢 `WHERE id = ?` 綁定參數。改名、改 SELECT 都無效。",
       insight: "挑錯的重點是認出『不可信輸入被拼進要執行的字串』這個病根，並知道對症的藥＝參數化查詢。看到字串串接組 SQL/HTML/命令，直覺就要警覺。",
@@ -2231,12 +2026,7 @@ window.QUIZ_DATA = {
       id: "FIX-2", ch: 2, topic: "檔案權限", src: "整合 ch2（挑錯）", core: true, diff: 2, examKey: true, kind: "fixit",
       card: "把使用者上傳目錄設成 chmod 777，錯在哪、怎麼改？",
       q: "管理員把網站『使用者上傳目錄』權限設為 chmod 777。這樣做的問題與正確修正是？",
-      options: [
-        "777 = 任何人可讀寫執行，攻擊者可上傳並執行 webshell；應收緊權限、上傳目錄禁止執行、驗證檔案類型",
-        "777 是伺服器的預設標準權限，維持它才能確保上傳功能正常運作",
-        "應該再加上 SUID 位（如 4777）讓程式以擁有者身分執行，更方便",
-        "只要上傳目錄不放在網站根目錄下，維持 777 也沒有風險"
-      ],
+      options: ["777 任何人可讀寫執行、可上傳 webshell；應收緊權限並禁止執行", "777 是伺服器預設標準權限，維持它上傳功能才正常", "應再加上 SUID 位（4777）讓程式以擁有者身分執行", "只要上傳目錄不放在網站根目錄下就沒有風險"],
       ans: 0,
       exp: "777 過度寬鬆＋可執行＝webshell 溫床。修正：最小權限（如目錄 755、檔案 644）、上傳目錄關閉執行、白名單驗證副檔名與內容。沒有 999 這種權限。",
       insight: "把權限數字連到真實後果：777 不是抽象的『太鬆』，而是『別人能放後門』。這就是最小權限原則要防的。",
@@ -2246,12 +2036,7 @@ window.QUIZ_DATA = {
       id: "FIX-3", ch: 6, topic: "密碼儲存", src: "整合 ch6（挑錯）", core: true, diff: 3, examKey: true, kind: "fixit",
       card: "系統把使用者密碼用 md5() 或明文存進資料庫，錯在哪、怎麼改？",
       q: "某系統把使用者密碼用 md5(密碼) 存入資料庫。這樣做的問題與正確修正是？",
-      options: [
-        "MD5 快又可被彩虹表/暴力破解，形同幾乎沒保護；應改用專為密碼設計的雜湊並加鹽（如 bcrypt/argon2）",
-        "MD5 是單向雜湊、無法還原，用來存密碼已經足夠安全，不必更改",
-        "改用 Base64 編碼儲存即可，因為編碼後別人看不懂內容",
-        "只要把密碼連續做兩次 MD5（雙重雜湊），就能達到足夠強度"
-      ],
+      options: ["MD5 快又可被彩虹表/暴力破解；應改用 bcrypt/argon2 加鹽", "MD5 是單向雜湊無法還原，用來存密碼已足夠安全", "改用 Base64 編碼儲存即可，編碼後別人看不懂", "把密碼連續做兩次 MD5（雙重雜湊）就夠強"],
       ans: 0,
       exp: "MD5 運算太快、易被破解，明文更糟。修正：用 bcrypt/scrypt/argon2 這類慢雜湊＋隨機鹽。系統只需比對、不需還原密碼，所以要『雜湊』不是『加密』。",
       insight: "這題連到『雜湊 vs 加密』與『資料外洩風險』：密碼該單向雜湊加鹽。看到 md5/明文存密碼，就要知道錯在哪、怎麼修。",
@@ -2276,12 +2061,7 @@ window.QUIZ_DATA = {
       id: "FIX-5", ch: 3, topic: "XSS", src: "整合 ch3（挑錯）", core: true, diff: 2, examKey: true, kind: "fixit",
       card: "PHP 直接 echo $_GET['q'] 到頁面，錯在哪、怎麼改？",
       q: "某頁面直接 `echo $_GET['q'];` 把使用者輸入輸出到 HTML。問題與正確修正是？",
-      options: [
-        "有反射型 XSS 風險（輸入被當 HTML/JS 執行）；應做輸出編碼（htmlspecialchars）或改用安全的輸出方式",
-        "只要在 echo 前用 trim() 去除前後空白，就不會有 XSS",
-        "改用 print 或 printf 輸出，就會自動過濾掉危險的標籤",
-        "只要在前端用 JavaScript 事先過濾掉 <script> 字串就足夠了"
-      ],
+      options: ["有反射型 XSS 風險（輸入被當 HTML/JS 執行）；應做輸出編碼", "在 echo 前用 trim() 去除前後空白就不會有 XSS", "改用 print 或 printf 輸出就會自動過濾危險標籤", "在前端用 JavaScript 事先過濾 <script> 字串就夠"],
       ans: 0,
       exp: "未編碼就輸出使用者輸入 → 反射型 XSS。修正：輸出時做 HTML 實體編碼（htmlspecialchars），前端用 textContent 取代 innerHTML，並可加 CSP。print/改名無效。",
       insight: "注入類漏洞的共通病根：輸入未經處理進了會被解析執行的地方。SQLi 用參數化、XSS 用輸出編碼——藥不同，病理相同。",
@@ -2291,12 +2071,7 @@ window.QUIZ_DATA = {
       id: "FIX-6", ch: 6, topic: "最小權限", src: "整合 ch6（挑錯）", core: true, diff: 2, examKey: true, kind: "fixit",
       card: "網站程式用 root 帳號連資料庫，錯在哪、怎麼改？",
       q: "某網站程式直接用資料庫的 root（最高權限）帳號連線。問題與正確修正是？",
-      options: [
-        "一旦被 SQL Injection 攻破，攻擊者就有全庫最高權限（爆炸半徑極大）；應改用只授予必要權限的專用帳號",
-        "用 root 連線沒關係，只要把資料庫的連接埠改成非預設值就安全",
-        "只要 root 密碼夠長且定期更換，用 root 帳號連線就不會有風險",
-        "應改用具有 GRANT 權限的帳號，方便程式視需要動態調整權限"
-      ],
+      options: ["被注入即得全庫最高權限（爆炸半徑極大）；應改用最小權限帳號", "用 root 沒關係，只要把資料庫連接埠改成非預設值", "只要 root 密碼夠長且定期更換就不會有風險", "改用具 GRANT 權限的帳號，方便動態調整權限"],
       ans: 0,
       exp: "用 root 連線違反最小權限：被攻破即全盤皆輸。修正：建立只有該應用所需權限（如僅 SELECT/INSERT 特定表）的帳號。這不能取代參數化查詢，兩者要並用。",
       insight: "最小權限是『限制後果』、參數化是『防止發生』——縱深防禦要兩層都做。用 root 連線是很常見卻很危險的設定錯誤。",
@@ -2323,12 +2098,7 @@ window.QUIZ_DATA = {
       id: "TR-1", ch: 2, topic: "最小權限", src: "整合 ch2（遷移）", core: true, diff: 3, examKey: true, kind: "transfer",
       card: "全公司共用同一組管理員帳號登入系統，會有什麼問題？",
       q: "某公司所有員工都用『同一組管理員帳號』登入內部系統。這主要違反什麼原則、會帶來什麼風險？",
-      options: [
-        "違反最小權限與可歸責性：人人都是管理員（爆炸半徑大），且出事時無法追查是誰做的",
-        "共用一組帳號比較好管理、權限也統一，是推薦的最佳實務",
-        "唯一影響是同時登入人數多時速度較慢，在安全上沒有問題",
-        "共用管理員帳號可減少帳號數量、縮小攻擊面，反而更安全"
-      ],
+      options: ["違反最小權限與可歸責性：人人皆管理員，出事無法追查是誰", "共用一組帳號比較好管理、權限統一，是推薦做法", "唯一影響是同時登入人數多時較慢，安全上沒問題", "共用帳號可減少帳號數、縮小攻擊面，反而更安全"],
       ans: 0,
       exp: "共用高權限帳號＝每個人都能造成最大破壞，且日誌無法對應到個人（不可歸責）。修正：個別帳號、最小權限、必要時才提權、稽核日誌。",
       insight: "把『最小權限＋職責分離＋可歸責性』這組觀念遷移到一個沒明講的情境——這正是理解(而非背題)才答得出來的題型。",
@@ -2338,12 +2108,7 @@ window.QUIZ_DATA = {
       id: "TR-2", ch: 4, topic: "安全配置", src: "整合 ch4（遷移）", core: true, diff: 2, examKey: true, kind: "transfer",
       card: "網站把含 SQL 語句與堆疊的詳細錯誤訊息直接顯示給使用者，問題？",
       q: "某網站發生錯誤時，把含 SQL 語句、檔案路徑、堆疊追蹤的『詳細錯誤訊息』直接顯示給使用者。主要風險是？",
-      options: [
-        "資訊洩漏：等於把系統內部結構、可能的漏洞線索送給攻擊者；應改為對外顯示通用錯誤、詳細記錄在伺服器端日誌",
-        "顯示詳細錯誤能讓使用者回報問題，對系統安全反而有幫助",
-        "正式環境顯示完整堆疊追蹤有助於快速除錯，是建議的做法",
-        "錯誤訊息只是純文字，對資安沒有實質影響，可維持預設顯示"
-      ],
+      options: ["資訊洩漏：把系統結構與漏洞線索送給攻擊者；應顯示通用錯誤", "顯示詳細錯誤能讓使用者回報問題，對安全有幫助", "正式環境顯示完整堆疊有助快速除錯，是建議做法", "錯誤訊息只是純文字，對資安沒有實質影響"],
       ans: 0,
       exp: "詳細錯誤等於免費情報（對應 OWASP 安全配置錯誤／異常處理不當）。修正：使用者看通用訊息、詳情記在後端日誌、fail securely。",
       insight: "遷移『資訊洩漏』與『安全的錯誤處理』到新情境。攻擊者最愛這種『幫他偵查』的設定——SQLi 也常靠錯誤訊息推斷結構。",
@@ -2353,12 +2118,7 @@ window.QUIZ_DATA = {
       id: "TR-3", ch: 1, topic: "網路分段", src: "整合 ch1（遷移）", core: true, diff: 3, examKey: true, kind: "transfer",
       card: "把伺服器、員工電腦、訪客 WiFi 全放同一網段，會有什麼問題？",
       q: "某公司把『核心伺服器、員工電腦、訪客 WiFi』全部放在同一個網段。主要風險與正確做法是？",
-      options: [
-        "缺乏網路分段：訪客或被入侵的電腦可直接橫向移動到核心伺服器；應以子網/VLAN 分段、用防火牆隔離、對外服務放 DMZ",
-        "全部放同一網段可減少路由、提升速度，是小型公司的推薦做法",
-        "只要訪客 WiFi 設定夠強的密碼，放在同一網段也不會有問題",
-        "網路分段會阻斷正常通訊、降低可用性，應盡量避免使用"
-      ],
+      options: ["缺乏網路分段：被入侵的電腦可橫向移動到核心；應以 VLAN 分段隔離", "全放同一網段可減少路由、提升速度，是推薦做法", "只要訪客 WiFi 密碼夠強，同一網段也不會有問題", "網路分段會阻斷正常通訊、降低可用性，應避免"],
       ans: 0,
       exp: "扁平網路＝一台被攻破就能打到全部（橫向移動）。修正：網路分段（子網/VLAN）、最小化跨段通訊、DMZ 隔離對外服務。",
       insight: "把『網路分段、橫向移動、DMZ、最小權限』遷移到公司網路設計。分段的精神和 DB 帳號隔離一樣：縮小事故的爆炸半徑。",
@@ -2368,12 +2128,7 @@ window.QUIZ_DATA = {
       id: "TR-4", ch: 4, topic: "輸入驗證", src: "整合 ch4（遷移）", core: true, diff: 3, examKey: true, kind: "transfer",
       card: "只在前端用 JavaScript 檢查輸入、後端完全不檢查，為什麼危險？",
       q: "某網站只在『前端用 JavaScript』檢查輸入是否合法，後端完全不驗證。為什麼這樣不安全？",
-      options: [
-        "前端檢查可被輕易繞過（改用 curl/攔截工具直接送請求）；驗證必須在『後端』做，前端檢查只為體驗",
-        "前端 JavaScript 已能擋掉大部分惡意輸入，後端再檢查是多餘的",
-        "後端驗證會增加伺服器負擔，交給前端做效能較好、也夠安全",
-        "現代瀏覽器的 JavaScript 驗證無法被使用者關閉或竄改，所以可信"
-      ],
+      options: ["前端檢查可被繞過（用 curl 直接送請求）；驗證必須在後端做", "前端 JavaScript 已能擋大部分惡意輸入，後端多餘", "後端驗證增加伺服器負擔，交給前端做較好也夠安全", "瀏覽器的 JavaScript 驗證無法被關閉或竄改，可信"],
       ans: 0,
       exp: "攻擊者不透過你的網頁、直接送請求就繞過前端。修正：所有安全相關驗證都要在後端做（前端可另做以提升體驗）。",
       insight: "遷移『信任邊界』觀念：前端在使用者掌控中、不可信。這也是為何 SQLi/XSS 防禦一定要在伺服器端做，不能只靠前端。",
@@ -2385,12 +2140,7 @@ window.QUIZ_DATA = {
       id: "CN-1", ch: 4, topic: "跨章：OSI 與防禦分工", src: "整合 ch1/ch4（連結）", core: true, diff: 3, examKey: true, kind: "connect",
       card: "OSI 分層 和『防火牆 vs WAF 的分工』有什麼關係？",
       q: "『OSI 分層』和『網路層防火牆 vs WAF 的分工』之間的關係，何者最正確？",
-      options: [
-        "不同層的攻擊要由不同層的工具擋：L3/L4 的流量/埠由網路層防火牆處理、L7 的 HTTP 內容攻擊(XSS/SQLi)由 WAF 處理",
-        "兩者無關，防火牆能擋所有層的攻擊",
-        "WAF 運作在第一層實體層",
-        "OSI 分層只跟硬體有關，與防禦無關"
-      ],
+      options: ["不同層攻擊要不同層工具擋：L3/L4 給防火牆、L7 的 XSS/SQLi 給 WAF", "兩者無關，一個防火牆就能擋所有層級的攻擊", "WAF 運作在第一層實體層，處理線路訊號", "OSI 分層只跟硬體有關，與資安防禦無關"],
       ans: 0,
       exp: "把攻擊掛回 OSI 層，就知道該由誰防：網路層防火牆守 L3/L4、WAF 守 L7、IDS/IPS 偵測與阻擋。這就是縱深防禦的分工。",
       insight: "連結題把第一章(OSI)和第四章(防火牆/WAF)織成網：理解『這攻擊在哪一層 → 哪個工具擋』，比分開背兩章更牢。",
@@ -2400,12 +2150,7 @@ window.QUIZ_DATA = {
       id: "CN-2", ch: 6, topic: "跨章：權限落實", src: "整合 ch2/ch6（連結）", core: true, diff: 3, examKey: true, kind: "connect",
       card: "Linux 檔案權限 和 資料庫 GRANT/REVOKE 有什麼共通點？",
       q: "『Linux 檔案權限 (rwx)』和『資料庫的 GRANT/REVOKE』之間的關係，何者最正確？",
-      options: [
-        "兩者都是『最小權限原則』在不同層的落實——只給必要的存取，縮小被攻破後的損害",
-        "兩者完全無關",
-        "一個是加密、一個是備份",
-        "都是用來加快系統速度的"
-      ],
+      options: ["兩者都是最小權限原則在不同層的落實，只給必要存取", "兩者無關，一個管檔案、一個管網路連線", "一個是加密機制、另一個是資料備份機制", "都是用來提升系統執行速度的效能設定"],
       ans: 0,
       exp: "檔案權限管『誰能讀寫執行這個檔』、GRANT/REVOKE 管『誰能對這張表做什麼』，本質都是存取控制＋最小權限。",
       insight: "連結題揭示『同一個大觀念，換層換名字』：最小權限在作業系統叫檔案權限、在資料庫叫 GRANT/REVOKE、在網路叫分段。抓住原則就一通百通。",
@@ -2415,12 +2160,7 @@ window.QUIZ_DATA = {
       id: "CN-3", ch: 4, topic: "跨章：注入是一類", src: "整合 ch4/ch6（連結）", core: true, diff: 2, examKey: true, kind: "connect",
       card: "OWASP 的『注入 (Injection)』和 SQL Injection 是什麼關係？",
       q: "OWASP 的『注入攻擊 (Injection)』和『SQL Injection』之間的關係是？",
-      options: [
-        "SQL Injection 是『注入』這一大類底下的一個實例；OS 命令注入、LDAP 注入、甚至 XSS 都是同一原理的不同場景",
-        "兩者完全相同、沒有大小類之分",
-        "SQL Injection 不屬於注入攻擊",
-        "注入攻擊只有 SQL 一種"
-      ],
+      options: ["SQL Injection 是『注入』大類下的一個實例；OS/LDAP 注入同原理", "兩者完全相同、沒有大類與實例之分", "SQL Injection 不屬於注入，屬於存取控制問題", "注入攻擊只有 SQL 一種，沒有其他類型"],
       ans: 0,
       exp: "『注入』是類別、SQLi 是實例。共通根因：不可信輸入被當成命令/查詢的一部分執行。理解類別，就能一次掌握一整片相關漏洞。",
       insight: "連結『大類 ↔ 實例』：與其分開背 SQLi、命令注入、LDAP 注入，不如記住它們同屬『資料與程式碼未分離』，防禦也同源。",
