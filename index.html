@@ -568,7 +568,7 @@ function renderQ(){
   $("#qTopic").textContent=`第${q.ch}章 · ${q.topic}`;
   const typeTag = type==="multi" ? `<span class="tag" style="color:var(--accent2);border-color:var(--accent2)">多選</span>`
                 : type==="fill"  ? `<span class="tag" style="color:var(--ok);border-color:var(--ok)">填空</span>` : "";
-  $("#qTags").innerHTML=(q.core?`<span class="tag core">⭐核心</span>`:"")+typeTag+`<span class="tag">難度 ${"★".repeat(q.diff)}</span>`;
+  $("#qTags").innerHTML=(q.core?`<span class="tag core">⭐核心</span>`:"")+(q.supp?`<span class="tag" style="color:var(--accent2);border-color:var(--accent2)">週邊補充</span>`:"")+typeTag+`<span class="tag">難度 ${"★".repeat(q.diff)}</span>`;
   $("#qText").textContent=q.q+(type==="multi"?"（可複選）":"");
   const opts=$("#opts"); opts.innerHTML="";
   if(type==="fill"){
