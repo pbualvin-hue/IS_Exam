@@ -310,7 +310,7 @@ const LS = {
   set:(k,v)=>localStorage.setItem("rev_"+k,JSON.stringify(v))
 };
 const KEY = ["A","B","C","D","E","F"];
-const GRAD = 4;            // box>=4 視為已掌握（畢業）
+const GRAD = 2;            // box>=2（同一題連對 2 次）視為已掌握；答過但未達此值＝練習中/待複習
 const CHNAME = D.chapters;
 function selfExplainOn(){ return LS.get("selfExplain", true); }   // 練習模式作答前自我解釋（預設開）
 function showSelfExplain(){
@@ -383,9 +383,18 @@ function chapterStats(){
     ch, name:CHNAME[ch], total:by[ch].total, mastered:by[ch].mastered, pct:Math.round(by[ch].mastered/by[ch].total*100)
   }));
 }
-function weakTopics(){
-  return conceptStats().filter(c=>String(c.ch)!=='7' && c.touched>0 && !c.isMastered)
-    .sort((a,b)=>(a.mastered/a.req)-(b.mastered/b.req) || b.touched-a.touched).slice(0,4);
+function chapterQStats(){   // 以「題目」計：已掌握 / 練習中 / 未練，讓練習即時反映在進度上
+  const s=loadSRS(); const by={};
+  ALLQ.forEach(q=>{ const ch=String(q.ch); if(ch==="7")return;
+    const b=by[ch]=by[ch]||{ch,name:CHNAME[ch],total:0,mastered:0,practicing:0};
+    b.total++; const v=s[q.id];
+    if(v==null){} else if(v>=GRAD) b.mastered++; else b.practicing++;
+  });
+  return Object.keys(CHNAME).filter(ch=>by[ch]).map(ch=>by[ch]);
+}
+function weakTopics(){   // 未掌握的觀念，「練得越少」越前面 → 練過的會往後移、掌握後消失
+  return conceptStats().filter(c=>String(c.ch)!=='7' && !c.isMastered)
+    .sort((a,b)=>(a.touched/a.ids.length)-(b.touched/b.ids.length) || a.mastered-b.mastered).slice(0,5);
 }
 function renderHome(){
   show("home");
@@ -394,37 +403,40 @@ function renderHome(){
   const totalC=inScopeC.length, masteredC=inScopeC.filter(c=>c.isMastered).length;
   const due=dueList().length;
   const best=LS.get("bestExam",null);
+  const qStats=chapterQStats();
+  const qtot=qStats.reduce((a,s)=>({m:a.m+s.mastered,p:a.p+s.practicing,t:a.t+s.total}),{m:0,p:0,t:0});
   $("#dash").innerHTML =
-    `<div><b>${masteredC}/${totalC}</b>觀念已掌握</div>`+
-    `<div><b>${due}</b>待複習</div>`+
-    `<div><b>${best!=null?best+"%":"—"}</b>模擬考最佳</div>`;
-  $("#masteryBar").style.width=(totalC?masteredC/totalC*100:0)+"%";
+    `<div><b style="color:var(--ok)">${qtot.m}</b>題已掌握</div>`+
+    `<div><b style="color:var(--warn)">${qtot.p}</b>題待複習</div>`+
+    `<div><b>${masteredC}/${totalC}</b>觀念掌握</div>`+
+    `<div><b>${best!=null?best+"%":"—"}</b>模擬考</div>`;
+  $("#masteryBar").style.width=(qtot.t?(qtot.m+0.4*qtot.p)/qtot.t*100:0)+"%";
   const mastered=masteredC;
-  // 各章掌握度長條
-  const stats=chapterStats();
-  $("#chMastery").innerHTML = stats.filter(s=>s.ch!=="7").map(s=>{
-    const col=s.pct>=70?"var(--ok)":s.pct>=40?"var(--warn)":"var(--bad)";
-    return `<div class="chrow"><span class="nm">第${s.ch}章 ${s.name}</span>`+
-      `<span class="b"><i style="width:${s.pct}%;background:${col}"></i></span>`+
-      `<span class="pc">${s.mastered}/${s.total}</span></div>`;
-  }).join("");
+  // 各章進度（堆疊：綠=已掌握、黃=練習中/待複習、灰=未練）→ 練習後立刻看得到變化
+  $("#chMastery").innerHTML = `<div class="note" style="margin-bottom:6px"><b style="color:var(--ok)">■</b>已掌握(連對2次)　<b style="color:var(--warn)">■</b>練習中/待複習　■未練</div>`+
+    qStats.map(s=>{
+      const mp=Math.round(s.mastered/s.total*100), pp=Math.round(s.practicing/s.total*100);
+      return `<div class="chrow"><span class="nm">第${s.ch}章 ${s.name}</span>`+
+        `<span class="b"><i style="width:${mp}%;background:var(--ok);display:inline-block;height:100%;vertical-align:top"></i>`+
+        `<i style="width:${pp}%;background:var(--warn);display:inline-block;height:100%;vertical-align:top"></i></span>`+
+        `<span class="pc">${s.mastered}<span style="color:var(--warn)">+${s.practicing}</span>/${s.total}</span></div>`;
+    }).join("");
   // 最弱觀念（topic 級，比章更精準；點一下直接針對該觀念練）
   const weak=weakTopics();
   const wt=$("#weakTopics");
   if(weak.length){
-    wt.innerHTML=`<div class="note" style="margin-bottom:6px">🎯 最弱觀念（點一下針對它練）：</div><div class="row"></div>`;
+    wt.innerHTML=`<div class="note" style="margin-bottom:6px">🎯 最弱觀念（練得越少越前面；同一觀念答對數題、每題連對 2 次即掌握、就會消失）：</div><div class="row"></div>`;
     const rowEl=wt.querySelector(".row");
     weak.forEach(t=>{
       const el=document.createElement("div");
-      el.className="chip"; el.style.borderColor="var(--bad)";
-      el.textContent=`${t.topic}（${t.mastered}/${t.req}）`;
+      el.className="chip"; el.style.borderColor=t.touched?"var(--warn)":"var(--bad)";
+      el.textContent=`${t.topic}（掌握${t.mastered}・練${t.touched}／共${t.ids.length}）`;
       el.onclick=()=>startQuiz(ALLQ.filter(q=>String(q.ch)===String(t.ch)&&q.topic===t.topic), {timed:false,instant:true,label:t.topic});
       rowEl.appendChild(el);
     });
   } else wt.innerHTML="";
   // 弱點建議
-  const inScope=stats.filter(s=>s.ch!=="7");
-  const weakest=inScope.slice().sort((a,b)=>a.pct-b.pct)[0];
+  const weakest=qStats.map(s=>({...s,pct:Math.round(s.mastered/s.total*100)})).sort((a,b)=>a.pct-b.pct)[0];
   const days=daysLeft();
   let msg;
   if(mastered===0){ msg=`還沒開始～建議先「⭐核心速覽」建立框架，再逐章攻破。`; }
