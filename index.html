@@ -108,6 +108,18 @@
   #review{position:fixed;inset:0;background:rgba(8,12,20,.92);z-index:50;overflow:auto;padding:16px}
   #review .card{max-width:820px;margin:16px auto}
   .rvbadge{font-size:12px;color:var(--core);border:1px solid var(--core);border-radius:20px;padding:2px 9px;margin-left:6px}
+  .lessonbody h3{font-size:15px;color:var(--accent);margin:16px 0 4px}
+  .lessonbody p{font-size:13.5px;line-height:1.75;margin:6px 0}
+  .lessonbody ul{padding-left:20px;margin:4px 0}
+  .lessonbody li{font-size:13.5px;margin:3px 0;line-height:1.65}
+  .lessonbody code{background:var(--card2);border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:12.5px}
+  .lessonbody .tip{background:rgba(245,165,36,.12);border:1px solid var(--warn);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:14px;line-height:1.6}
+  .lessonmenu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:560px){.lessonmenu{grid-template-columns:1fr}}
+  .lessonmenu button{text-align:left;padding:14px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--txt);cursor:pointer;font-size:14px}
+  .lessonmenu button:hover{border-color:var(--accent);transform:translateY(-2px);transition:.15s}
+  .lessonmenu button b{display:block;margin-bottom:3px}
+  .lessonmenu button span{font-size:12px;color:var(--dim)}
   .timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
   .timer.low{color:var(--bad)}
   .kbd{font-size:11.5px;color:var(--dim);margin-top:10px;text-align:center}
@@ -151,6 +163,10 @@
     </div>
 
     <div class="grid">
+      <button class="mode" data-mode="lessons">
+        <div class="ico">📖</div><h3>教材課文（先讀這個）</h3>
+        <p>從講義整理的各章課程內容，讀了就能懂——不看影片也能從頭學，讀完接著做該章的題。</p>
+      </button>
       <button class="mode" data-mode="exam">
         <div class="ico">📝</div><h3>模擬考（精選貫穿題）</h3>
         <p>每章最能貫穿主題的重點，全單選、60 分計時、作答完看解析。貼合真實考試。</p>
@@ -255,6 +271,14 @@
     </div>
   </section>
 
+  <!-- 教材課文 -->
+  <section id="lesson" class="hidden">
+    <div class="card">
+      <div class="qmeta"><span id="lessonTitle" style="font-size:15px;font-weight:700"></span><button class="ghost btn mini" id="lessonHome">回首頁</button></div>
+      <div class="lessonbody" id="lessonBody"></div>
+    </div>
+  </section>
+
   <!-- 速記卡 -->
   <section id="flash" class="hidden">
     <div class="card">
@@ -290,6 +314,7 @@
 
 <script src="data.js"></script>
 <script src="gen.js"></script>
+<script src="lessons.js"></script>
 <script>
 const D = window.QUIZ_DATA;
 const QS = D.questions;
@@ -483,6 +508,7 @@ document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{
   if(m==="cheat") return;
   if(m==="chapter"){ toggleChapterPick("quiz"); return; }
   if(m==="flash"){ toggleChapterPick("flash"); return; }
+  if(m==="lessons"){ openLessons(); return; }
   if(m==="exam") startQuiz(pickExam(), {timed:true, instant:false, label:"模擬考"});
   if(m==="core") startQuiz(ALLQ.filter(q=>q.core), {timed:false, instant:true, label:"核心速覽"});
   if(m==="srs"){
@@ -763,6 +789,32 @@ $("#rvClose").onclick=closeReview;
 $("#rvPrev").onclick=()=>renderSnapshot(state.reviewIdx-1);
 $("#rvNext").onclick=()=>renderSnapshot(state.reviewIdx+1);
 
+/* ========== 教材課文 ========== */
+function openLessons(){
+  const L=window.LESSONS||{};
+  $("#lessonTitle").textContent="📖 教材課文 — 選章節";
+  $("#lessonBody").innerHTML=`<div class="note" style="margin-bottom:10px">從講義整理成「讀了就懂」的原創講解。讀完該章，直接做該章的題驗證吸收。</div><div class="lessonmenu"></div>`;
+  const menu=$("#lessonBody").querySelector(".lessonmenu");
+  Object.keys(CHNAME).filter(ch=>L[ch]).forEach(ch=>{
+    const b=document.createElement("button");
+    b.innerHTML=`<b>第${ch}章 ${L[ch].title}</b><span>點開閱讀 →</span>`;
+    b.onclick=()=>renderLesson(ch);
+    menu.appendChild(b);
+  });
+  show("lesson");
+}
+function renderLesson(ch){
+  const L=(window.LESSONS||{})[ch]; if(!L) return;
+  $("#lessonTitle").textContent=`📖 第${ch}章 ${L.title}`;
+  $("#lessonBody").innerHTML=L.html+
+    `<div class="foot" style="margin-top:16px"><button class="ghost btn" id="lessonBack">← 其他章</button>`+
+    `<button class="btn" id="lessonQuiz">做第${ch}章的題 →</button></div>`;
+  $("#lessonBack").onclick=openLessons;
+  $("#lessonQuiz").onclick=()=>startQuiz(ALLQ.filter(q=>String(q.ch)===String(ch)), {timed:false,instant:true,label:`第${ch}章`});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("#lessonHome").onclick=renderHome;
+
 /* ========== 跨裝置同步（手動匯出／合併匯入） ========== */
 function exportData(){
   const o={_app:"ultimate-review",_v:1};
@@ -904,7 +956,7 @@ document.addEventListener("keydown", e=>{
 });
 
 /* ========== 工具 ========== */
-function show(id){["home","quiz","flash","review","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
+function show(id){["home","quiz","flash","review","lesson","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
   if(id!=="quiz")clearInterval(timerInt);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
