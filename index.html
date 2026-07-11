@@ -120,6 +120,11 @@
   .lessonmenu button:hover{border-color:var(--accent);transform:translateY(-2px);transition:.15s}
   .lessonmenu button b{display:block;margin-bottom:3px}
   .lessonmenu button span{font-size:12px;color:var(--dim)}
+  .vidgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:6px 0 4px}
+  .vidlink{display:block;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card2);color:var(--txt);text-decoration:none}
+  .vidlink:hover{border-color:var(--accent);transform:translateY(-2px);transition:.15s}
+  .vidlink b{display:block;font-size:14px;color:var(--accent)}
+  .vidlink span{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
   .timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
   .timer.low{color:var(--bad)}
   .kbd{font-size:11.5px;color:var(--dim);margin-top:10px;text-align:center}
@@ -166,6 +171,10 @@
       <button class="mode" data-mode="lessons">
         <div class="ico">📖</div><h3>教材課文（先讀這個）</h3>
         <p>從講義整理的各章課程內容，讀了就能懂——不看影片也能從頭學，讀完接著做該章的題。</p>
+      </button>
+      <button class="mode" data-mode="videos">
+        <div class="ico">🎬</div><h3>影片索引（課程地圖）</h3>
+        <p>30 天上課影片依章節/日期排好、附直接連結，想複習哪個主題一點就到，不用再逐頁找。</p>
       </button>
       <button class="mode" data-mode="exam">
         <div class="ico">📝</div><h3>模擬考（精選貫穿題）</h3>
@@ -279,6 +288,14 @@
     </div>
   </section>
 
+  <!-- 影片索引 -->
+  <section id="videos" class="hidden">
+    <div class="card">
+      <div class="qmeta"><span style="font-size:15px;font-weight:700">🎬 影片索引 · 課程地圖</span><button class="ghost btn mini" id="videosHome">回首頁</button></div>
+      <div class="lessonbody" id="videosBody"></div>
+    </div>
+  </section>
+
   <!-- 速記卡 -->
   <section id="flash" class="hidden">
     <div class="card">
@@ -315,6 +332,7 @@
 <script src="data.js"></script>
 <script src="gen.js"></script>
 <script src="lessons.js"></script>
+<script src="videos.js"></script>
 <script>
 const D = window.QUIZ_DATA;
 const QS = D.questions;
@@ -509,6 +527,7 @@ document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{
   if(m==="chapter"){ toggleChapterPick("quiz"); return; }
   if(m==="flash"){ toggleChapterPick("flash"); return; }
   if(m==="lessons"){ openLessons(); return; }
+  if(m==="videos"){ openVideos(); return; }
   if(m==="exam") startQuiz(pickExam(), {timed:true, instant:false, label:"模擬考"});
   if(m==="core") startQuiz(ALLQ.filter(q=>q.core), {timed:false, instant:true, label:"核心速覽"});
   if(m==="srs"){
@@ -815,6 +834,27 @@ function renderLesson(ch){
 }
 $("#lessonHome").onclick=renderHome;
 
+/* ========== 影片索引 ========== */
+function openVideos(){
+  const V=window.VIDEOS;
+  if(!V){ $("#videosBody").innerHTML="<p>影片索引尚未載入。</p>"; show("videos"); return; }
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  let h=`<div class="tip">${esc(V.note)}</div>`;
+  V.chapters.forEach(c=>{
+    h+=`<h3>第${c.ch}章 ${esc(c.name)}${c.exam?"":' <span style="color:var(--dim);font-size:12px">（非期中範圍）</span>'}</h3>`;
+    h+=`<div class="vidgrid">`;
+    c.days.forEach(d=>{
+      const url=V.base+d.id;
+      h+=`<a class="vidlink" href="${url}" target="_blank" rel="noopener"><b>${esc(d.d)}</b><span>${esc(d.t)}</span></a>`;
+    });
+    h+=`</div>`;
+  });
+  $("#videosBody").innerHTML=h;
+  window.scrollTo({top:0,behavior:"smooth"});
+  show("videos");
+}
+$("#videosHome").onclick=renderHome;
+
 /* ========== 跨裝置同步（手動匯出／合併匯入） ========== */
 function exportData(){
   const o={_app:"ultimate-review",_v:1};
@@ -956,7 +996,7 @@ document.addEventListener("keydown", e=>{
 });
 
 /* ========== 工具 ========== */
-function show(id){["home","quiz","flash","review","lesson","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
+function show(id){["home","quiz","flash","review","lesson","videos","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));
   if(id!=="quiz")clearInterval(timerInt);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
